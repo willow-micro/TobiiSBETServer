@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TobiiSBETServer</name>
+    </assembly>
+    <members>
+        <member name="T:TobiiSBETServer.App">
+            <summary>
+            Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:TobiiSBETServer.MainWindow">
+            <summary>
+            Interaction logic for MainWindow.xaml
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.eyeTracker">
+            <summary>
+            An instance from EyeTracking.TobiiSBETDriver
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.pupilDataProcessor">
+            <summary>
+            An instance from EyeTracking.PupilDataProcessor
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.MainWindowContentRendered(System.Object,System.EventArgs)">
+            <summary>
+            Called when all content was loaded.
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.AppCloseEvent(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)">
+            <summary>
+            Ask user to close or not when the Esc key was pressed
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.OnClosed(System.Object,System.EventArgs)">
+            <summary>
+            Called when app was closed.
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+    </members>
+</doc>
