@@ -10,10 +10,13 @@
   - [#ctor()](#M-TobiiSBETServer-MainWindow-#ctor 'TobiiSBETServer.MainWindow.#ctor')
   - [eyeTracker](#F-TobiiSBETServer-MainWindow-eyeTracker 'TobiiSBETServer.MainWindow.eyeTracker')
   - [pupilDataProcessor](#F-TobiiSBETServer-MainWindow-pupilDataProcessor 'TobiiSBETServer.MainWindow.pupilDataProcessor')
+  - [serialNumberStr](#F-TobiiSBETServer-MainWindow-serialNumberStr 'TobiiSBETServer.MainWindow.serialNumberStr')
+  - [SerialNumberStr](#P-TobiiSBETServer-MainWindow-SerialNumberStr 'TobiiSBETServer.MainWindow.SerialNumberStr')
   - [AppCloseEvent(sender,e)](#M-TobiiSBETServer-MainWindow-AppCloseEvent-System-Object,System-Windows-Input-ExecutedRoutedEventArgs- 'TobiiSBETServer.MainWindow.AppCloseEvent(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)')
   - [InitializeComponent()](#M-TobiiSBETServer-MainWindow-InitializeComponent 'TobiiSBETServer.MainWindow.InitializeComponent')
-  - [MainWindowContentRendered(sender,e)](#M-TobiiSBETServer-MainWindow-MainWindowContentRendered-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.MainWindowContentRendered(System.Object,System.EventArgs)')
+  - [NotifyPropertyChanged(name)](#M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String- 'TobiiSBETServer.MainWindow.NotifyPropertyChanged(System.String)')
   - [OnClosed(sender,e)](#M-TobiiSBETServer-MainWindow-OnClosed-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnClosed(System.Object,System.EventArgs)')
+  - [OnContentRendered(sender,e)](#M-TobiiSBETServer-MainWindow-OnContentRendered-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnContentRendered(System.Object,System.EventArgs)')
 
 <a name='T-TobiiSBETServer-App'></a>
 ## App `type`
@@ -84,6 +87,20 @@ An instance from EyeTracking.TobiiSBETDriver
 
 An instance from EyeTracking.PupilDataProcessor
 
+<a name='F-TobiiSBETServer-MainWindow-serialNumberStr'></a>
+### serialNumberStr `constants`
+
+##### Summary
+
+Internal field for the binding property SerialNumberStr
+
+<a name='P-TobiiSBETServer-MainWindow-SerialNumberStr'></a>
+### SerialNumberStr `property`
+
+##### Summary
+
+A XAML binding property
+
 <a name='M-TobiiSBETServer-MainWindow-AppCloseEvent-System-Object,System-Windows-Input-ExecutedRoutedEventArgs-'></a>
 ### AppCloseEvent(sender,e) `method`
 
@@ -109,12 +126,40 @@ InitializeComponent
 
 This method has no parameters.
 
-<a name='M-TobiiSBETServer-MainWindow-MainWindowContentRendered-System-Object,System-EventArgs-'></a>
-### MainWindowContentRendered(sender,e) `method`
+<a name='M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String-'></a>
+### NotifyPropertyChanged(name) `method`
 
 ##### Summary
 
-Called when all content was loaded.
+Notifier for xaml binding properties
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| name | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of the property |
+
+##### Example
+
+```
+private string _HogeStr;
+public string HogeStr
+{
+    get { return _HogeStr; }
+    set
+    {
+        _HogeStr = value;
+        NotifyPropertyChanged(nameof(HogeStr));
+    }
+}
+```
+
+<a name='M-TobiiSBETServer-MainWindow-OnClosed-System-Object,System-EventArgs-'></a>
+### OnClosed(sender,e) `method`
+
+##### Summary
+
+Called when app was closed.
 
 ##### Parameters
 
@@ -123,12 +168,12 @@ Called when all content was loaded.
 | sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
 | e | [System.EventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.EventArgs 'System.EventArgs') | Args |
 
-<a name='M-TobiiSBETServer-MainWindow-OnClosed-System-Object,System-EventArgs-'></a>
-### OnClosed(sender,e) `method`
+<a name='M-TobiiSBETServer-MainWindow-OnContentRendered-System-Object,System-EventArgs-'></a>
+### OnContentRendered(sender,e) `method`
 
 ##### Summary
 
-Called when app was closed.
+Called when all content was loaded.
 
 ##### Parameters
 

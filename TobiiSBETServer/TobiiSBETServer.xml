@@ -45,16 +45,44 @@
             Constructor
             </summary>
         </member>
-        <member name="M:TobiiSBETServer.MainWindow.MainWindowContentRendered(System.Object,System.EventArgs)">
+        <member name="E:TobiiSBETServer.MainWindow.PropertyChanged">
+            <summary>
+            Event handler object for XAML binding properties
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.NotifyPropertyChanged(System.String)">
+            <summary>
+            Notifier for xaml binding properties
+            </summary>
+            <param name="name">Name of the property</param>
+            <example>
+            <code>
+            private string _HogeStr;
+            public string HogeStr
+            {
+                get { return _HogeStr; }
+                set
+                {
+                    _HogeStr = value;
+                    NotifyPropertyChanged(nameof(HogeStr));
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.serialNumberStr">
+            <summary>
+            Internal field for the binding property SerialNumberStr
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.SerialNumberStr">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.OnContentRendered(System.Object,System.EventArgs)">
             <summary>
             Called when all content was loaded.
-            </summary>
-            <param name="sender">Sender</param>
-            <param name="e">Args</param>
-        </member>
-        <member name="M:TobiiSBETServer.MainWindow.AppCloseEvent(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)">
-            <summary>
-            Ask user to close or not when the Esc key was pressed
             </summary>
             <param name="sender">Sender</param>
             <param name="e">Args</param>
@@ -62,6 +90,13 @@
         <member name="M:TobiiSBETServer.MainWindow.OnClosed(System.Object,System.EventArgs)">
             <summary>
             Called when app was closed.
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.AppCloseEvent(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)">
+            <summary>
+            Ask user to close or not when the Esc key was pressed
             </summary>
             <param name="sender">Sender</param>
             <param name="e">Args</param>

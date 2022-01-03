@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 // Additional
+using System.ComponentModel;
+using System.Diagnostics;
 // Third-party
 using EyeTracking;
 
@@ -25,10 +27,9 @@ namespace TobiiSBETServer
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         #region Properties
-
         #endregion
 
         #region Fields
@@ -49,9 +50,60 @@ namespace TobiiSBETServer
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             // Hook event handlers
-            ContentRendered += this.MainWindowContentRendered;
+            ContentRendered += this.OnContentRendered;
             Closed += this.OnClosed;
+
+            this.SerialNumberStr = "abcdef";
+        }
+        #endregion
+
+        #region XAML binding handler
+        /// <summary>
+        /// Event handler object for XAML binding properties
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Notifier for xaml binding properties
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <example>
+        /// <code>
+        /// private string _HogeStr;
+        /// public string HogeStr
+        /// {
+        ///     get { return _HogeStr; }
+        ///     set
+        ///     {
+        ///         _HogeStr = value;
+        ///         NotifyPropertyChanged(nameof(HogeStr));
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        private void NotifyPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        #endregion
+
+        #region XAML binding properties
+        /// <summary>
+        /// Internal field for the binding property SerialNumberStr
+        /// </summary>
+        private string serialNumberStr;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public string SerialNumberStr
+        {
+            get { return serialNumberStr; }
+            set
+            {
+                serialNumberStr = value;
+                NotifyPropertyChanged(nameof(SerialNumberStr));
+            }
         }
         #endregion
 
@@ -61,23 +113,9 @@ namespace TobiiSBETServer
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Args</param>
-        private void MainWindowContentRendered(object sender, EventArgs e)
+        private void OnContentRendered(object sender, EventArgs e)
         {
-
-        }
-
-        /// <summary>
-        /// Ask user to close or not when the Esc key was pressed
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Args</param>
-        private void AppCloseEvent(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (MessageBox.Show("Are you sure to close?", "Close", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                //this.eyeTracker.StopReceivingGazeData();
-                this.Close();
-            }
+            Debug.Print("Debug: ContentRendered");
         }
 
         /// <summary>
@@ -87,7 +125,23 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnClosed(object sender, EventArgs e)
         {
+            Debug.Print("Debug: Closed");
+        }
 
+        /// <summary>
+        /// Ask user to close or not when the Esc key was pressed
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
+        private void AppCloseEvent(object sender, ExecutedRoutedEventArgs e)
+        {
+            Debug.Print("Debug: AppClose");
+
+            if (MessageBox.Show("Are you sure to close?", "Close", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                //this.eyeTracker.StopReceivingGazeData();
+                this.Close();
+            }
         }
         #endregion
 
