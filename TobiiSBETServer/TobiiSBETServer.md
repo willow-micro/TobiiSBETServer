@@ -8,13 +8,11 @@
   - [Main()](#M-TobiiSBETServer-App-Main 'TobiiSBETServer.App.Main')
 - [MainWindow](#T-TobiiSBETServer-MainWindow 'TobiiSBETServer.MainWindow')
   - [#ctor()](#M-TobiiSBETServer-MainWindow-#ctor 'TobiiSBETServer.MainWindow.#ctor')
-  - [deviceNameStr](#F-TobiiSBETServer-MainWindow-deviceNameStr 'TobiiSBETServer.MainWindow.deviceNameStr')
+  - [deviceInfoStr](#F-TobiiSBETServer-MainWindow-deviceInfoStr 'TobiiSBETServer.MainWindow.deviceInfoStr')
   - [eyeTracker](#F-TobiiSBETServer-MainWindow-eyeTracker 'TobiiSBETServer.MainWindow.eyeTracker')
   - [pupilDataProcessor](#F-TobiiSBETServer-MainWindow-pupilDataProcessor 'TobiiSBETServer.MainWindow.pupilDataProcessor')
-  - [serialNumberStr](#F-TobiiSBETServer-MainWindow-serialNumberStr 'TobiiSBETServer.MainWindow.serialNumberStr')
   - [statusStr](#F-TobiiSBETServer-MainWindow-statusStr 'TobiiSBETServer.MainWindow.statusStr')
-  - [DeviceNameStr](#P-TobiiSBETServer-MainWindow-DeviceNameStr 'TobiiSBETServer.MainWindow.DeviceNameStr')
-  - [SerialNumberStr](#P-TobiiSBETServer-MainWindow-SerialNumberStr 'TobiiSBETServer.MainWindow.SerialNumberStr')
+  - [DeviceInfoStr](#P-TobiiSBETServer-MainWindow-DeviceInfoStr 'TobiiSBETServer.MainWindow.DeviceInfoStr')
   - [StatusStr](#P-TobiiSBETServer-MainWindow-StatusStr 'TobiiSBETServer.MainWindow.StatusStr')
   - [AppCloseEvent(sender,e)](#M-TobiiSBETServer-MainWindow-AppCloseEvent-System-Object,System-Windows-Input-ExecutedRoutedEventArgs- 'TobiiSBETServer.MainWindow.AppCloseEvent(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)')
   - [InitializeComponent()](#M-TobiiSBETServer-MainWindow-InitializeComponent 'TobiiSBETServer.MainWindow.InitializeComponent')
@@ -77,12 +75,12 @@ Constructor
 
 This constructor has no parameters.
 
-<a name='F-TobiiSBETServer-MainWindow-deviceNameStr'></a>
-### deviceNameStr `constants`
+<a name='F-TobiiSBETServer-MainWindow-deviceInfoStr'></a>
+### deviceInfoStr `constants`
 
 ##### Summary
 
-Internal field for the binding property DeviceNameStr
+Internal field for the binding property DeviceInfoStr
 
 <a name='F-TobiiSBETServer-MainWindow-eyeTracker'></a>
 ### eyeTracker `constants`
@@ -98,13 +96,6 @@ An instance from EyeTracking.TobiiSBETDriver
 
 An instance from EyeTracking.PupilDataProcessor
 
-<a name='F-TobiiSBETServer-MainWindow-serialNumberStr'></a>
-### serialNumberStr `constants`
-
-##### Summary
-
-Internal field for the binding property SerialNumberStr
-
 <a name='F-TobiiSBETServer-MainWindow-statusStr'></a>
 ### statusStr `constants`
 
@@ -112,15 +103,8 @@ Internal field for the binding property SerialNumberStr
 
 Internal field for the binding property StatusStr
 
-<a name='P-TobiiSBETServer-MainWindow-DeviceNameStr'></a>
-### DeviceNameStr `property`
-
-##### Summary
-
-A XAML binding property
-
-<a name='P-TobiiSBETServer-MainWindow-SerialNumberStr'></a>
-### SerialNumberStr `property`
+<a name='P-TobiiSBETServer-MainWindow-DeviceInfoStr'></a>
+### DeviceInfoStr `property`
 
 ##### Summary
 

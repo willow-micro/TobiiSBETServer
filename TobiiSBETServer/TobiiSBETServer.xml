@@ -80,22 +80,12 @@
             A XAML binding property
             </summary>
         </member>
-        <member name="F:TobiiSBETServer.MainWindow.serialNumberStr">
+        <member name="F:TobiiSBETServer.MainWindow.deviceInfoStr">
             <summary>
-            Internal field for the binding property SerialNumberStr
+            Internal field for the binding property DeviceInfoStr
             </summary>
         </member>
-        <member name="P:TobiiSBETServer.MainWindow.SerialNumberStr">
-            <summary>
-            A XAML binding property
-            </summary>
-        </member>
-        <member name="F:TobiiSBETServer.MainWindow.deviceNameStr">
-            <summary>
-            Internal field for the binding property DeviceNameStr
-            </summary>
-        </member>
-        <member name="P:TobiiSBETServer.MainWindow.DeviceNameStr">
+        <member name="P:TobiiSBETServer.MainWindow.DeviceInfoStr">
             <summary>
             A XAML binding property
             </summary>

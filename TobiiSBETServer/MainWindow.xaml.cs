@@ -56,8 +56,7 @@ namespace TobiiSBETServer
             ContentRendered += this.OnContentRendered;
             Closed += this.OnClosed;
             this.StatusStr = "Initialized";
-            this.SerialNumberStr = "serialnumber";
-            this.DeviceNameStr = "devicename";
+            this.DeviceInfoStr = "modelname (serialno)";
         }
         #endregion
 
@@ -109,35 +108,19 @@ namespace TobiiSBETServer
         }
 
         /// <summary>
-        /// Internal field for the binding property SerialNumberStr
+        /// Internal field for the binding property DeviceInfoStr
         /// </summary>
-        private string serialNumberStr;
+        private string deviceInfoStr;
         /// <summary>
         /// A XAML binding property
         /// </summary>
-        public string SerialNumberStr
+        public string DeviceInfoStr
         {
-            get { return serialNumberStr; }
+            get { return deviceInfoStr; }
             set
             {
-                serialNumberStr = value;
-                NotifyPropertyChanged(nameof(SerialNumberStr));
-            }
-        }
-        /// <summary>
-        /// Internal field for the binding property DeviceNameStr
-        /// </summary>
-        private string deviceNameStr;
-        /// <summary>
-        /// A XAML binding property
-        /// </summary>
-        public string DeviceNameStr
-        {
-            get { return deviceNameStr; }
-            set
-            {
-                deviceNameStr = value;
-                NotifyPropertyChanged(nameof(DeviceNameStr));
+                deviceInfoStr = value;
+                NotifyPropertyChanged(nameof(DeviceInfoStr));
             }
         }
         #endregion
