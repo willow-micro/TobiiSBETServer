@@ -69,6 +69,14 @@
         <Style x:Key="SeparatorStyle" TargetType="Separator">
             <Setter Property="Margin" Value="6" />
         </Style>
+        <Style x:Key="IntUpDownStyle" TargetType="xctk:IntegerUpDown">
+            <Setter Property="Padding" Value="6,0" />
+        </Style>
+        <Style x:Key="ValueIntUpDownStyle"
+               BasedOn="{StaticResource IntUpDownStyle}"
+               TargetType="xctk:IntegerUpDown">
+            <Setter Property="Margin" Value="15,0,0,0" />
+        </Style>
     </Window.Resources>
 
     <Window.InputBindings>
@@ -161,10 +169,12 @@
                            Style="{StaticResource NameLabelStyle}"
                            Content="Angular Velocity Threshold" />
                     <xctk:IntegerUpDown Grid.Row="1" Grid.Column="1"
+                                        Style="{StaticResource ValueIntUpDownStyle}"
+                                        DefaultValue="30" Increment="5" Maximum="300" Minimum="0"
                                         Value="30" />
                     <Label Grid.Row="1" Grid.Column="2"
                            Style="{StaticResource UnitLabelStyle}"
-                           Content="rad/s" />
+                           Content="deg/s" />
 
                     <Label Grid.Row="2" Grid.Column="0"
                            Style="{StaticResource NameLabelStyle}"
