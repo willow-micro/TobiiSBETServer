@@ -70,12 +70,32 @@
             </code>
             </example>
         </member>
+        <member name="F:TobiiSBETServer.MainWindow.statusStr">
+            <summary>
+            Internal field for the binding property StatusStr
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.StatusStr">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
         <member name="F:TobiiSBETServer.MainWindow.serialNumberStr">
             <summary>
             Internal field for the binding property SerialNumberStr
             </summary>
         </member>
         <member name="P:TobiiSBETServer.MainWindow.SerialNumberStr">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.deviceNameStr">
+            <summary>
+            Internal field for the binding property DeviceNameStr
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.DeviceNameStr">
             <summary>
             A XAML binding property
             </summary>

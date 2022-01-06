@@ -1,4 +1,4 @@
-﻿// Target: .NET Core 3.1 (LTS)
+﻿// Target: .NET 6 (LTS)
 
 // Default
 using System;
@@ -50,12 +50,14 @@ namespace TobiiSBETServer
         public MainWindow()
         {
             InitializeComponent();
+            // Notifying
             DataContext = this;
-            // Hook event handlers
+            // Event handlers
             ContentRendered += this.OnContentRendered;
             Closed += this.OnClosed;
-
-            this.SerialNumberStr = "abcdef";
+            this.StatusStr = "Initialized";
+            this.SerialNumberStr = "serialnumber";
+            this.DeviceNameStr = "devicename";
         }
         #endregion
 
@@ -90,6 +92,23 @@ namespace TobiiSBETServer
 
         #region XAML binding properties
         /// <summary>
+        /// Internal field for the binding property StatusStr
+        /// </summary>
+        private string statusStr;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public string StatusStr
+        {
+            get { return statusStr; }
+            set
+            {
+                statusStr = value;
+                NotifyPropertyChanged(nameof(StatusStr));
+            }
+        }
+
+        /// <summary>
         /// Internal field for the binding property SerialNumberStr
         /// </summary>
         private string serialNumberStr;
@@ -103,6 +122,22 @@ namespace TobiiSBETServer
             {
                 serialNumberStr = value;
                 NotifyPropertyChanged(nameof(SerialNumberStr));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property DeviceNameStr
+        /// </summary>
+        private string deviceNameStr;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public string DeviceNameStr
+        {
+            get { return deviceNameStr; }
+            set
+            {
+                deviceNameStr = value;
+                NotifyPropertyChanged(nameof(DeviceNameStr));
             }
         }
         #endregion

@@ -8,10 +8,14 @@
   - [Main()](#M-TobiiSBETServer-App-Main 'TobiiSBETServer.App.Main')
 - [MainWindow](#T-TobiiSBETServer-MainWindow 'TobiiSBETServer.MainWindow')
   - [#ctor()](#M-TobiiSBETServer-MainWindow-#ctor 'TobiiSBETServer.MainWindow.#ctor')
+  - [deviceNameStr](#F-TobiiSBETServer-MainWindow-deviceNameStr 'TobiiSBETServer.MainWindow.deviceNameStr')
   - [eyeTracker](#F-TobiiSBETServer-MainWindow-eyeTracker 'TobiiSBETServer.MainWindow.eyeTracker')
   - [pupilDataProcessor](#F-TobiiSBETServer-MainWindow-pupilDataProcessor 'TobiiSBETServer.MainWindow.pupilDataProcessor')
   - [serialNumberStr](#F-TobiiSBETServer-MainWindow-serialNumberStr 'TobiiSBETServer.MainWindow.serialNumberStr')
+  - [statusStr](#F-TobiiSBETServer-MainWindow-statusStr 'TobiiSBETServer.MainWindow.statusStr')
+  - [DeviceNameStr](#P-TobiiSBETServer-MainWindow-DeviceNameStr 'TobiiSBETServer.MainWindow.DeviceNameStr')
   - [SerialNumberStr](#P-TobiiSBETServer-MainWindow-SerialNumberStr 'TobiiSBETServer.MainWindow.SerialNumberStr')
+  - [StatusStr](#P-TobiiSBETServer-MainWindow-StatusStr 'TobiiSBETServer.MainWindow.StatusStr')
   - [AppCloseEvent(sender,e)](#M-TobiiSBETServer-MainWindow-AppCloseEvent-System-Object,System-Windows-Input-ExecutedRoutedEventArgs- 'TobiiSBETServer.MainWindow.AppCloseEvent(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)')
   - [InitializeComponent()](#M-TobiiSBETServer-MainWindow-InitializeComponent 'TobiiSBETServer.MainWindow.InitializeComponent')
   - [NotifyPropertyChanged(name)](#M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String- 'TobiiSBETServer.MainWindow.NotifyPropertyChanged(System.String)')
@@ -73,6 +77,13 @@ Constructor
 
 This constructor has no parameters.
 
+<a name='F-TobiiSBETServer-MainWindow-deviceNameStr'></a>
+### deviceNameStr `constants`
+
+##### Summary
+
+Internal field for the binding property DeviceNameStr
+
 <a name='F-TobiiSBETServer-MainWindow-eyeTracker'></a>
 ### eyeTracker `constants`
 
@@ -94,8 +105,29 @@ An instance from EyeTracking.PupilDataProcessor
 
 Internal field for the binding property SerialNumberStr
 
+<a name='F-TobiiSBETServer-MainWindow-statusStr'></a>
+### statusStr `constants`
+
+##### Summary
+
+Internal field for the binding property StatusStr
+
+<a name='P-TobiiSBETServer-MainWindow-DeviceNameStr'></a>
+### DeviceNameStr `property`
+
+##### Summary
+
+A XAML binding property
+
 <a name='P-TobiiSBETServer-MainWindow-SerialNumberStr'></a>
 ### SerialNumberStr `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-StatusStr'></a>
+### StatusStr `property`
 
 ##### Summary
 
