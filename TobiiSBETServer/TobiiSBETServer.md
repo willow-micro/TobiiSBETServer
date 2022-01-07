@@ -8,11 +8,43 @@
   - [Main()](#M-TobiiSBETServer-App-Main 'TobiiSBETServer.App.Main')
 - [MainWindow](#T-TobiiSBETServer-MainWindow 'TobiiSBETServer.MainWindow')
   - [#ctor()](#M-TobiiSBETServer-MainWindow-#ctor 'TobiiSBETServer.MainWindow.#ctor')
+  - [angularVelocityThreshold](#F-TobiiSBETServer-MainWindow-angularVelocityThreshold 'TobiiSBETServer.MainWindow.angularVelocityThreshold')
+  - [computeSpanSec](#F-TobiiSBETServer-MainWindow-computeSpanSec 'TobiiSBETServer.MainWindow.computeSpanSec')
+  - [consecutiveDataCount](#F-TobiiSBETServer-MainWindow-consecutiveDataCount 'TobiiSBETServer.MainWindow.consecutiveDataCount')
+  - [debounceTime](#F-TobiiSBETServer-MainWindow-debounceTime 'TobiiSBETServer.MainWindow.debounceTime')
   - [deviceInfoStr](#F-TobiiSBETServer-MainWindow-deviceInfoStr 'TobiiSBETServer.MainWindow.deviceInfoStr')
+  - [durationThreshold](#F-TobiiSBETServer-MainWindow-durationThreshold 'TobiiSBETServer.MainWindow.durationThreshold')
   - [eyeTracker](#F-TobiiSBETServer-MainWindow-eyeTracker 'TobiiSBETServer.MainWindow.eyeTracker')
+  - [frequencyStr](#F-TobiiSBETServer-MainWindow-frequencyStr 'TobiiSBETServer.MainWindow.frequencyStr')
+  - [hfHighFreq](#F-TobiiSBETServer-MainWindow-hfHighFreq 'TobiiSBETServer.MainWindow.hfHighFreq')
+  - [hfLowFreq](#F-TobiiSBETServer-MainWindow-hfLowFreq 'TobiiSBETServer.MainWindow.hfLowFreq')
+  - [idealFreqResolution](#F-TobiiSBETServer-MainWindow-idealFreqResolution 'TobiiSBETServer.MainWindow.idealFreqResolution')
+  - [isDebouncingEnabled](#F-TobiiSBETServer-MainWindow-isDebouncingEnabled 'TobiiSBETServer.MainWindow.isDebouncingEnabled')
+  - [isFixationFilterEnabled](#F-TobiiSBETServer-MainWindow-isFixationFilterEnabled 'TobiiSBETServer.MainWindow.isFixationFilterEnabled')
+  - [isLFHFComputerEnabled](#F-TobiiSBETServer-MainWindow-isLFHFComputerEnabled 'TobiiSBETServer.MainWindow.isLFHFComputerEnabled')
+  - [lfHighFreq](#F-TobiiSBETServer-MainWindow-lfHighFreq 'TobiiSBETServer.MainWindow.lfHighFreq')
+  - [lfLowFreq](#F-TobiiSBETServer-MainWindow-lfLowFreq 'TobiiSBETServer.MainWindow.lfLowFreq')
+  - [portNumber](#F-TobiiSBETServer-MainWindow-portNumber 'TobiiSBETServer.MainWindow.portNumber')
   - [pupilDataProcessor](#F-TobiiSBETServer-MainWindow-pupilDataProcessor 'TobiiSBETServer.MainWindow.pupilDataProcessor')
+  - [serverURL](#F-TobiiSBETServer-MainWindow-serverURL 'TobiiSBETServer.MainWindow.serverURL')
   - [statusStr](#F-TobiiSBETServer-MainWindow-statusStr 'TobiiSBETServer.MainWindow.statusStr')
+  - [AngularVelocityThreshold](#P-TobiiSBETServer-MainWindow-AngularVelocityThreshold 'TobiiSBETServer.MainWindow.AngularVelocityThreshold')
+  - [ComputeSpanSec](#P-TobiiSBETServer-MainWindow-ComputeSpanSec 'TobiiSBETServer.MainWindow.ComputeSpanSec')
+  - [ConsecutiveDataCount](#P-TobiiSBETServer-MainWindow-ConsecutiveDataCount 'TobiiSBETServer.MainWindow.ConsecutiveDataCount')
+  - [DebounceTime](#P-TobiiSBETServer-MainWindow-DebounceTime 'TobiiSBETServer.MainWindow.DebounceTime')
   - [DeviceInfoStr](#P-TobiiSBETServer-MainWindow-DeviceInfoStr 'TobiiSBETServer.MainWindow.DeviceInfoStr')
+  - [DurationThreshold](#P-TobiiSBETServer-MainWindow-DurationThreshold 'TobiiSBETServer.MainWindow.DurationThreshold')
+  - [FrequencyStr](#P-TobiiSBETServer-MainWindow-FrequencyStr 'TobiiSBETServer.MainWindow.FrequencyStr')
+  - [HFHighFreq](#P-TobiiSBETServer-MainWindow-HFHighFreq 'TobiiSBETServer.MainWindow.HFHighFreq')
+  - [HFLowFreq](#P-TobiiSBETServer-MainWindow-HFLowFreq 'TobiiSBETServer.MainWindow.HFLowFreq')
+  - [IdealFreqResolution](#P-TobiiSBETServer-MainWindow-IdealFreqResolution 'TobiiSBETServer.MainWindow.IdealFreqResolution')
+  - [IsDebouncingEnabled](#P-TobiiSBETServer-MainWindow-IsDebouncingEnabled 'TobiiSBETServer.MainWindow.IsDebouncingEnabled')
+  - [IsFixationFilterEnabled](#P-TobiiSBETServer-MainWindow-IsFixationFilterEnabled 'TobiiSBETServer.MainWindow.IsFixationFilterEnabled')
+  - [IsLFHFComputerEnabled](#P-TobiiSBETServer-MainWindow-IsLFHFComputerEnabled 'TobiiSBETServer.MainWindow.IsLFHFComputerEnabled')
+  - [LFHighFreq](#P-TobiiSBETServer-MainWindow-LFHighFreq 'TobiiSBETServer.MainWindow.LFHighFreq')
+  - [LFLowFreq](#P-TobiiSBETServer-MainWindow-LFLowFreq 'TobiiSBETServer.MainWindow.LFLowFreq')
+  - [PortNumber](#P-TobiiSBETServer-MainWindow-PortNumber 'TobiiSBETServer.MainWindow.PortNumber')
+  - [ServerURL](#P-TobiiSBETServer-MainWindow-ServerURL 'TobiiSBETServer.MainWindow.ServerURL')
   - [StatusStr](#P-TobiiSBETServer-MainWindow-StatusStr 'TobiiSBETServer.MainWindow.StatusStr')
   - [AppCloseEvent(sender,e)](#M-TobiiSBETServer-MainWindow-AppCloseEvent-System-Object,System-Windows-Input-ExecutedRoutedEventArgs- 'TobiiSBETServer.MainWindow.AppCloseEvent(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)')
   - [InitializeComponent()](#M-TobiiSBETServer-MainWindow-InitializeComponent 'TobiiSBETServer.MainWindow.InitializeComponent')
@@ -75,12 +107,47 @@ Constructor
 
 This constructor has no parameters.
 
+<a name='F-TobiiSBETServer-MainWindow-angularVelocityThreshold'></a>
+### angularVelocityThreshold `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-computeSpanSec'></a>
+### computeSpanSec `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-consecutiveDataCount'></a>
+### consecutiveDataCount `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-debounceTime'></a>
+### debounceTime `constants`
+
+##### Summary
+
+Internal field for the binding property
+
 <a name='F-TobiiSBETServer-MainWindow-deviceInfoStr'></a>
 ### deviceInfoStr `constants`
 
 ##### Summary
 
-Internal field for the binding property DeviceInfoStr
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-durationThreshold'></a>
+### durationThreshold `constants`
+
+##### Summary
+
+Internal field for the binding property
 
 <a name='F-TobiiSBETServer-MainWindow-eyeTracker'></a>
 ### eyeTracker `constants`
@@ -89,6 +156,76 @@ Internal field for the binding property DeviceInfoStr
 
 An instance from EyeTracking.TobiiSBETDriver
 
+<a name='F-TobiiSBETServer-MainWindow-frequencyStr'></a>
+### frequencyStr `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-hfHighFreq'></a>
+### hfHighFreq `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-hfLowFreq'></a>
+### hfLowFreq `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-idealFreqResolution'></a>
+### idealFreqResolution `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isDebouncingEnabled'></a>
+### isDebouncingEnabled `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isFixationFilterEnabled'></a>
+### isFixationFilterEnabled `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isLFHFComputerEnabled'></a>
+### isLFHFComputerEnabled `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-lfHighFreq'></a>
+### lfHighFreq `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-lfLowFreq'></a>
+### lfLowFreq `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-portNumber'></a>
+### portNumber `constants`
+
+##### Summary
+
+Internal field for the binding property
+
 <a name='F-TobiiSBETServer-MainWindow-pupilDataProcessor'></a>
 ### pupilDataProcessor `constants`
 
@@ -96,15 +233,134 @@ An instance from EyeTracking.TobiiSBETDriver
 
 An instance from EyeTracking.PupilDataProcessor
 
+<a name='F-TobiiSBETServer-MainWindow-serverURL'></a>
+### serverURL `constants`
+
+##### Summary
+
+Internal field for the binding property
+
 <a name='F-TobiiSBETServer-MainWindow-statusStr'></a>
 ### statusStr `constants`
 
 ##### Summary
 
-Internal field for the binding property StatusStr
+Internal field for the binding property
+
+<a name='P-TobiiSBETServer-MainWindow-AngularVelocityThreshold'></a>
+### AngularVelocityThreshold `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-ComputeSpanSec'></a>
+### ComputeSpanSec `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-ConsecutiveDataCount'></a>
+### ConsecutiveDataCount `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-DebounceTime'></a>
+### DebounceTime `property`
+
+##### Summary
+
+A XAML binding property
 
 <a name='P-TobiiSBETServer-MainWindow-DeviceInfoStr'></a>
 ### DeviceInfoStr `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-DurationThreshold'></a>
+### DurationThreshold `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-FrequencyStr'></a>
+### FrequencyStr `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-HFHighFreq'></a>
+### HFHighFreq `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-HFLowFreq'></a>
+### HFLowFreq `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IdealFreqResolution'></a>
+### IdealFreqResolution `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IsDebouncingEnabled'></a>
+### IsDebouncingEnabled `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IsFixationFilterEnabled'></a>
+### IsFixationFilterEnabled `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IsLFHFComputerEnabled'></a>
+### IsLFHFComputerEnabled `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-LFHighFreq'></a>
+### LFHighFreq `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-LFLowFreq'></a>
+### LFLowFreq `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-PortNumber'></a>
+### PortNumber `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-ServerURL'></a>
+### ServerURL `property`
 
 ##### Summary
 

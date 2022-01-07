@@ -40,11 +40,6 @@
             An instance from EyeTracking.PupilDataProcessor
             </summary>
         </member>
-        <member name="M:TobiiSBETServer.MainWindow.#ctor">
-            <summary>
-            Constructor
-            </summary>
-        </member>
         <member name="E:TobiiSBETServer.MainWindow.PropertyChanged">
             <summary>
             Event handler object for XAML binding properties
@@ -72,7 +67,7 @@
         </member>
         <member name="F:TobiiSBETServer.MainWindow.statusStr">
             <summary>
-            Internal field for the binding property StatusStr
+            Internal field for the binding property
             </summary>
         </member>
         <member name="P:TobiiSBETServer.MainWindow.StatusStr">
@@ -82,12 +77,177 @@
         </member>
         <member name="F:TobiiSBETServer.MainWindow.deviceInfoStr">
             <summary>
-            Internal field for the binding property DeviceInfoStr
+            Internal field for the binding property
             </summary>
         </member>
         <member name="P:TobiiSBETServer.MainWindow.DeviceInfoStr">
             <summary>
             A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.frequencyStr">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.FrequencyStr">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isFixationFilterEnabled">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsFixationFilterEnabled">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.angularVelocityThreshold">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.AngularVelocityThreshold">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.durationThreshold">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.DurationThreshold">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.consecutiveDataCount">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.ConsecutiveDataCount">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isDebouncingEnabled">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsDebouncingEnabled">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.debounceTime">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.DebounceTime">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isLFHFComputerEnabled">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsLFHFComputerEnabled">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.lfLowFreq">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.LFLowFreq">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.lfHighFreq">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.LFHighFreq">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.hfLowFreq">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.HFLowFreq">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.hfHighFreq">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.HFHighFreq">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.idealFreqResolution">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IdealFreqResolution">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.computeSpanSec">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.ComputeSpanSec">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.portNumber">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.PortNumber">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.serverURL">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.ServerURL">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.#ctor">
+            <summary>
+            Constructor
             </summary>
         </member>
         <member name="M:TobiiSBETServer.MainWindow.OnContentRendered(System.Object,System.EventArgs)">
