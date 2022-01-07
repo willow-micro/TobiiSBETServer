@@ -34,6 +34,10 @@ namespace TobiiSBETServer
 
         #region Fields
         /// <summary>
+        /// Application state for ui controls
+        /// </summary>
+        private AppState internalAppState;
+        /// <summary>
         /// An instance from EyeTracking.TobiiSBETDriver
         /// </summary>
         private readonly TobiiSBEyeTracker eyeTracker;
@@ -393,6 +397,86 @@ namespace TobiiSBETServer
                 NotifyPropertyChanged(nameof(ServerURL));
             }
         }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isETStartButtonEnabled;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsETStartButtonEnabled
+        {
+            get { return isETStartButtonEnabled; }
+            set
+            {
+                isETStartButtonEnabled = value;
+                NotifyPropertyChanged(nameof(IsETStartButtonEnabled));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isETStopButtonEnabled;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsETStopButtonEnabled
+        {
+            get { return isETStopButtonEnabled; }
+            set
+            {
+                isETStopButtonEnabled = value;
+                NotifyPropertyChanged(nameof(IsETStopButtonEnabled));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isShowPreviewButtonEnabled;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsShowPreviewButtonEnabled
+        {
+            get { return isShowPreviewButtonEnabled; }
+            set
+            {
+                isShowPreviewButtonEnabled = value;
+                NotifyPropertyChanged(nameof(IsShowPreviewButtonEnabled));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isWSStartButtonEnabled;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsWSStartButtonEnabled
+        {
+            get { return isWSStartButtonEnabled; }
+            set
+            {
+                isWSStartButtonEnabled = value;
+                NotifyPropertyChanged(nameof(IsWSStartButtonEnabled));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isWSStopButtonEnabled;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsWSStopButtonEnabled
+        {
+            get { return isWSStopButtonEnabled; }
+            set
+            {
+                isWSStopButtonEnabled = value;
+                NotifyPropertyChanged(nameof(IsWSStopButtonEnabled));
+            }
+        }
         #endregion
 
         #region Constructors
@@ -408,7 +492,10 @@ namespace TobiiSBETServer
             ContentRendered += this.OnContentRendered;
             Closed += this.OnClosed;
             // Initialize all binding paramters
-            InitializeBindingParameters();
+            InitializeParameters();
+            // Set app state
+            this.internalAppState = AppState.WaitForETStart;
+            UpdateButtonStates();
         }
         #endregion
 
@@ -451,7 +538,41 @@ namespace TobiiSBETServer
         #endregion
 
         #region Private methods
-        private void InitializeBindingParameters()
+        private void UpdateButtonStates()
+        {
+            switch (this.internalAppState)
+            {
+                case AppState.WaitForETStart:
+                    this.IsETStartButtonEnabled = true;
+                    this.IsETStopButtonEnabled = false;
+                    this.IsShowPreviewButtonEnabled = false;
+                    this.IsWSStartButtonEnabled = false;
+                    this.IsWSStopButtonEnabled = false;
+                    break;
+                case AppState.WaitForWSStart:
+                    this.IsETStartButtonEnabled = false;
+                    this.IsETStopButtonEnabled = true;
+                    this.IsShowPreviewButtonEnabled = true;
+                    this.IsWSStartButtonEnabled = true;
+                    this.IsWSStopButtonEnabled = false;
+                    break;
+                case AppState.WSStarted:
+                    this.IsETStartButtonEnabled = false;
+                    this.IsETStopButtonEnabled = false;
+                    this.IsShowPreviewButtonEnabled = true;
+                    this.IsWSStartButtonEnabled = false;
+                    this.IsWSStopButtonEnabled = true;
+                    break;
+                default:
+                    this.IsETStartButtonEnabled = true;
+                    this.IsETStopButtonEnabled = false;
+                    this.IsShowPreviewButtonEnabled = false;
+                    this.IsWSStartButtonEnabled = false;
+                    this.IsWSStopButtonEnabled = false;
+                    break;
+            }
+        }
+        private void InitializeParameters()
         {
             this.AppStatusStr = "Initialized";
             this.DeviceInfoStr = "modelname (serialno)";
@@ -472,7 +593,7 @@ namespace TobiiSBETServer
             this.IdealFreqResolution = 0.04f;
             this.ComputeSpanSec = 0.5f;
             this.ServerURL = "ws://localhost";
-            this.PortNumber = 3000;
+            this.PortNumber = 3000;            
         }
         #endregion
     }

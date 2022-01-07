@@ -194,8 +194,12 @@
                     <UniformGrid Grid.Row="0" Grid.Column="1"
                                  Columns="2" Rows="1"
                                  Style="{StaticResource ButtonLeftUniformGridStyle}">
-                        <Button Style="{StaticResource ButtonStyle}" Content="Start" />
-                        <Button Style="{StaticResource ButtonStyle}" Content="Stop" />
+                        <Button Style="{StaticResource ButtonStyle}"
+                                Content="Start"
+                                IsEnabled="{Binding IsETStartButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Style="{StaticResource ButtonStyle}"
+                                Content="Stop"
+                                IsEnabled="{Binding IsETStopButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
 
                     <Label Grid.Row="1" Grid.Column="0"
@@ -204,7 +208,9 @@
                     <UniformGrid Grid.Row="1" Grid.Column="1"
                                  Columns="1" Rows="1"
                                  Style="{StaticResource ButtonLeftUniformGridStyle}">
-                        <Button Style="{StaticResource ButtonStyle}" Content="Show..." />
+                        <Button Style="{StaticResource ButtonStyle}"
+                                Content="Show..."
+                                IsEnabled="{Binding IsShowPreviewButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
 
                     <Label Grid.Row="2" Grid.Column="0"
@@ -213,8 +219,12 @@
                     <UniformGrid Grid.Row="2" Grid.Column="1"
                                  Columns="2" Rows="1"
                                  Style="{StaticResource ButtonLeftUniformGridStyle}">
-                        <Button Style="{StaticResource ButtonStyle}" Content="Start" />
-                        <Button Style="{StaticResource ButtonStyle}" Content="Stop" />
+                        <Button Style="{StaticResource ButtonStyle}"
+                                Content="Start"
+                                IsEnabled="{Binding IsWSStartButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Style="{StaticResource ButtonStyle}"
+                                Content="Stop"
+                                IsEnabled="{Binding IsWSStopButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
                 </Grid>
             </GroupBox>
