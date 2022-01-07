@@ -670,26 +670,56 @@ namespace TobiiSBETServer
                 int xPos = (int)e.LeftX;
                 int yPos = (int)e.LeftY;
                 
-                if (e.LeftEyeMovementType == EyeMovementType.Fixation)
+                if (IsDebouncingEnabled)
                 {
-                    if (this.debounceTemp > DebounceTime)
+                    if (e.LeftEyeMovementType == EyeMovementType.Fixation)
+                    {
+                        if (this.debounceTemp > DebounceTime)
+                        {
+                            long unixTimeInMs = GetUnixTimeInMs();
+                            if (!IsNotWSStarted)
+                            {
+                                WSBroadCastString($"t{unixTimeInMs}x{xPos}y{yPos}");
+                            }
+                        }
+
+                        if (previewWindow != null)
+                        {
+                            previewWindow.ShowGazePoint();
+                            previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
+                        }
+
+                        debounceTemp = 0;
+                    }
+                    else
                     {
                         long unixTimeInMs = GetUnixTimeInMs();
-                        WSBroadCastString($"t{unixTimeInMs}x{xPos}y{yPos}");
+                        debounceTemp += unixTimeInMs - prevUnixTimeInMs;
+                        prevUnixTimeInMs = unixTimeInMs;
+
+                        previewWindow.HideGazePoint();
                     }
-
-                    previewWindow.ShowGazePoint();
-                    previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
-
-                    debounceTemp = 0;
                 }
                 else
                 {
-                    long unixTimeInMs = GetUnixTimeInMs();
-                    debounceTemp += unixTimeInMs - prevUnixTimeInMs;
-                    prevUnixTimeInMs = unixTimeInMs;
+                    if (e.LeftEyeMovementType == EyeMovementType.Fixation)
+                    {
+                        long unixTimeInMs = GetUnixTimeInMs();
+                        if (!IsNotWSStarted)
+                        {
+                            WSBroadCastString($"t{unixTimeInMs}x{xPos}y{yPos}");
+                        }
 
-                    previewWindow.HideGazePoint();
+                        if (previewWindow != null)
+                        {
+                            previewWindow.ShowGazePoint();
+                            previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
+                        }
+                    }
+                    else
+                    {
+                        previewWindow.HideGazePoint();
+                    }
                 }
             }
         }
