@@ -149,28 +149,28 @@
                            Content="Eye Tracker" />
                     <Label Grid.Row="0" Grid.Column="1"
                            Style="{StaticResource ValueLabelStyle}"
-                           Content="{Binding DeviceInfoStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                           Content="{Binding DeviceInfoStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='--'}" />
 
                     <Label Grid.Row="1" Grid.Column="0"
                            Style="{StaticResource NameLabelStyle}"
                            Content="Frequency" />
                     <Label Grid.Row="1" Grid.Column="1"
                            Style="{StaticResource ValueLabelStyle}"
-                           Content="{Binding FrequencyStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                           Content="{Binding FrequencyStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='--'}" />
 
                     <Label Grid.Row="2" Grid.Column="0"
                            Style="{StaticResource NameLabelStyle}"
                            Content="Screen" />
                     <Label Grid.Row="2" Grid.Column="1"
                            Style="{StaticResource ValueLabelStyle}"
-                           Content="{Binding ScreenDimensionsStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                           Content="{Binding ScreenDimensionsStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='--'}" />
 
                     <Label Grid.Row="3" Grid.Column="0"
                            Style="{StaticResource NameLabelStyle}"
                            Content="Status" />
                     <Label Grid.Row="3" Grid.Column="1"
                            Style="{StaticResource ValueLabelStyle}"
-                           Content="{Binding DeviceStatusStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                           Content="{Binding DeviceStatusStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='--'}" />
                 </Grid>
             </GroupBox>
 
@@ -195,10 +195,10 @@
                                  Columns="2" Rows="1"
                                  Style="{StaticResource ButtonLeftUniformGridStyle}">
                         <Button Style="{StaticResource ButtonStyle}"
-                                Content="Start"
+                                Click="ETStartButtonClicked" Content="Start"
                                 IsEnabled="{Binding IsETStartButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Button Style="{StaticResource ButtonStyle}"
-                                Content="Stop"
+                                Click="ETStopButtonClicked" Content="Stop"
                                 IsEnabled="{Binding IsETStopButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
 
@@ -209,7 +209,7 @@
                                  Columns="1" Rows="1"
                                  Style="{StaticResource ButtonLeftUniformGridStyle}">
                         <Button Style="{StaticResource ButtonStyle}"
-                                Content="Show..."
+                                Click="ShowPreviewButtonClicked" Content="Show..."
                                 IsEnabled="{Binding IsShowPreviewButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
 
@@ -220,10 +220,10 @@
                                  Columns="2" Rows="1"
                                  Style="{StaticResource ButtonLeftUniformGridStyle}">
                         <Button Style="{StaticResource ButtonStyle}"
-                                Content="Start"
+                                Click="WSStartButtonClicked" Content="Start"
                                 IsEnabled="{Binding IsWSStartButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Button Style="{StaticResource ButtonStyle}"
-                                Content="Stop"
+                                Click="WSStopButtonClicked" Content="Stop"
                                 IsEnabled="{Binding IsWSStopButtonEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                     </UniformGrid>
                 </Grid>
@@ -231,7 +231,8 @@
 
             <GroupBox Grid.Row="1" Grid.Column="0"
                       Style="{StaticResource GroupBoxStyle}"
-                      Header="Fixation Filter">
+                      Header="Fixation Filter"
+                      IsEnabled="{Binding IsNotETStarted, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid Style="{StaticResource GridStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -281,7 +282,8 @@
 
             <GroupBox Grid.Row="1" Grid.Column="1"
                       Style="{StaticResource GroupBoxStyle}"
-                      Header="Thinning Filter">
+                      Header="Thinning Filter"
+                      IsEnabled="{Binding IsNotETStarted, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid Style="{StaticResource GridStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -329,7 +331,8 @@
 
             <GroupBox Grid.Row="2" Grid.Column="0"
                       Style="{StaticResource GroupBoxStyle}"
-                      Header="LF/HF Computer">
+                      Header="LF/HF Computer"
+                      IsEnabled="{Binding IsNotETStarted, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid Style="{StaticResource GridStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -424,7 +427,8 @@
 
             <GroupBox Grid.Row="2" Grid.Column="1"
                       Style="{StaticResource GroupBoxStyle}"
-                      Header="WebSocket Server">
+                      Header="WebSocket Server"
+                      IsEnabled="{Binding IsNotWSStarted, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <Grid Style="{StaticResource GridStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />

@@ -34,10 +34,6 @@ namespace TobiiSBETServer
 
         #region Fields
         /// <summary>
-        /// Application state for ui controls
-        /// </summary>
-        private AppState internalAppState;
-        /// <summary>
         /// An instance from EyeTracking.TobiiSBETDriver
         /// </summary>
         private readonly TobiiSBEyeTracker eyeTracker;
@@ -477,6 +473,38 @@ namespace TobiiSBETServer
                 NotifyPropertyChanged(nameof(IsWSStopButtonEnabled));
             }
         }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isNotETStarted;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsNotETStarted
+        {
+            get { return isNotETStarted; }
+            set
+            {
+                isNotETStarted = value;
+                NotifyPropertyChanged(nameof(IsNotETStarted));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isNotWSStarted;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsNotWSStarted
+        {
+            get { return isNotWSStarted; }
+            set
+            {
+                isNotWSStarted = value;
+                NotifyPropertyChanged(nameof(IsNotWSStarted));
+            }
+        }
         #endregion
 
         #region Constructors
@@ -493,9 +521,8 @@ namespace TobiiSBETServer
             Closed += this.OnClosed;
             // Initialize all binding paramters
             InitializeParameters();
-            // Set app state
-            this.internalAppState = AppState.WaitForETStart;
-            UpdateButtonStates();
+            // Set button states
+            UpdateAppState(AppState.WaitForETStart);
         }
         #endregion
 
@@ -535,14 +562,37 @@ namespace TobiiSBETServer
                 this.Close();
             }
         }
+
+        private void ETStartButtonClicked(object sender, RoutedEventArgs e)
+        {
+            UpdateAppState(AppState.WaitForWSStart);
+        }
+        private void ETStopButtonClicked(object sender, RoutedEventArgs e)
+        {
+            UpdateAppState(AppState.WaitForETStart);
+        }
+        private void ShowPreviewButtonClicked(object sender, RoutedEventArgs e)
+        {
+            Debug.Print("ShowPreviewButton was clicked");
+        }
+        private void WSStartButtonClicked(object sender, RoutedEventArgs e)
+        {
+            UpdateAppState(AppState.WSStarted);
+        }
+        private void WSStopButtonClicked(object sender, RoutedEventArgs e)
+        {
+            UpdateAppState(AppState.WaitForWSStart);
+        }
         #endregion
 
         #region Private methods
-        private void UpdateButtonStates()
+        private void UpdateAppState(AppState state)
         {
-            switch (this.internalAppState)
+            switch (state)
             {
                 case AppState.WaitForETStart:
+                    this.IsNotETStarted = true;
+                    this.IsNotWSStarted = true;
                     this.IsETStartButtonEnabled = true;
                     this.IsETStopButtonEnabled = false;
                     this.IsShowPreviewButtonEnabled = false;
@@ -550,6 +600,8 @@ namespace TobiiSBETServer
                     this.IsWSStopButtonEnabled = false;
                     break;
                 case AppState.WaitForWSStart:
+                    this.IsNotETStarted = false;
+                    this.IsNotWSStarted = true;
                     this.IsETStartButtonEnabled = false;
                     this.IsETStopButtonEnabled = true;
                     this.IsShowPreviewButtonEnabled = true;
@@ -557,6 +609,8 @@ namespace TobiiSBETServer
                     this.IsWSStopButtonEnabled = false;
                     break;
                 case AppState.WSStarted:
+                    this.IsNotETStarted = false;
+                    this.IsNotWSStarted = false;
                     this.IsETStartButtonEnabled = false;
                     this.IsETStopButtonEnabled = false;
                     this.IsShowPreviewButtonEnabled = true;
@@ -564,6 +618,8 @@ namespace TobiiSBETServer
                     this.IsWSStopButtonEnabled = true;
                     break;
                 default:
+                    this.IsNotETStarted = true;
+                    this.IsNotWSStarted = true;
                     this.IsETStartButtonEnabled = true;
                     this.IsETStopButtonEnabled = false;
                     this.IsShowPreviewButtonEnabled = false;

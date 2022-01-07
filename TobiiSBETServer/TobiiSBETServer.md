@@ -22,8 +22,15 @@
   - [hfLowFreq](#F-TobiiSBETServer-MainWindow-hfLowFreq 'TobiiSBETServer.MainWindow.hfLowFreq')
   - [idealFreqResolution](#F-TobiiSBETServer-MainWindow-idealFreqResolution 'TobiiSBETServer.MainWindow.idealFreqResolution')
   - [isDebouncingEnabled](#F-TobiiSBETServer-MainWindow-isDebouncingEnabled 'TobiiSBETServer.MainWindow.isDebouncingEnabled')
+  - [isETStartButtonEnabled](#F-TobiiSBETServer-MainWindow-isETStartButtonEnabled 'TobiiSBETServer.MainWindow.isETStartButtonEnabled')
+  - [isETStopButtonEnabled](#F-TobiiSBETServer-MainWindow-isETStopButtonEnabled 'TobiiSBETServer.MainWindow.isETStopButtonEnabled')
   - [isFixationFilterEnabled](#F-TobiiSBETServer-MainWindow-isFixationFilterEnabled 'TobiiSBETServer.MainWindow.isFixationFilterEnabled')
   - [isLFHFComputerEnabled](#F-TobiiSBETServer-MainWindow-isLFHFComputerEnabled 'TobiiSBETServer.MainWindow.isLFHFComputerEnabled')
+  - [isNotETStarted](#F-TobiiSBETServer-MainWindow-isNotETStarted 'TobiiSBETServer.MainWindow.isNotETStarted')
+  - [isNotWSStarted](#F-TobiiSBETServer-MainWindow-isNotWSStarted 'TobiiSBETServer.MainWindow.isNotWSStarted')
+  - [isShowPreviewButtonEnabled](#F-TobiiSBETServer-MainWindow-isShowPreviewButtonEnabled 'TobiiSBETServer.MainWindow.isShowPreviewButtonEnabled')
+  - [isWSStartButtonEnabled](#F-TobiiSBETServer-MainWindow-isWSStartButtonEnabled 'TobiiSBETServer.MainWindow.isWSStartButtonEnabled')
+  - [isWSStopButtonEnabled](#F-TobiiSBETServer-MainWindow-isWSStopButtonEnabled 'TobiiSBETServer.MainWindow.isWSStopButtonEnabled')
   - [lfHighFreq](#F-TobiiSBETServer-MainWindow-lfHighFreq 'TobiiSBETServer.MainWindow.lfHighFreq')
   - [lfLowFreq](#F-TobiiSBETServer-MainWindow-lfLowFreq 'TobiiSBETServer.MainWindow.lfLowFreq')
   - [portNumber](#F-TobiiSBETServer-MainWindow-portNumber 'TobiiSBETServer.MainWindow.portNumber')
@@ -43,8 +50,15 @@
   - [HFLowFreq](#P-TobiiSBETServer-MainWindow-HFLowFreq 'TobiiSBETServer.MainWindow.HFLowFreq')
   - [IdealFreqResolution](#P-TobiiSBETServer-MainWindow-IdealFreqResolution 'TobiiSBETServer.MainWindow.IdealFreqResolution')
   - [IsDebouncingEnabled](#P-TobiiSBETServer-MainWindow-IsDebouncingEnabled 'TobiiSBETServer.MainWindow.IsDebouncingEnabled')
+  - [IsETStartButtonEnabled](#P-TobiiSBETServer-MainWindow-IsETStartButtonEnabled 'TobiiSBETServer.MainWindow.IsETStartButtonEnabled')
+  - [IsETStopButtonEnabled](#P-TobiiSBETServer-MainWindow-IsETStopButtonEnabled 'TobiiSBETServer.MainWindow.IsETStopButtonEnabled')
   - [IsFixationFilterEnabled](#P-TobiiSBETServer-MainWindow-IsFixationFilterEnabled 'TobiiSBETServer.MainWindow.IsFixationFilterEnabled')
   - [IsLFHFComputerEnabled](#P-TobiiSBETServer-MainWindow-IsLFHFComputerEnabled 'TobiiSBETServer.MainWindow.IsLFHFComputerEnabled')
+  - [IsNotETStarted](#P-TobiiSBETServer-MainWindow-IsNotETStarted 'TobiiSBETServer.MainWindow.IsNotETStarted')
+  - [IsNotWSStarted](#P-TobiiSBETServer-MainWindow-IsNotWSStarted 'TobiiSBETServer.MainWindow.IsNotWSStarted')
+  - [IsShowPreviewButtonEnabled](#P-TobiiSBETServer-MainWindow-IsShowPreviewButtonEnabled 'TobiiSBETServer.MainWindow.IsShowPreviewButtonEnabled')
+  - [IsWSStartButtonEnabled](#P-TobiiSBETServer-MainWindow-IsWSStartButtonEnabled 'TobiiSBETServer.MainWindow.IsWSStartButtonEnabled')
+  - [IsWSStopButtonEnabled](#P-TobiiSBETServer-MainWindow-IsWSStopButtonEnabled 'TobiiSBETServer.MainWindow.IsWSStopButtonEnabled')
   - [LFHighFreq](#P-TobiiSBETServer-MainWindow-LFHighFreq 'TobiiSBETServer.MainWindow.LFHighFreq')
   - [LFLowFreq](#P-TobiiSBETServer-MainWindow-LFLowFreq 'TobiiSBETServer.MainWindow.LFLowFreq')
   - [PortNumber](#P-TobiiSBETServer-MainWindow-PortNumber 'TobiiSBETServer.MainWindow.PortNumber')
@@ -209,6 +223,20 @@ Internal field for the binding property
 
 Internal field for the binding property
 
+<a name='F-TobiiSBETServer-MainWindow-isETStartButtonEnabled'></a>
+### isETStartButtonEnabled `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isETStopButtonEnabled'></a>
+### isETStopButtonEnabled `constants`
+
+##### Summary
+
+Internal field for the binding property
+
 <a name='F-TobiiSBETServer-MainWindow-isFixationFilterEnabled'></a>
 ### isFixationFilterEnabled `constants`
 
@@ -218,6 +246,41 @@ Internal field for the binding property
 
 <a name='F-TobiiSBETServer-MainWindow-isLFHFComputerEnabled'></a>
 ### isLFHFComputerEnabled `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isNotETStarted'></a>
+### isNotETStarted `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isNotWSStarted'></a>
+### isNotWSStarted `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isShowPreviewButtonEnabled'></a>
+### isShowPreviewButtonEnabled `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isWSStartButtonEnabled'></a>
+### isWSStartButtonEnabled `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isWSStopButtonEnabled'></a>
+### isWSStopButtonEnabled `constants`
 
 ##### Summary
 
@@ -356,6 +419,20 @@ A XAML binding property
 
 A XAML binding property
 
+<a name='P-TobiiSBETServer-MainWindow-IsETStartButtonEnabled'></a>
+### IsETStartButtonEnabled `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IsETStopButtonEnabled'></a>
+### IsETStopButtonEnabled `property`
+
+##### Summary
+
+A XAML binding property
+
 <a name='P-TobiiSBETServer-MainWindow-IsFixationFilterEnabled'></a>
 ### IsFixationFilterEnabled `property`
 
@@ -365,6 +442,41 @@ A XAML binding property
 
 <a name='P-TobiiSBETServer-MainWindow-IsLFHFComputerEnabled'></a>
 ### IsLFHFComputerEnabled `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IsNotETStarted'></a>
+### IsNotETStarted `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IsNotWSStarted'></a>
+### IsNotWSStarted `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IsShowPreviewButtonEnabled'></a>
+### IsShowPreviewButtonEnabled `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IsWSStartButtonEnabled'></a>
+### IsWSStartButtonEnabled `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-IsWSStopButtonEnabled'></a>
+### IsWSStopButtonEnabled `property`
 
 ##### Summary
 

@@ -265,6 +265,76 @@
             A XAML binding property
             </summary>
         </member>
+        <member name="F:TobiiSBETServer.MainWindow.isETStartButtonEnabled">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsETStartButtonEnabled">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isETStopButtonEnabled">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsETStopButtonEnabled">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isShowPreviewButtonEnabled">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsShowPreviewButtonEnabled">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isWSStartButtonEnabled">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsWSStartButtonEnabled">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isWSStopButtonEnabled">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsWSStopButtonEnabled">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isNotETStarted">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsNotETStarted">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isNotWSStarted">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.IsNotWSStarted">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
         <member name="M:TobiiSBETServer.MainWindow.#ctor">
             <summary>
             Constructor
