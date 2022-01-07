@@ -62,6 +62,10 @@ namespace TobiiSBETServer
         /// Unix Time in ms when received gaze data last time
         /// </summary>
         private long prevUnixTimeInMs;
+        /// <summary>
+        /// Preview window
+        /// </summary>
+        private PreviewWindow previewWindow;
         #endregion
 
         #region XAML binding handler
@@ -593,6 +597,10 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnClosed(object sender, EventArgs e)
         {
+            if (previewWindow != null)
+            {
+                previewWindow.Close();
+            }
             Debug.Print("Debug: Closed");
         }
 
@@ -607,6 +615,10 @@ namespace TobiiSBETServer
 
             if (MessageBox.Show("Are you sure to close?", "Close", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                if (previewWindow != null)
+                {
+                    previewWindow.Close();
+                }
                 //eyeTracker.StopReceivingGazeData();
                 Close();
             }
@@ -619,12 +631,24 @@ namespace TobiiSBETServer
         }
         private void ETStopButtonClicked(object sender, RoutedEventArgs e)
         {
+            if (previewWindow != null)
+            {
+                previewWindow.Close();
+            }
             UpdateAppState(AppState.WaitForETStart);
             //eyeTracker.StopReceivingGazeData();
         }
         private void ShowPreviewButtonClicked(object sender, RoutedEventArgs e)
         {
             Debug.Print("ShowPreviewButton was clicked");
+            previewWindow = new PreviewWindow(4.0);
+            previewWindow.Closing += (s, e) =>
+            {
+                IsShowPreviewButtonEnabled = true;
+            };
+            previewWindow.Show();
+            IsShowPreviewButtonEnabled = false;
+            //previewWindow.PlaceGazePoint(screenWidthInPixels, screenHeightInPixels, screenWidthInPixels / 2, screenHeightInPixels / 2);
         }
         private void WSStartButtonClicked(object sender, RoutedEventArgs e)
         {
@@ -639,7 +663,35 @@ namespace TobiiSBETServer
 
         private void OnGazeData(object sender, OnGazeDataEventArgs e)
         {
+            if (e.IsLeftValid &&
+                0.0 <= e.LeftX && e.LeftX <= eyeTracker.GetScreenWidthInPixels() &&
+                0.0 <= e.LeftY && e.LeftY <= eyeTracker.GetScreenHeightInPixels())
+            {
+                int xPos = (int)e.LeftX;
+                int yPos = (int)e.LeftY;
+                
+                if (e.LeftEyeMovementType == EyeMovementType.Fixation)
+                {
+                    if (this.debounceTemp > DebounceTime)
+                    {
+                        long unixTimeInMs = GetUnixTimeInMs();
+                        WSBroadCastString($"t{unixTimeInMs}x{xPos}y{yPos}");
+                    }
 
+                    previewWindow.ShowGazePoint();
+                    previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
+
+                    debounceTemp = 0;
+                }
+                else
+                {
+                    long unixTimeInMs = GetUnixTimeInMs();
+                    debounceTemp += unixTimeInMs - prevUnixTimeInMs;
+                    prevUnixTimeInMs = unixTimeInMs;
+
+                    previewWindow.HideGazePoint();
+                }
+            }
         }
         #endregion
 
@@ -751,8 +803,20 @@ namespace TobiiSBETServer
 
         private void StopWSServer()
         {
-            webSocketServer.Stop();
-            Debug.Print($"Server was stopped");
+            if (webSocketServer.IsListening)
+            {
+                webSocketServer.Stop();
+            }                
+            Debug.Print("Server was stopped");
+        }
+
+        private void WSBroadCastString(string payload)
+        {
+            if (webSocketServer.IsListening)
+            {
+                webSocketServer.WebSocketServices[$"/{ServicePath}"].Sessions.Broadcast(payload);
+                Debug.Print($"Broadcast: {payload}");
+            }
         }
         #endregion
 
@@ -772,6 +836,12 @@ namespace TobiiSBETServer
                 }
             }
             return ipAddress;
+        }
+
+        private static long GetUnixTimeInMs()
+        {
+            DateTimeOffset now = DateTimeOffset.UtcNow;
+            return now.ToUnixTimeMilliseconds();
         }
         #endregion
     }

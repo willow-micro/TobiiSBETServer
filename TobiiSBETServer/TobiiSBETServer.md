@@ -36,6 +36,7 @@
   - [lfLowFreq](#F-TobiiSBETServer-MainWindow-lfLowFreq 'TobiiSBETServer.MainWindow.lfLowFreq')
   - [portNumber](#F-TobiiSBETServer-MainWindow-portNumber 'TobiiSBETServer.MainWindow.portNumber')
   - [prevUnixTimeInMs](#F-TobiiSBETServer-MainWindow-prevUnixTimeInMs 'TobiiSBETServer.MainWindow.prevUnixTimeInMs')
+  - [previewWindow](#F-TobiiSBETServer-MainWindow-previewWindow 'TobiiSBETServer.MainWindow.previewWindow')
   - [pupilDataProcessor](#F-TobiiSBETServer-MainWindow-pupilDataProcessor 'TobiiSBETServer.MainWindow.pupilDataProcessor')
   - [screenDimensionsStr](#F-TobiiSBETServer-MainWindow-screenDimensionsStr 'TobiiSBETServer.MainWindow.screenDimensionsStr')
   - [screenHeightInPixels](#F-TobiiSBETServer-MainWindow-screenHeightInPixels 'TobiiSBETServer.MainWindow.screenHeightInPixels')
@@ -76,6 +77,10 @@
   - [NotifyPropertyChanged(name)](#M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String- 'TobiiSBETServer.MainWindow.NotifyPropertyChanged(System.String)')
   - [OnClosed(sender,e)](#M-TobiiSBETServer-MainWindow-OnClosed-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnClosed(System.Object,System.EventArgs)')
   - [OnContentRendered(sender,e)](#M-TobiiSBETServer-MainWindow-OnContentRendered-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnContentRendered(System.Object,System.EventArgs)')
+- [PreviewWindow](#T-TobiiSBETServer-PreviewWindow 'TobiiSBETServer.PreviewWindow')
+  - [gazePoint](#F-TobiiSBETServer-PreviewWindow-gazePoint 'TobiiSBETServer.PreviewWindow.gazePoint')
+  - [pointDiameter](#F-TobiiSBETServer-PreviewWindow-pointDiameter 'TobiiSBETServer.PreviewWindow.pointDiameter')
+  - [InitializeComponent()](#M-TobiiSBETServer-PreviewWindow-InitializeComponent 'TobiiSBETServer.PreviewWindow.InitializeComponent')
 
 <a name='T-TobiiSBETServer-App'></a>
 ## App `type`
@@ -327,6 +332,13 @@ Internal field for the binding property
 ##### Summary
 
 Unix Time in ms when received gaze data last time
+
+<a name='F-TobiiSBETServer-MainWindow-previewWindow'></a>
+### previewWindow `constants`
+
+##### Summary
+
+Preview window
 
 <a name='F-TobiiSBETServer-MainWindow-pupilDataProcessor'></a>
 ### pupilDataProcessor `constants`
@@ -653,3 +665,39 @@ Called when all content was loaded.
 | ---- | ---- | ----------- |
 | sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
 | e | [System.EventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.EventArgs 'System.EventArgs') | Args |
+
+<a name='T-TobiiSBETServer-PreviewWindow'></a>
+## PreviewWindow `type`
+
+##### Namespace
+
+TobiiSBETServer
+
+##### Summary
+
+Interaction logic for PreviewWindow.xaml
+
+<a name='F-TobiiSBETServer-PreviewWindow-gazePoint'></a>
+### gazePoint `constants`
+
+##### Summary
+
+Gaze point for preview
+
+<a name='F-TobiiSBETServer-PreviewWindow-pointDiameter'></a>
+### pointDiameter `constants`
+
+##### Summary
+
+Diameter in pixels for the gaze point
+
+<a name='M-TobiiSBETServer-PreviewWindow-InitializeComponent'></a>
+### InitializeComponent() `method`
+
+##### Summary
+
+InitializeComponent
+
+##### Parameters
+
+This method has no parameters.

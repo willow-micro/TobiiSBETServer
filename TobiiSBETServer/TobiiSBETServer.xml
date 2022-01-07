@@ -65,6 +65,11 @@
             Unix Time in ms when received gaze data last time
             </summary>
         </member>
+        <member name="F:TobiiSBETServer.MainWindow.previewWindow">
+            <summary>
+            Preview window
+            </summary>
+        </member>
         <member name="E:TobiiSBETServer.MainWindow.PropertyChanged">
             <summary>
             Event handler object for XAML binding properties
@@ -397,6 +402,29 @@
             <param name="e">Args</param>
         </member>
         <member name="M:TobiiSBETServer.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:TobiiSBETServer.PreviewWindow">
+            <summary>
+            Interaction logic for PreviewWindow.xaml
+            </summary>
+            <summary>
+            PreviewWindow
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewWindow.pointDiameter">
+            <summary>
+            Diameter in pixels for the gaze point
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewWindow.gazePoint">
+            <summary>
+            Gaze point for preview
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.PreviewWindow.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>
