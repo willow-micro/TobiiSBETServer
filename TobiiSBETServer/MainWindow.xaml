@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-naxmespace:TobiiSBETServer" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="Real-time Data Server with Tobii Screen-based Eye Tracker"
-        Width="800" Height="600" MinWidth="800" MinHeight="600"
+        Width="800" Height="520" MinWidth="800" MinHeight="520"
         mc:Ignorable="d">
 
     <Window.Resources>
@@ -123,18 +123,18 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+            <GroupBox Grid.Row="0" Grid.Column="0"
                       Style="{StaticResource GroupBoxStyle}"
-                      Header="General">
+                      Header="Device">
                 <Grid Style="{StaticResource GridStyle}">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -146,7 +146,7 @@
 
                     <Label Grid.Row="0" Grid.Column="0"
                            Style="{StaticResource NameLabelStyle}"
-                           Content="Device" />
+                           Content="Eye Tracker" />
                     <Label Grid.Row="0" Grid.Column="1"
                            Style="{StaticResource ValueLabelStyle}"
                            Content="{Binding DeviceInfoStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -160,11 +160,61 @@
 
                     <Label Grid.Row="2" Grid.Column="0"
                            Style="{StaticResource NameLabelStyle}"
-                           Content="Gaze Position" />
-                    <UniformGrid Grid.Row="2" Grid.Column="1"
+                           Content="Screen" />
+                    <Label Grid.Row="2" Grid.Column="1"
+                           Style="{StaticResource ValueLabelStyle}"
+                           Content="{Binding ScreenDimensionsStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Label Grid.Row="3" Grid.Column="0"
+                           Style="{StaticResource NameLabelStyle}"
+                           Content="Status" />
+                    <Label Grid.Row="3" Grid.Column="1"
+                           Style="{StaticResource ValueLabelStyle}"
+                           Content="{Binding DeviceStatusStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Row="0" Grid.Column="1"
+                      Style="{StaticResource GroupBoxStyle}"
+                      Header="Operations">
+                <Grid Style="{StaticResource GridStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Style="{StaticResource NameColumnStyle}" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0"
+                           Style="{StaticResource NameLabelStyle}"
+                           Content="Eye Tracking" />
+                    <UniformGrid Grid.Row="0" Grid.Column="1"
+                                 Columns="2" Rows="1"
+                                 Style="{StaticResource ButtonLeftUniformGridStyle}">
+                        <Button Style="{StaticResource ButtonStyle}" Content="Start" />
+                        <Button Style="{StaticResource ButtonStyle}" Content="Stop" />
+                    </UniformGrid>
+
+                    <Label Grid.Row="1" Grid.Column="0"
+                           Style="{StaticResource NameLabelStyle}"
+                           Content="Gaze Preview" />
+                    <UniformGrid Grid.Row="1" Grid.Column="1"
                                  Columns="1" Rows="1"
                                  Style="{StaticResource ButtonLeftUniformGridStyle}">
-                        <Button Style="{StaticResource ButtonStyle}" Content="Preview..." />
+                        <Button Style="{StaticResource ButtonStyle}" Content="Show..." />
+                    </UniformGrid>
+
+                    <Label Grid.Row="2" Grid.Column="0"
+                           Style="{StaticResource NameLabelStyle}"
+                           Content="Data Server" />
+                    <UniformGrid Grid.Row="2" Grid.Column="1"
+                                 Columns="2" Rows="1"
+                                 Style="{StaticResource ButtonLeftUniformGridStyle}">
+                        <Button Style="{StaticResource ButtonStyle}" Content="Start" />
+                        <Button Style="{StaticResource ButtonStyle}" Content="Stop" />
                     </UniformGrid>
                 </Grid>
             </GroupBox>
@@ -390,17 +440,10 @@
                                         Value="{Binding PortNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </GroupBox>
-
-            <UniformGrid Grid.Row="3" Grid.ColumnSpan="2"
-                         Columns="2" Rows="1"
-                         Style="{StaticResource ButtonRightUniformGridStyle}">
-                <Button Style="{StaticResource ButtonStyle}" Content="Start" />
-                <Button Style="{StaticResource ButtonStyle}" Content="Stop" />
-            </UniformGrid>
         </Grid>
 
         <StatusBar Grid.Row="2">
-            <Label Style="{StaticResource LabelStyle}" Content="{Binding StatusStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Style="{StaticResource LabelStyle}" Content="{Binding AppStatusStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
         </StatusBar>
     </Grid>
 </Window>

@@ -76,17 +76,17 @@ namespace TobiiSBETServer
         /// <summary>
         /// Internal field for the binding property
         /// </summary>
-        private string statusStr;
+        private string appStatusStr;
         /// <summary>
         /// A XAML binding property
         /// </summary>
-        public string StatusStr
+        public string AppStatusStr
         {
-            get { return statusStr; }
+            get { return appStatusStr; }
             set
             {
-                statusStr = value;
-                NotifyPropertyChanged(nameof(StatusStr));
+                appStatusStr = value;
+                NotifyPropertyChanged(nameof(AppStatusStr));
             }
         }
         /// <summary>
@@ -119,6 +119,38 @@ namespace TobiiSBETServer
             {
                 frequencyStr = value;
                 NotifyPropertyChanged(nameof(FrequencyStr));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private string screenDimensionsStr;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public string ScreenDimensionsStr
+        {
+            get { return screenDimensionsStr; }
+            set
+            {
+                screenDimensionsStr = value;
+                NotifyPropertyChanged(nameof(ScreenDimensionsStr));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private string deviceStatusStr;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public string DeviceStatusStr
+        {
+            get { return deviceStatusStr; }
+            set
+            {
+                deviceStatusStr = value;
+                NotifyPropertyChanged(nameof(DeviceStatusStr));
             }
         }
         /// <summary>
@@ -421,9 +453,11 @@ namespace TobiiSBETServer
         #region Private methods
         private void InitializeBindingParameters()
         {
-            this.StatusStr = "Initialized";
+            this.AppStatusStr = "Initialized";
             this.DeviceInfoStr = "modelname (serialno)";
-            this.FrequencyStr = "90 Hz";
+            this.FrequencyStr = "[freq] Hz";
+            this.ScreenDimensionsStr = "1920x1080 (X x Y mm)";
+            this.DeviceStatusStr = "Ready";
             this.IsFixationFilterEnabled = true;
             this.AngularVelocityThreshold = 30;
             this.DurationThreshold = 150;
