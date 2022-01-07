@@ -43,23 +43,6 @@ namespace TobiiSBETServer
         private readonly PupilDataProcessor pupilDataProcessor;
         #endregion
 
-        #region Constructors
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public MainWindow()
-        {
-            InitializeComponent();
-            // Notifying
-            DataContext = this;
-            // Event handlers
-            ContentRendered += this.OnContentRendered;
-            Closed += this.OnClosed;
-            this.StatusStr = "Initialized";
-            this.DeviceInfoStr = "modelname (serialno)";
-        }
-        #endregion
-
         #region XAML binding handler
         /// <summary>
         /// Event handler object for XAML binding properties
@@ -91,7 +74,7 @@ namespace TobiiSBETServer
 
         #region XAML binding properties
         /// <summary>
-        /// Internal field for the binding property StatusStr
+        /// Internal field for the binding property
         /// </summary>
         private string statusStr;
         /// <summary>
@@ -106,9 +89,8 @@ namespace TobiiSBETServer
                 NotifyPropertyChanged(nameof(StatusStr));
             }
         }
-
         /// <summary>
-        /// Internal field for the binding property DeviceInfoStr
+        /// Internal field for the binding property
         /// </summary>
         private string deviceInfoStr;
         /// <summary>
@@ -122,6 +104,279 @@ namespace TobiiSBETServer
                 deviceInfoStr = value;
                 NotifyPropertyChanged(nameof(DeviceInfoStr));
             }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private string frequencyStr;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public string FrequencyStr
+        {
+            get { return frequencyStr; }
+            set
+            {
+                frequencyStr = value;
+                NotifyPropertyChanged(nameof(FrequencyStr));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isFixationFilterEnabled;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsFixationFilterEnabled
+        {
+            get { return isFixationFilterEnabled; }
+            set
+            {
+                isFixationFilterEnabled = value;
+                NotifyPropertyChanged(nameof(IsFixationFilterEnabled));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private int angularVelocityThreshold;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public int AngularVelocityThreshold
+        {
+            get { return angularVelocityThreshold; }
+            set
+            {
+                angularVelocityThreshold = value;
+                NotifyPropertyChanged(nameof(AngularVelocityThreshold));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private int durationThreshold;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public int DurationThreshold
+        {
+            get { return durationThreshold; }
+            set
+            {
+                durationThreshold = value;
+                NotifyPropertyChanged(nameof(DurationThreshold));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private int consecutiveDataCount;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public int ConsecutiveDataCount
+        {
+            get { return consecutiveDataCount; }
+            set
+            {
+                consecutiveDataCount = value;
+                NotifyPropertyChanged(nameof(ConsecutiveDataCount));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isDebouncingEnabled;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsDebouncingEnabled
+        {
+            get { return isDebouncingEnabled; }
+            set
+            {
+                isDebouncingEnabled = value;
+                NotifyPropertyChanged(nameof(IsDebouncingEnabled));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private int debounceTime;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public int DebounceTime
+        {
+            get { return debounceTime; }
+            set
+            {
+                debounceTime = value;
+                NotifyPropertyChanged(nameof(DebounceTime));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private bool isLFHFComputerEnabled;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public bool IsLFHFComputerEnabled
+        {
+            get { return isLFHFComputerEnabled; }
+            set
+            {
+                isLFHFComputerEnabled = value;
+                NotifyPropertyChanged(nameof(IsLFHFComputerEnabled));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private float lfLowFreq;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public float LFLowFreq
+        {
+            get { return lfLowFreq; }
+            set
+            {
+                lfLowFreq = value;
+                NotifyPropertyChanged(nameof(LFLowFreq));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private float lfHighFreq;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public float LFHighFreq
+        {
+            get { return lfHighFreq; }
+            set
+            {
+                lfHighFreq = value;
+                NotifyPropertyChanged(nameof(LFHighFreq));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private float hfLowFreq;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public float HFLowFreq
+        {
+            get { return hfLowFreq; }
+            set
+            {
+                hfLowFreq = value;
+                NotifyPropertyChanged(nameof(HFLowFreq));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private float hfHighFreq;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public float HFHighFreq
+        {
+            get { return hfHighFreq; }
+            set
+            {
+                hfHighFreq = value;
+                NotifyPropertyChanged(nameof(HFHighFreq));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private float idealFreqResolution;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public float IdealFreqResolution
+        {
+            get { return idealFreqResolution; }
+            set
+            {
+                idealFreqResolution = value;
+                NotifyPropertyChanged(nameof(IdealFreqResolution));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private float computeSpanSec;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public float ComputeSpanSec
+        {
+            get { return computeSpanSec; }
+            set
+            {
+                computeSpanSec = value;
+                NotifyPropertyChanged(nameof(ComputeSpanSec));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private int portNumber;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public int PortNumber
+        {
+            get { return portNumber; }
+            set
+            {
+                portNumber = value;
+                NotifyPropertyChanged(nameof(PortNumber));
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private string serverURL;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public string ServerURL
+        {
+            get { return serverURL; }
+            set
+            {
+                serverURL = value;
+                NotifyPropertyChanged(nameof(ServerURL));
+            }
+        }
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public MainWindow()
+        {
+            InitializeComponent();
+            // Notifying
+            DataContext = this;
+            // Event handlers
+            ContentRendered += this.OnContentRendered;
+            Closed += this.OnClosed;
+            // Initialize all binding paramters
+            InitializeBindingParameters();
         }
         #endregion
 
@@ -164,7 +419,27 @@ namespace TobiiSBETServer
         #endregion
 
         #region Private methods
-
+        private void InitializeBindingParameters()
+        {
+            this.StatusStr = "Initialized";
+            this.DeviceInfoStr = "modelname (serialno)";
+            this.FrequencyStr = "90 Hz";
+            this.IsFixationFilterEnabled = true;
+            this.AngularVelocityThreshold = 30;
+            this.DurationThreshold = 150;
+            this.ConsecutiveDataCount = 5;
+            this.IsDebouncingEnabled = true;
+            this.DebounceTime = 100;
+            this.IsLFHFComputerEnabled = true;
+            this.LFLowFreq = 0.04f;
+            this.LFHighFreq = 0.15f;
+            this.HFLowFreq = 0.15f;
+            this.HFHighFreq = 0.50f;
+            this.IdealFreqResolution = 0.04f;
+            this.ComputeSpanSec = 0.5f;
+            this.ServerURL = "ws://localhost";
+            this.PortNumber = 3000;
+        }
         #endregion
     }
 }
