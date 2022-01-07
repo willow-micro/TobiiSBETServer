@@ -69,6 +69,7 @@
         <Style x:Key="TextBoxStyle" TargetType="TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="6,4" />
+            <Setter Property="Margin" Value="0,3" />
             <Setter Property="TextWrapping" Value="NoWrap" />
             <Setter Property="AcceptsTab" Value="False" />
             <Setter Property="AcceptsReturn" Value="False" />
@@ -77,8 +78,9 @@
         <Style x:Key="ValueTextBoxStyle"
                BasedOn="{StaticResource TextBoxStyle}"
                TargetType="TextBox">
-            <Setter Property="Margin" Value="15,6,0,6" />
+            <Setter Property="Margin" Value="15,3,0,3" />
             <Setter Property="Width" Value="140" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
         </Style>
         <Style x:Key="SeparatorStyle" TargetType="Separator">
             <Setter Property="Margin" Value="6" />
@@ -91,6 +93,7 @@
                BasedOn="{StaticResource IntUpDownStyle}"
                TargetType="xctk:IntegerUpDown">
             <Setter Property="Margin" Value="15,3,0,3" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
         </Style>
         <Style x:Key="FloatUpDownStyle" TargetType="xctk:SingleUpDown">
             <Setter Property="Padding" Value="6,3" />
@@ -101,6 +104,7 @@
                BasedOn="{StaticResource FloatUpDownStyle}"
                TargetType="xctk:SingleUpDown">
             <Setter Property="Margin" Value="15,3,0,3" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
         </Style>
     </Window.Resources>
 
@@ -433,6 +437,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Style="{StaticResource NameColumnStyle}" />
@@ -441,17 +446,29 @@
 
                     <Label Grid.Row="0" Grid.Column="0"
                            Style="{StaticResource NameLabelStyle}"
-                           Content="Server URL" />
+                           Content="Service Name" />
                     <TextBox Grid.Row="0" Grid.Column="1"
                              Style="{StaticResource ValueTextBoxStyle}"
-                             Text="{Binding ServerURL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding ServicePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='path'}" />
+
                     <Label Grid.Row="1" Grid.Column="0"
                            Style="{StaticResource NameLabelStyle}"
                            Content="Port Number" />
                     <xctk:IntegerUpDown Grid.Row="1" Grid.Column="1"
                                         Style="{StaticResource ValueIntUpDownStyle}"
+                                        HorizontalAlignment="Left"
                                         Increment="1" Maximum="9999" Minimum="1"
                                         Value="{Binding PortNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Label Grid.Row="2" Grid.Column="0"
+                           Style="{StaticResource NameLabelStyle}"
+                           Content="Full URL" />
+                    <xctk:AutoSelectTextBox Grid.Row="2" Grid.Column="1"
+                                            MinWidth="180"
+                                            Style="{StaticResource ValueTextBoxStyle}"
+                                            AutoSelectBehavior="OnFocus" BorderThickness="0" HorizontalScrollBarVisibility="Visible" IsReadOnly="True"
+                                            Text="{Binding ServerURL, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='fullpath'}" />
+
                 </Grid>
             </GroupBox>
         </Grid>

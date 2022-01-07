@@ -12,6 +12,7 @@
   - [appStatusStr](#F-TobiiSBETServer-MainWindow-appStatusStr 'TobiiSBETServer.MainWindow.appStatusStr')
   - [computeSpanSec](#F-TobiiSBETServer-MainWindow-computeSpanSec 'TobiiSBETServer.MainWindow.computeSpanSec')
   - [consecutiveDataCount](#F-TobiiSBETServer-MainWindow-consecutiveDataCount 'TobiiSBETServer.MainWindow.consecutiveDataCount')
+  - [debounceTemp](#F-TobiiSBETServer-MainWindow-debounceTemp 'TobiiSBETServer.MainWindow.debounceTemp')
   - [debounceTime](#F-TobiiSBETServer-MainWindow-debounceTime 'TobiiSBETServer.MainWindow.debounceTime')
   - [deviceInfoStr](#F-TobiiSBETServer-MainWindow-deviceInfoStr 'TobiiSBETServer.MainWindow.deviceInfoStr')
   - [deviceStatusStr](#F-TobiiSBETServer-MainWindow-deviceStatusStr 'TobiiSBETServer.MainWindow.deviceStatusStr')
@@ -34,9 +35,14 @@
   - [lfHighFreq](#F-TobiiSBETServer-MainWindow-lfHighFreq 'TobiiSBETServer.MainWindow.lfHighFreq')
   - [lfLowFreq](#F-TobiiSBETServer-MainWindow-lfLowFreq 'TobiiSBETServer.MainWindow.lfLowFreq')
   - [portNumber](#F-TobiiSBETServer-MainWindow-portNumber 'TobiiSBETServer.MainWindow.portNumber')
+  - [prevUnixTimeInMs](#F-TobiiSBETServer-MainWindow-prevUnixTimeInMs 'TobiiSBETServer.MainWindow.prevUnixTimeInMs')
   - [pupilDataProcessor](#F-TobiiSBETServer-MainWindow-pupilDataProcessor 'TobiiSBETServer.MainWindow.pupilDataProcessor')
   - [screenDimensionsStr](#F-TobiiSBETServer-MainWindow-screenDimensionsStr 'TobiiSBETServer.MainWindow.screenDimensionsStr')
+  - [screenHeightInPixels](#F-TobiiSBETServer-MainWindow-screenHeightInPixels 'TobiiSBETServer.MainWindow.screenHeightInPixels')
+  - [screenWidthInPixels](#F-TobiiSBETServer-MainWindow-screenWidthInPixels 'TobiiSBETServer.MainWindow.screenWidthInPixels')
   - [serverURL](#F-TobiiSBETServer-MainWindow-serverURL 'TobiiSBETServer.MainWindow.serverURL')
+  - [servicePath](#F-TobiiSBETServer-MainWindow-servicePath 'TobiiSBETServer.MainWindow.servicePath')
+  - [webSocketServer](#F-TobiiSBETServer-MainWindow-webSocketServer 'TobiiSBETServer.MainWindow.webSocketServer')
   - [AngularVelocityThreshold](#P-TobiiSBETServer-MainWindow-AngularVelocityThreshold 'TobiiSBETServer.MainWindow.AngularVelocityThreshold')
   - [AppStatusStr](#P-TobiiSBETServer-MainWindow-AppStatusStr 'TobiiSBETServer.MainWindow.AppStatusStr')
   - [ComputeSpanSec](#P-TobiiSBETServer-MainWindow-ComputeSpanSec 'TobiiSBETServer.MainWindow.ComputeSpanSec')
@@ -64,6 +70,7 @@
   - [PortNumber](#P-TobiiSBETServer-MainWindow-PortNumber 'TobiiSBETServer.MainWindow.PortNumber')
   - [ScreenDimensionsStr](#P-TobiiSBETServer-MainWindow-ScreenDimensionsStr 'TobiiSBETServer.MainWindow.ScreenDimensionsStr')
   - [ServerURL](#P-TobiiSBETServer-MainWindow-ServerURL 'TobiiSBETServer.MainWindow.ServerURL')
+  - [ServicePath](#P-TobiiSBETServer-MainWindow-ServicePath 'TobiiSBETServer.MainWindow.ServicePath')
   - [AppCloseEvent(sender,e)](#M-TobiiSBETServer-MainWindow-AppCloseEvent-System-Object,System-Windows-Input-ExecutedRoutedEventArgs- 'TobiiSBETServer.MainWindow.AppCloseEvent(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)')
   - [InitializeComponent()](#M-TobiiSBETServer-MainWindow-InitializeComponent 'TobiiSBETServer.MainWindow.InitializeComponent')
   - [NotifyPropertyChanged(name)](#M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String- 'TobiiSBETServer.MainWindow.NotifyPropertyChanged(System.String)')
@@ -152,6 +159,13 @@ Internal field for the binding property
 ##### Summary
 
 Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-debounceTemp'></a>
+### debounceTemp `constants`
+
+##### Summary
+
+Count time for debounce
 
 <a name='F-TobiiSBETServer-MainWindow-debounceTime'></a>
 ### debounceTime `constants`
@@ -307,6 +321,13 @@ Internal field for the binding property
 
 Internal field for the binding property
 
+<a name='F-TobiiSBETServer-MainWindow-prevUnixTimeInMs'></a>
+### prevUnixTimeInMs `constants`
+
+##### Summary
+
+Unix Time in ms when received gaze data last time
+
 <a name='F-TobiiSBETServer-MainWindow-pupilDataProcessor'></a>
 ### pupilDataProcessor `constants`
 
@@ -321,12 +342,40 @@ An instance from EyeTracking.PupilDataProcessor
 
 Internal field for the binding property
 
+<a name='F-TobiiSBETServer-MainWindow-screenHeightInPixels'></a>
+### screenHeightInPixels `constants`
+
+##### Summary
+
+Primary screen height in DIP
+
+<a name='F-TobiiSBETServer-MainWindow-screenWidthInPixels'></a>
+### screenWidthInPixels `constants`
+
+##### Summary
+
+Primary screen width in DIP
+
 <a name='F-TobiiSBETServer-MainWindow-serverURL'></a>
 ### serverURL `constants`
 
 ##### Summary
 
 Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-servicePath'></a>
+### servicePath `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-webSocketServer'></a>
+### webSocketServer `constants`
+
+##### Summary
+
+WebSocket Server
 
 <a name='P-TobiiSBETServer-MainWindow-AngularVelocityThreshold'></a>
 ### AngularVelocityThreshold `property`
@@ -512,6 +561,13 @@ A XAML binding property
 
 <a name='P-TobiiSBETServer-MainWindow-ServerURL'></a>
 ### ServerURL `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='P-TobiiSBETServer-MainWindow-ServicePath'></a>
+### ServicePath `property`
 
 ##### Summary
 

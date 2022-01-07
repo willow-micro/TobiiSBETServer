@@ -40,6 +40,31 @@
             An instance from EyeTracking.PupilDataProcessor
             </summary>
         </member>
+        <member name="F:TobiiSBETServer.MainWindow.screenWidthInPixels">
+            <summary>
+            Primary screen width in DIP
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.screenHeightInPixels">
+            <summary>
+            Primary screen height in DIP
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.webSocketServer">
+            <summary>
+            WebSocket Server
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.debounceTemp">
+            <summary>
+            Count time for debounce
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.prevUnixTimeInMs">
+            <summary>
+            Unix Time in ms when received gaze data last time
+            </summary>
+        </member>
         <member name="E:TobiiSBETServer.MainWindow.PropertyChanged">
             <summary>
             Event handler object for XAML binding properties
@@ -251,6 +276,16 @@
             </summary>
         </member>
         <member name="P:TobiiSBETServer.MainWindow.PortNumber">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.servicePath">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.ServicePath">
             <summary>
             A XAML binding property
             </summary>
