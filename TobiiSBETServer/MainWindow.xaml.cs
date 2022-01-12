@@ -753,7 +753,7 @@ namespace TobiiSBETServer
                     }
                 }
 
-                if (IsLFHFComputerEnabled)
+                if (IsLFHFComputerEnabled && pupilDataProcessor != null)
                 {
                     // Add diameter
                     if (pupilDataProcessor.UpdateWith(new PupilDataForProcess(e.LeftPD, e.IsLeftPDValid)) == LFHFComputeStatus.Ready)
@@ -901,11 +901,12 @@ namespace TobiiSBETServer
             {
                 payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
             }
-            //Debug.Print($"Collection: {payloadText}");
+            Debug.Print($"Collection: {payloadText}");
             if (!IsNotWSStarted)
             {
                 WSBroadCastString(payloadText);
             }
+            collectGazeDataCount = 0;
         }
         #endregion
 
