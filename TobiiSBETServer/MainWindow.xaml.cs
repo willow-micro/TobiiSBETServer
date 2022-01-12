@@ -41,7 +41,7 @@ namespace TobiiSBETServer
         /// <summary>
         /// An instance from EyeTracking.PupilDataProcessor
         /// </summary>
-        private PupilDataProcessor pupilDataProcessor;
+        private readonly PupilDataProcessor pupilDataProcessor;
         /// <summary>
         /// Primary screen width in DIP
         /// </summary>
@@ -65,7 +65,7 @@ namespace TobiiSBETServer
         /// <summary>
         /// Preview window
         /// </summary>
-        private PreviewWindow previewWindow;
+        private readonly PreviewWindow previewWindow;
         /// <summary>
         /// Number of gaze data to collect
         /// </summary>
@@ -673,13 +673,11 @@ namespace TobiiSBETServer
 
         private void OnGazeData(object sender, OnGazeDataEventArgs e)
         {
-            if (e.IsLeftValid &&
-                0.0 <= e.LeftX && e.LeftX <= eyeTracker.GetScreenWidthInPixels() &&
-                0.0 <= e.LeftY && e.LeftY <= eyeTracker.GetScreenHeightInPixels())
+            if (e.IsLeftValid && e.IsRightValid)
             {
-                int xPos = (int)e.LeftX;
-                int yPos = (int)e.LeftY;
-                
+                int xPos = (int)((e.LeftX + e.RightX) / 2.0);
+                int yPos = (int)((e.LeftY + e.RightY) / 2.0);
+
                 if (IsDebouncingEnabled)
                 {
                     if (e.LeftEyeMovementType == EyeMovementType.Fixation)
@@ -689,36 +687,20 @@ namespace TobiiSBETServer
                             previewWindow.ShowGazePoint();
                             previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
                         }
-
                         if (this.debounceTemp > DebounceTime)
                         {
                             collectGazeDataCount = 0;
                             isGazeDataCollecting = true;
                         }
-
                         if (isGazeDataCollecting)
                         {
-                            collectGazeDataArray[collectGazeDataCount].time = GetUnixTimeInMs();
-                            collectGazeDataArray[collectGazeDataCount].x = xPos;
-                            collectGazeDataArray[collectGazeDataCount].y = yPos;
-                            collectGazeDataCount++;
+                            AppendSBGazeDataToCollection(GetUnixTimeInMs(), xPos, yPos);
                         }
-
                         if (collectGazeDataCount >= ConsecutiveDataCount)
                         {
                             isGazeDataCollecting = false;
-                            string payloadText = $"n{ConsecutiveDataCount}";
-                            foreach (SBGazeCollectData collectData in collectGazeDataArray)
-                            {
-                                payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
-                            }
-                            Debug.Print($"Collection: {payloadText}");
-                            if (!IsNotWSStarted)
-                            {
-                                WSBroadCastString(payloadText);
-                            }
+                            SendSBGazeDataCollection();
                         }
-
                         debounceTemp = 0;
                     }
                     else
@@ -737,30 +719,16 @@ namespace TobiiSBETServer
                             previewWindow.ShowGazePoint();
                             previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
                         }
-
                         if (collectGazeDataCount < ConsecutiveDataCount)
                         {
                             isGazeDataCollecting = true;
-                            collectGazeDataArray[collectGazeDataCount].time = GetUnixTimeInMs();
-                            collectGazeDataArray[collectGazeDataCount].x = xPos;
-                            collectGazeDataArray[collectGazeDataCount].y = yPos;
-                            collectGazeDataCount++;
+                            AppendSBGazeDataToCollection(GetUnixTimeInMs(), xPos, yPos);
                         }
-
                         if (collectGazeDataCount >= ConsecutiveDataCount)
                         {
                             isGazeDataCollecting = false;
                             collectGazeDataCount = 0;
-                            string payloadText = $"n{ConsecutiveDataCount}";
-                            foreach (SBGazeCollectData collectData in collectGazeDataArray)
-                            {
-                                payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
-                            }
-                            Debug.Print($"Collection: {payloadText}");
-                            if (!IsNotWSStarted)
-                            {
-                                WSBroadCastString(payloadText);
-                            }
+                            SendSBGazeDataCollection();
                         }
                     }
                 }
@@ -804,14 +772,6 @@ namespace TobiiSBETServer
                     AppStatusStr = "Server is Running";
                     break;
                 default:
-                    IsNotETStarted = true;
-                    IsNotWSStarted = true;
-                    IsETStartButtonEnabled = true;
-                    IsETStopButtonEnabled = false;
-                    IsShowPreviewButtonEnabled = false;
-                    IsWSStartButtonEnabled = false;
-                    IsWSStopButtonEnabled = false;
-                    AppStatusStr = "Eye Tracker is Ready";
                     break;
             }
         }
@@ -859,10 +819,9 @@ namespace TobiiSBETServer
                     Close();
                 }
             }
-
             DeviceInfoStr = $"{eyeTracker.GetModel()}";
             FrequencyStr = "90 Hz";
-            ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters().ToString("F2")}x{eyeTracker.GetScreenHeightInMillimeters().ToString("F2")} mm)";
+            ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters():F2}x{eyeTracker.GetScreenHeightInMillimeters():F2} mm)";
             DeviceStatusStr = "Initialized";
         }
 
@@ -889,6 +848,28 @@ namespace TobiiSBETServer
             {
                 webSocketServer.WebSocketServices[$"/{ServicePath}"].Sessions.Broadcast(payload);
                 Debug.Print($"Broadcast: {payload}");
+            }
+        }
+
+        private void AppendSBGazeDataToCollection(long time, int x, int y)
+        {
+            collectGazeDataArray[collectGazeDataCount].time = time;
+            collectGazeDataArray[collectGazeDataCount].x = x;
+            collectGazeDataArray[collectGazeDataCount].y = y;
+            collectGazeDataCount++;
+        }
+
+        private void SendSBGazeDataCollection()
+        {
+            string payloadText = $"n{ConsecutiveDataCount}";
+            foreach (SBGazeCollectData collectData in collectGazeDataArray)
+            {
+                payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
+            }
+            Debug.Print($"Collection: {payloadText}");
+            if (!IsNotWSStarted)
+            {
+                WSBroadCastString(payloadText);
             }
         }
         #endregion

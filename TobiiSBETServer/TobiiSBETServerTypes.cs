@@ -20,10 +20,4 @@ namespace TobiiSBETServer
         public int x;
         public int y;
     }
-
-    public struct LFHFCollectData
-    {
-        public long time;
-        public float lfhfRatio;
-    }
 }
