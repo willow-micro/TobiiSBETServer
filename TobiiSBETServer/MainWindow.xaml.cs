@@ -827,11 +827,11 @@ namespace TobiiSBETServer
         }
         private void InitializeParameters()
         {
-            AppStatusStr = "Initialized";
-            DeviceInfoStr = "modelname (serialno)";
+            AppStatusStr = "--";
+            DeviceInfoStr = "--";
             FrequencyStr = "-- Hz";
             ScreenDimensionsStr = "-x- (-x- mm)";
-            DeviceStatusStr = "Ready";
+            DeviceStatusStr = "--";
             IsFixationFilterEnabled = true;
             AngularVelocityThreshold = 30;
             DurationThreshold = 150;
@@ -870,7 +870,7 @@ namespace TobiiSBETServer
                 }
             }
 
-            DeviceInfoStr = $"{eyeTracker.GetModel()}[{eyeTracker.GetSerialNumber()}]";
+            DeviceInfoStr = $"{eyeTracker.GetModel()}";
             FrequencyStr = "90 Hz";
             ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters().ToString("F2")}x{eyeTracker.GetScreenHeightInMillimeters().ToString("F2")} mm)";
             DeviceStatusStr = "Initialized";
