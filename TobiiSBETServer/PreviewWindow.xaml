@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:TobiiSBETServer" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="Gaze Position Preview"
         MinWidth="640" MinHeight="360"
-        SizeToContent="WidthAndHeight"
+        Closing="Window_Closing" SizeToContent="WidthAndHeight"
         mc:Ignorable="d">
 
     <Grid Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">

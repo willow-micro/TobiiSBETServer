@@ -52,6 +52,14 @@ namespace TobiiSBETServer
         }
         #endregion
 
+        #region Event handlers
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+        }
+        #endregion
+
         #region Public methods
         public void ShowGazePoint()
         {

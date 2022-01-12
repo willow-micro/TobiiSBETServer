@@ -616,10 +616,7 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnClosed(object sender, EventArgs e)
         {
-            if (previewWindow != null)
-            {
-                previewWindow.Close();
-            }
+            previewWindow.Close();
             Debug.Print("Debug: Closed");
         }
 
@@ -634,10 +631,6 @@ namespace TobiiSBETServer
 
             if (MessageBox.Show("Are you sure to close?", "Close", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if (previewWindow != null)
-                {
-                    previewWindow.Close();
-                }
                 eyeTracker.StopReceivingGazeData();
                 Close();
             }
@@ -656,10 +649,7 @@ namespace TobiiSBETServer
         }
         private void ETStopButtonClicked(object sender, RoutedEventArgs e)
         {
-            if (previewWindow != null)
-            {
-                previewWindow.Close();                
-            }
+            previewWindow.Hide();
             UpdateAppState(AppState.WaitForETStart);
             eyeTracker.StopReceivingGazeData();
         }
