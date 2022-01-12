@@ -20,4 +20,11 @@ namespace TobiiSBETServer
         public int x;
         public int y;
     }
+
+    public enum WSEventID
+    {
+        FixationStarted,
+        FixationEnded,
+        LFHFComputed
+    }
 }

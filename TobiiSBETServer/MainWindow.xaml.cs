@@ -38,10 +38,12 @@ namespace TobiiSBETServer
         /// An instance from EyeTracking.TobiiSBETDriver
         /// </summary>
         private TobiiSBEyeTracker eyeTracker;
+        #nullable enable
         /// <summary>
         /// An instance from EyeTracking.PupilDataProcessor
         /// </summary>
-        private readonly PupilDataProcessor pupilDataProcessor;
+        private PupilDataProcessor? pupilDataProcessor;
+        #nullable disable
         /// <summary>
         /// Primary screen width in DIP
         /// </summary>
@@ -642,16 +644,34 @@ namespace TobiiSBETServer
             isGazeDataCollecting = false;
             collectGazeDataArray = new SBGazeCollectData[ConsecutiveDataCount];
 
-            debounceTemp = (long)DebounceTime + 1;
+            if (IsDebouncingEnabled)
+            {
+                debounceTemp = (long)DebounceTime + 1;
+            }
+
+            if (IsLFHFComputerEnabled)
+            {
+                pupilDataProcessor = new PupilDataProcessor((int)eyeTracker.GetFrequency(), new FrequencyRange(LFLowFreq, LFHighFreq), new FrequencyRange(HFLowFreq, HFHighFreq), IdealFreqResolution, ComputeSpanSec);
+            }
+
+            eyeTracker.ChangeFixationVelocityThresh(IsFixationFilterEnabled ? AngularVelocityThreshold : 0);
+            eyeTracker.ChangeFixationDurationThresh(IsFixationFilterEnabled ? DurationThreshold : 0);
 
             UpdateAppState(AppState.WaitForWSStart);
             eyeTracker.StartReceivingGazeData();
+            DeviceStatusStr = "Tracking";
         }
         private void ETStopButtonClicked(object sender, RoutedEventArgs e)
         {
             previewWindow.Hide();
             UpdateAppState(AppState.WaitForETStart);
             eyeTracker.StopReceivingGazeData();
+            DeviceStatusStr = "Ready";
+
+            if (IsLFHFComputerEnabled)
+            {
+                pupilDataProcessor = null;
+            }
         }
         private void ShowPreviewButtonClicked(object sender, RoutedEventArgs e)
         {
@@ -673,10 +693,10 @@ namespace TobiiSBETServer
 
         private void OnGazeData(object sender, OnGazeDataEventArgs e)
         {
-            if (e.IsLeftValid && e.IsRightValid)
+            if (e.IsLeftValid)
             {
-                int xPos = (int)((e.LeftX + e.RightX) / 2.0);
-                int yPos = (int)((e.LeftY + e.RightY) / 2.0);
+                int xPos = (int)(e.LeftX);
+                int yPos = (int)(e.LeftY);
 
                 if (IsDebouncingEnabled)
                 {
@@ -729,6 +749,21 @@ namespace TobiiSBETServer
                             isGazeDataCollecting = false;
                             collectGazeDataCount = 0;
                             SendSBGazeDataCollection();
+                        }
+                    }
+                }
+
+                if (IsLFHFComputerEnabled)
+                {
+                    // Add diameter
+                    if (pupilDataProcessor.UpdateWith(new PupilDataForProcess(e.LeftPD, e.IsLeftPDValid)) == LFHFComputeStatus.Ready)
+                    {
+                        long unixTime = GetUnixTimeInMs();
+                        string payloadText = $"e{WSEventID.LFHFComputed},t{unixTime},r{pupilDataProcessor.LatestLFHF:F3}";
+                        Debug.Print($"LFHF: {payloadText}");
+                        if (!IsNotWSStarted)
+                        {
+                            WSBroadCastString(payloadText);
                         }
                     }
                 }
@@ -820,7 +855,7 @@ namespace TobiiSBETServer
                 }
             }
             DeviceInfoStr = $"{eyeTracker.GetModel()}";
-            FrequencyStr = "90 Hz";
+            FrequencyStr = $"{eyeTracker.GetFrequency():F2} Hz";
             ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters():F2}x{eyeTracker.GetScreenHeightInMillimeters():F2} mm)";
             DeviceStatusStr = "Initialized";
         }
@@ -861,12 +896,12 @@ namespace TobiiSBETServer
 
         private void SendSBGazeDataCollection()
         {
-            string payloadText = $"n{ConsecutiveDataCount}";
+            string payloadText = $"e{WSEventID.FixationStarted},n{ConsecutiveDataCount}";
             foreach (SBGazeCollectData collectData in collectGazeDataArray)
             {
                 payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
             }
-            Debug.Print($"Collection: {payloadText}");
+            //Debug.Print($"Collection: {payloadText}");
             if (!IsNotWSStarted)
             {
                 WSBroadCastString(payloadText);
