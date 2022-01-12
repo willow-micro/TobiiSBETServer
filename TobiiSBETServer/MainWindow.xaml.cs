@@ -206,6 +206,10 @@ namespace TobiiSBETServer
             {
                 isFixationFilterEnabled = value;
                 NotifyPropertyChanged(nameof(IsFixationFilterEnabled));
+                if (!isFixationFilterEnabled)
+                {
+                    IsDebouncingEnabled = isFixationFilterEnabled;
+                }
             }
         }
         /// <summary>
@@ -270,6 +274,10 @@ namespace TobiiSBETServer
             {
                 isDebouncingEnabled = value;
                 NotifyPropertyChanged(nameof(IsDebouncingEnabled));
+                if (isDebouncingEnabled && !IsFixationFilterEnabled)
+                {
+                    IsFixationFilterEnabled = isDebouncingEnabled;
+                }
             }
         }
         /// <summary>
@@ -654,7 +662,7 @@ namespace TobiiSBETServer
                 pupilDataProcessor = new PupilDataProcessor((int)eyeTracker.GetFrequency(), new FrequencyRange(LFLowFreq, LFHighFreq), new FrequencyRange(HFLowFreq, HFHighFreq), IdealFreqResolution, ComputeSpanSec);
             }
 
-            eyeTracker.ChangeFixationVelocityThresh(IsFixationFilterEnabled ? AngularVelocityThreshold : 0);
+            eyeTracker.ChangeFixationVelocityThresh(IsFixationFilterEnabled ? AngularVelocityThreshold : 1);
             eyeTracker.ChangeFixationDurationThresh(IsFixationFilterEnabled ? DurationThreshold : 0);
 
             UpdateAppState(AppState.WaitForWSStart);
