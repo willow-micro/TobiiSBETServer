@@ -70,6 +70,21 @@
             Preview window
             </summary>
         </member>
+        <member name="F:TobiiSBETServer.MainWindow.collectGazeDataCount">
+            <summary>
+            Number of gaze data to collect
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isGazeDataCollecting">
+            <summary>
+            If collecting gaze data, become true
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.collectGazeDataArray">
+            <summary>
+            Array of gaze data to collect
+            </summary>
+        </member>
         <member name="E:TobiiSBETServer.MainWindow.PropertyChanged">
             <summary>
             Event handler object for XAML binding properties

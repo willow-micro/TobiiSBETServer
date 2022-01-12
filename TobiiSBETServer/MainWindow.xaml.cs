@@ -66,6 +66,18 @@ namespace TobiiSBETServer
         /// Preview window
         /// </summary>
         private PreviewWindow previewWindow;
+        /// <summary>
+        /// Number of gaze data to collect
+        /// </summary>
+        private int collectGazeDataCount;
+        /// <summary>
+        /// If collecting gaze data, become true
+        /// </summary>
+        private bool isGazeDataCollecting;
+        /// <summary>
+        /// Array of gaze data to collect
+        /// </summary>
+        private SBGazeCollectData[] collectGazeDataArray;
         #endregion
 
         #region XAML binding handler
@@ -568,6 +580,13 @@ namespace TobiiSBETServer
             screenWidthInPixels = System.Windows.SystemParameters.PrimaryScreenWidth;
             screenHeightInPixels = System.Windows.SystemParameters.PrimaryScreenHeight;
 
+            // Setup preview window
+            previewWindow = new PreviewWindow(4.0);
+            previewWindow.Closing += (s, e) =>
+            {
+                IsShowPreviewButtonEnabled = true;
+            };
+
             // Initialize all binding paramters
             InitializeParameters();
 
@@ -575,7 +594,7 @@ namespace TobiiSBETServer
             UpdateAppState(AppState.WaitForETStart);
 
             // Initialize eye tracker
-            //InitializeEyeTracker();
+            InitializeEyeTracker();
         }
         #endregion
 
@@ -619,36 +638,37 @@ namespace TobiiSBETServer
                 {
                     previewWindow.Close();
                 }
-                //eyeTracker.StopReceivingGazeData();
+                eyeTracker.StopReceivingGazeData();
                 Close();
             }
         }
 
         private void ETStartButtonClicked(object sender, RoutedEventArgs e)
         {
+            collectGazeDataCount = 0;
+            isGazeDataCollecting = false;
+            collectGazeDataArray = new SBGazeCollectData[ConsecutiveDataCount];
+
+            debounceTemp = (long)DebounceTime + 1;
+
             UpdateAppState(AppState.WaitForWSStart);
-            //eyeTracker.StartReceivingGazeData();
+            eyeTracker.StartReceivingGazeData();
         }
         private void ETStopButtonClicked(object sender, RoutedEventArgs e)
         {
             if (previewWindow != null)
             {
-                previewWindow.Close();
+                previewWindow.Close();                
             }
             UpdateAppState(AppState.WaitForETStart);
-            //eyeTracker.StopReceivingGazeData();
+            eyeTracker.StopReceivingGazeData();
         }
         private void ShowPreviewButtonClicked(object sender, RoutedEventArgs e)
         {
             Debug.Print("ShowPreviewButton was clicked");
-            previewWindow = new PreviewWindow(4.0);
-            previewWindow.Closing += (s, e) =>
-            {
-                IsShowPreviewButtonEnabled = true;
-            };
             previewWindow.Show();
             IsShowPreviewButtonEnabled = false;
-            //previewWindow.PlaceGazePoint(screenWidthInPixels, screenHeightInPixels, screenWidthInPixels / 2, screenHeightInPixels / 2);
+            previewWindow.PlaceGazePoint(screenWidthInPixels, screenHeightInPixels, screenWidthInPixels / 2, screenHeightInPixels / 2);
         }
         private void WSStartButtonClicked(object sender, RoutedEventArgs e)
         {
@@ -674,19 +694,39 @@ namespace TobiiSBETServer
                 {
                     if (e.LeftEyeMovementType == EyeMovementType.Fixation)
                     {
-                        if (this.debounceTemp > DebounceTime)
-                        {
-                            long unixTimeInMs = GetUnixTimeInMs();
-                            if (!IsNotWSStarted)
-                            {
-                                WSBroadCastString($"t{unixTimeInMs}x{xPos}y{yPos}");
-                            }
-                        }
-
                         if (previewWindow != null)
                         {
                             previewWindow.ShowGazePoint();
                             previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
+                        }
+
+                        if (this.debounceTemp > DebounceTime)
+                        {
+                            collectGazeDataCount = 0;
+                            isGazeDataCollecting = true;
+                        }
+
+                        if (isGazeDataCollecting)
+                        {
+                            collectGazeDataArray[collectGazeDataCount].time = GetUnixTimeInMs();
+                            collectGazeDataArray[collectGazeDataCount].x = xPos;
+                            collectGazeDataArray[collectGazeDataCount].y = yPos;
+                            collectGazeDataCount++;
+                        }
+
+                        if (collectGazeDataCount >= ConsecutiveDataCount)
+                        {
+                            isGazeDataCollecting = false;
+                            string payloadText = $"n{ConsecutiveDataCount}";
+                            foreach (SBGazeCollectData collectData in collectGazeDataArray)
+                            {
+                                payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
+                            }
+                            Debug.Print($"Collection: {payloadText}");
+                            if (!IsNotWSStarted)
+                            {
+                                WSBroadCastString(payloadText);
+                            }
                         }
 
                         debounceTemp = 0;
@@ -696,29 +736,42 @@ namespace TobiiSBETServer
                         long unixTimeInMs = GetUnixTimeInMs();
                         debounceTemp += unixTimeInMs - prevUnixTimeInMs;
                         prevUnixTimeInMs = unixTimeInMs;
-
-                        previewWindow.HideGazePoint();
                     }
                 }
                 else
                 {
                     if (e.LeftEyeMovementType == EyeMovementType.Fixation)
                     {
-                        long unixTimeInMs = GetUnixTimeInMs();
-                        if (!IsNotWSStarted)
-                        {
-                            WSBroadCastString($"t{unixTimeInMs}x{xPos}y{yPos}");
-                        }
-
                         if (previewWindow != null)
                         {
                             previewWindow.ShowGazePoint();
                             previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
                         }
-                    }
-                    else
-                    {
-                        previewWindow.HideGazePoint();
+
+                        if (collectGazeDataCount < ConsecutiveDataCount)
+                        {
+                            isGazeDataCollecting = true;
+                            collectGazeDataArray[collectGazeDataCount].time = GetUnixTimeInMs();
+                            collectGazeDataArray[collectGazeDataCount].x = xPos;
+                            collectGazeDataArray[collectGazeDataCount].y = yPos;
+                            collectGazeDataCount++;
+                        }
+
+                        if (collectGazeDataCount >= ConsecutiveDataCount)
+                        {
+                            isGazeDataCollecting = false;
+                            collectGazeDataCount = 0;
+                            string payloadText = $"n{ConsecutiveDataCount}";
+                            foreach (SBGazeCollectData collectData in collectGazeDataArray)
+                            {
+                                payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
+                            }
+                            Debug.Print($"Collection: {payloadText}");
+                            if (!IsNotWSStarted)
+                            {
+                                WSBroadCastString(payloadText);
+                            }
+                        }
                     }
                 }
             }
@@ -817,9 +870,9 @@ namespace TobiiSBETServer
                 }
             }
 
-            DeviceInfoStr = $"{eyeTracker.GetModel()}[{eyeTracker.GetSerialNumber}]";
+            DeviceInfoStr = $"{eyeTracker.GetModel()}[{eyeTracker.GetSerialNumber()}]";
             FrequencyStr = "90 Hz";
-            ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters()}x{eyeTracker.GetScreenHeightInMillimeters()} mm)";
+            ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters().ToString("F2")}x{eyeTracker.GetScreenHeightInMillimeters().ToString("F2")} mm)";
             DeviceStatusStr = "Initialized";
         }
 
