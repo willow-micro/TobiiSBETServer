@@ -10,6 +10,8 @@
   - [#ctor()](#M-TobiiSBETServer-MainWindow-#ctor 'TobiiSBETServer.MainWindow.#ctor')
   - [angularVelocityThreshold](#F-TobiiSBETServer-MainWindow-angularVelocityThreshold 'TobiiSBETServer.MainWindow.angularVelocityThreshold')
   - [appStatusStr](#F-TobiiSBETServer-MainWindow-appStatusStr 'TobiiSBETServer.MainWindow.appStatusStr')
+  - [collectGazeDataArray](#F-TobiiSBETServer-MainWindow-collectGazeDataArray 'TobiiSBETServer.MainWindow.collectGazeDataArray')
+  - [collectGazeDataCount](#F-TobiiSBETServer-MainWindow-collectGazeDataCount 'TobiiSBETServer.MainWindow.collectGazeDataCount')
   - [computeSpanSec](#F-TobiiSBETServer-MainWindow-computeSpanSec 'TobiiSBETServer.MainWindow.computeSpanSec')
   - [consecutiveDataCount](#F-TobiiSBETServer-MainWindow-consecutiveDataCount 'TobiiSBETServer.MainWindow.consecutiveDataCount')
   - [debounceTemp](#F-TobiiSBETServer-MainWindow-debounceTemp 'TobiiSBETServer.MainWindow.debounceTemp')
@@ -26,6 +28,7 @@
   - [isETStartButtonEnabled](#F-TobiiSBETServer-MainWindow-isETStartButtonEnabled 'TobiiSBETServer.MainWindow.isETStartButtonEnabled')
   - [isETStopButtonEnabled](#F-TobiiSBETServer-MainWindow-isETStopButtonEnabled 'TobiiSBETServer.MainWindow.isETStopButtonEnabled')
   - [isFixationFilterEnabled](#F-TobiiSBETServer-MainWindow-isFixationFilterEnabled 'TobiiSBETServer.MainWindow.isFixationFilterEnabled')
+  - [isGazeDataCollecting](#F-TobiiSBETServer-MainWindow-isGazeDataCollecting 'TobiiSBETServer.MainWindow.isGazeDataCollecting')
   - [isLFHFComputerEnabled](#F-TobiiSBETServer-MainWindow-isLFHFComputerEnabled 'TobiiSBETServer.MainWindow.isLFHFComputerEnabled')
   - [isNotETStarted](#F-TobiiSBETServer-MainWindow-isNotETStarted 'TobiiSBETServer.MainWindow.isNotETStarted')
   - [isNotWSStarted](#F-TobiiSBETServer-MainWindow-isNotWSStarted 'TobiiSBETServer.MainWindow.isNotWSStarted')
@@ -151,6 +154,20 @@ Internal field for the binding property
 
 Internal field for the binding property
 
+<a name='F-TobiiSBETServer-MainWindow-collectGazeDataArray'></a>
+### collectGazeDataArray `constants`
+
+##### Summary
+
+Array of gaze data to collect
+
+<a name='F-TobiiSBETServer-MainWindow-collectGazeDataCount'></a>
+### collectGazeDataCount `constants`
+
+##### Summary
+
+Number of gaze data to collect
+
 <a name='F-TobiiSBETServer-MainWindow-computeSpanSec'></a>
 ### computeSpanSec `constants`
 
@@ -262,6 +279,13 @@ Internal field for the binding property
 ##### Summary
 
 Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isGazeDataCollecting'></a>
+### isGazeDataCollecting `constants`
+
+##### Summary
+
+If collecting gaze data, become true
 
 <a name='F-TobiiSBETServer-MainWindow-isLFHFComputerEnabled'></a>
 ### isLFHFComputerEnabled `constants`
