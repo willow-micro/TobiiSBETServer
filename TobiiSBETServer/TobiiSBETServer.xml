@@ -40,6 +40,51 @@
             An instance from EyeTracking.PupilDataProcessor
             </summary>
         </member>
+        <member name="F:TobiiSBETServer.MainWindow.screenWidthInPixels">
+            <summary>
+            Primary screen width in DIP
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.screenHeightInPixels">
+            <summary>
+            Primary screen height in DIP
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.webSocketServer">
+            <summary>
+            WebSocket Server
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.debounceTemp">
+            <summary>
+            Count time for debounce
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.prevUnixTimeInMs">
+            <summary>
+            Unix Time in ms when received gaze data last time
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.previewWindow">
+            <summary>
+            Preview window
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.collectGazeDataCount">
+            <summary>
+            Number of gaze data to collect
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.isGazeDataCollecting">
+            <summary>
+            If collecting gaze data, become true
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.collectGazeDataArray">
+            <summary>
+            Array of gaze data to collect
+            </summary>
+        </member>
         <member name="E:TobiiSBETServer.MainWindow.PropertyChanged">
             <summary>
             Event handler object for XAML binding properties
@@ -255,6 +300,16 @@
             A XAML binding property
             </summary>
         </member>
+        <member name="F:TobiiSBETServer.MainWindow.servicePath">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.MainWindow.ServicePath">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
         <member name="F:TobiiSBETServer.MainWindow.serverURL">
             <summary>
             Internal field for the binding property
@@ -362,6 +417,29 @@
             <param name="e">Args</param>
         </member>
         <member name="M:TobiiSBETServer.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:TobiiSBETServer.PreviewWindow">
+            <summary>
+            Interaction logic for PreviewWindow.xaml
+            </summary>
+            <summary>
+            PreviewWindow
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewWindow.pointDiameter">
+            <summary>
+            Diameter in pixels for the gaze point
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewWindow.gazePoint">
+            <summary>
+            Gaze point for preview
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.PreviewWindow.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>

@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 // Third-party
 using EyeTracking;
+using WebSocketSharp.Server;
 
 
 namespace TobiiSBETServer
@@ -36,11 +37,47 @@ namespace TobiiSBETServer
         /// <summary>
         /// An instance from EyeTracking.TobiiSBETDriver
         /// </summary>
-        private readonly TobiiSBEyeTracker eyeTracker;
+        private TobiiSBEyeTracker eyeTracker;
         /// <summary>
         /// An instance from EyeTracking.PupilDataProcessor
         /// </summary>
         private readonly PupilDataProcessor pupilDataProcessor;
+        /// <summary>
+        /// Primary screen width in DIP
+        /// </summary>
+        private readonly double screenWidthInPixels;
+        /// <summary>
+        /// Primary screen height in DIP
+        /// </summary>
+        private readonly double screenHeightInPixels;
+        /// <summary>
+        /// WebSocket Server
+        /// </summary>
+        private WebSocketServer webSocketServer;
+        /// <summary>
+        /// Count time for debounce
+        /// </summary>
+        private long debounceTemp;
+        /// <summary>
+        /// Unix Time in ms when received gaze data last time
+        /// </summary>
+        private long prevUnixTimeInMs;
+        /// <summary>
+        /// Preview window
+        /// </summary>
+        private readonly PreviewWindow previewWindow;
+        /// <summary>
+        /// Number of gaze data to collect
+        /// </summary>
+        private int collectGazeDataCount;
+        /// <summary>
+        /// If collecting gaze data, become true
+        /// </summary>
+        private bool isGazeDataCollecting;
+        /// <summary>
+        /// Array of gaze data to collect
+        /// </summary>
+        private SBGazeCollectData[] collectGazeDataArray;
         #endregion
 
         #region XAML binding handler
@@ -375,6 +412,24 @@ namespace TobiiSBETServer
             {
                 portNumber = value;
                 NotifyPropertyChanged(nameof(PortNumber));
+                ServerURL = $"ws://{GetHostAddress()}:{value}/{ServicePath}";
+            }
+        }
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private string servicePath;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public string ServicePath
+        {
+            get { return servicePath; }
+            set
+            {
+                servicePath = value;
+                NotifyPropertyChanged(nameof(ServicePath));
+                ServerURL = $"ws://{GetHostAddress()}:{PortNumber}/{value}";
             }
         }
         /// <summary>
@@ -513,16 +568,33 @@ namespace TobiiSBETServer
         /// </summary>
         public MainWindow()
         {
+            // Initialize XAML
             InitializeComponent();
-            // Notifying
+            // For notifying
             DataContext = this;
-            // Event handlers
-            ContentRendered += this.OnContentRendered;
-            Closed += this.OnClosed;
+            // Set event handlers
+            ContentRendered += OnContentRendered;
+            Closed += OnClosed;
+
+            // Initialize internal parameters
+            screenWidthInPixels = System.Windows.SystemParameters.PrimaryScreenWidth;
+            screenHeightInPixels = System.Windows.SystemParameters.PrimaryScreenHeight;
+
+            // Setup preview window
+            previewWindow = new PreviewWindow(4.0);
+            previewWindow.Closing += (s, e) =>
+            {
+                IsShowPreviewButtonEnabled = true;
+            };
+
             // Initialize all binding paramters
             InitializeParameters();
+
             // Set button states
             UpdateAppState(AppState.WaitForETStart);
+
+            // Initialize eye tracker
+            InitializeEyeTracker();
         }
         #endregion
 
@@ -544,6 +616,7 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnClosed(object sender, EventArgs e)
         {
+            previewWindow.Close();
             Debug.Print("Debug: Closed");
         }
 
@@ -558,30 +631,108 @@ namespace TobiiSBETServer
 
             if (MessageBox.Show("Are you sure to close?", "Close", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                //this.eyeTracker.StopReceivingGazeData();
-                this.Close();
+                eyeTracker.StopReceivingGazeData();
+                Close();
             }
         }
 
         private void ETStartButtonClicked(object sender, RoutedEventArgs e)
         {
+            collectGazeDataCount = 0;
+            isGazeDataCollecting = false;
+            collectGazeDataArray = new SBGazeCollectData[ConsecutiveDataCount];
+
+            debounceTemp = (long)DebounceTime + 1;
+
             UpdateAppState(AppState.WaitForWSStart);
+            eyeTracker.StartReceivingGazeData();
         }
         private void ETStopButtonClicked(object sender, RoutedEventArgs e)
         {
+            previewWindow.Hide();
             UpdateAppState(AppState.WaitForETStart);
+            eyeTracker.StopReceivingGazeData();
         }
         private void ShowPreviewButtonClicked(object sender, RoutedEventArgs e)
         {
             Debug.Print("ShowPreviewButton was clicked");
+            previewWindow.Show();
+            IsShowPreviewButtonEnabled = false;
+            previewWindow.PlaceGazePoint(screenWidthInPixels, screenHeightInPixels, screenWidthInPixels / 2, screenHeightInPixels / 2);
         }
         private void WSStartButtonClicked(object sender, RoutedEventArgs e)
         {
             UpdateAppState(AppState.WSStarted);
+            StartWSServer();
         }
         private void WSStopButtonClicked(object sender, RoutedEventArgs e)
         {
             UpdateAppState(AppState.WaitForWSStart);
+            StopWSServer();
+        }
+
+        private void OnGazeData(object sender, OnGazeDataEventArgs e)
+        {
+            if (e.IsLeftValid && e.IsRightValid)
+            {
+                int xPos = (int)((e.LeftX + e.RightX) / 2.0);
+                int yPos = (int)((e.LeftY + e.RightY) / 2.0);
+
+                if (IsDebouncingEnabled)
+                {
+                    if (e.LeftEyeMovementType == EyeMovementType.Fixation)
+                    {
+                        if (previewWindow != null)
+                        {
+                            previewWindow.ShowGazePoint();
+                            previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
+                        }
+                        if (this.debounceTemp > DebounceTime)
+                        {
+                            collectGazeDataCount = 0;
+                            isGazeDataCollecting = true;
+                        }
+                        if (isGazeDataCollecting)
+                        {
+                            AppendSBGazeDataToCollection(GetUnixTimeInMs(), xPos, yPos);
+                        }
+                        if (collectGazeDataCount >= ConsecutiveDataCount)
+                        {
+                            isGazeDataCollecting = false;
+                            SendSBGazeDataCollection();
+                        }
+                        debounceTemp = 0;
+                    }
+                    else
+                    {
+                        long unixTimeInMs = GetUnixTimeInMs();
+                        debounceTemp += unixTimeInMs - prevUnixTimeInMs;
+                        prevUnixTimeInMs = unixTimeInMs;
+                    }
+                }
+                else
+                {
+                    if (e.LeftEyeMovementType == EyeMovementType.Fixation)
+                    {
+                        if (previewWindow != null)
+                        {
+                            previewWindow.ShowGazePoint();
+                            previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
+                        }
+                        if (collectGazeDataCount < ConsecutiveDataCount)
+                        {
+                            isGazeDataCollecting = true;
+                            AppendSBGazeDataToCollection(GetUnixTimeInMs(), xPos, yPos);
+                        }
+                        if (collectGazeDataCount >= ConsecutiveDataCount)
+                        {
+                            isGazeDataCollecting = false;
+                            collectGazeDataCount = 0;
+                            SendSBGazeDataCollection();
+                        }
+                    }
+                }
+            }
         }
         #endregion
 
@@ -591,65 +742,160 @@ namespace TobiiSBETServer
             switch (state)
             {
                 case AppState.WaitForETStart:
-                    this.IsNotETStarted = true;
-                    this.IsNotWSStarted = true;
-                    this.IsETStartButtonEnabled = true;
-                    this.IsETStopButtonEnabled = false;
-                    this.IsShowPreviewButtonEnabled = false;
-                    this.IsWSStartButtonEnabled = false;
-                    this.IsWSStopButtonEnabled = false;
+                    IsNotETStarted = true;
+                    IsNotWSStarted = true;
+                    IsETStartButtonEnabled = true;
+                    IsETStopButtonEnabled = false;
+                    IsShowPreviewButtonEnabled = false;
+                    IsWSStartButtonEnabled = false;
+                    IsWSStopButtonEnabled = false;
+                    AppStatusStr = "Eye Tracker is Ready";
                     break;
                 case AppState.WaitForWSStart:
-                    this.IsNotETStarted = false;
-                    this.IsNotWSStarted = true;
-                    this.IsETStartButtonEnabled = false;
-                    this.IsETStopButtonEnabled = true;
-                    this.IsShowPreviewButtonEnabled = true;
-                    this.IsWSStartButtonEnabled = true;
-                    this.IsWSStopButtonEnabled = false;
+                    IsNotETStarted = false;
+                    IsNotWSStarted = true;
+                    IsETStartButtonEnabled = false;
+                    IsETStopButtonEnabled = true;
+                    IsShowPreviewButtonEnabled = true;
+                    IsWSStartButtonEnabled = true;
+                    IsWSStopButtonEnabled = false;
+                    AppStatusStr = "Server is Ready";
                     break;
                 case AppState.WSStarted:
-                    this.IsNotETStarted = false;
-                    this.IsNotWSStarted = false;
-                    this.IsETStartButtonEnabled = false;
-                    this.IsETStopButtonEnabled = false;
-                    this.IsShowPreviewButtonEnabled = true;
-                    this.IsWSStartButtonEnabled = false;
-                    this.IsWSStopButtonEnabled = true;
+                    IsNotETStarted = false;
+                    IsNotWSStarted = false;
+                    IsETStartButtonEnabled = false;
+                    IsETStopButtonEnabled = false;
+                    IsShowPreviewButtonEnabled = true;
+                    IsWSStartButtonEnabled = false;
+                    IsWSStopButtonEnabled = true;
+                    AppStatusStr = "Server is Running";
                     break;
                 default:
-                    this.IsNotETStarted = true;
-                    this.IsNotWSStarted = true;
-                    this.IsETStartButtonEnabled = true;
-                    this.IsETStopButtonEnabled = false;
-                    this.IsShowPreviewButtonEnabled = false;
-                    this.IsWSStartButtonEnabled = false;
-                    this.IsWSStopButtonEnabled = false;
                     break;
             }
         }
         private void InitializeParameters()
         {
-            this.AppStatusStr = "Initialized";
-            this.DeviceInfoStr = "modelname (serialno)";
-            this.FrequencyStr = "[freq] Hz";
-            this.ScreenDimensionsStr = "1920x1080 (X x Y mm)";
-            this.DeviceStatusStr = "Ready";
-            this.IsFixationFilterEnabled = true;
-            this.AngularVelocityThreshold = 30;
-            this.DurationThreshold = 150;
-            this.ConsecutiveDataCount = 5;
-            this.IsDebouncingEnabled = true;
-            this.DebounceTime = 100;
-            this.IsLFHFComputerEnabled = true;
-            this.LFLowFreq = 0.04f;
-            this.LFHighFreq = 0.15f;
-            this.HFLowFreq = 0.15f;
-            this.HFHighFreq = 0.50f;
-            this.IdealFreqResolution = 0.04f;
-            this.ComputeSpanSec = 0.5f;
-            this.ServerURL = "ws://localhost";
-            this.PortNumber = 3000;            
+            AppStatusStr = "--";
+            DeviceInfoStr = "--";
+            FrequencyStr = "-- Hz";
+            ScreenDimensionsStr = "-x- (-x- mm)";
+            DeviceStatusStr = "--";
+            IsFixationFilterEnabled = true;
+            AngularVelocityThreshold = 30;
+            DurationThreshold = 150;
+            ConsecutiveDataCount = 5;
+            IsDebouncingEnabled = true;
+            DebounceTime = 100;
+            IsLFHFComputerEnabled = true;
+            LFLowFreq = 0.04f;
+            LFHighFreq = 0.15f;
+            HFLowFreq = 0.15f;
+            HFHighFreq = 0.50f;
+            IdealFreqResolution = 0.04f;
+            ComputeSpanSec = 0.5f;
+            ServicePath = "SBET";
+            PortNumber = 8008;
+            ServerURL = $"ws://{GetHostAddress()}:{PortNumber}/{ServicePath}";
+        }
+
+        private void InitializeEyeTracker()
+        {
+            try
+            {
+                eyeTracker = new TobiiSBEyeTracker(screenWidthInPixels, screenHeightInPixels, VelocityCalcType.UCSGazeVector, AngularVelocityThreshold, DurationThreshold);
+                eyeTracker.OnGazeData += OnGazeData;
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Debug.Print(e.Message);
+                Close();
+            }
+            catch (InvalidOperationException e)
+            {
+                if (MessageBox.Show(e.Message, "OK", MessageBoxButton.OK, MessageBoxImage.Error) == MessageBoxResult.OK)
+                {
+                    Close();
+                }
+            }
+            DeviceInfoStr = $"{eyeTracker.GetModel()}";
+            FrequencyStr = "90 Hz";
+            ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters():F2}x{eyeTracker.GetScreenHeightInMillimeters():F2} mm)";
+            DeviceStatusStr = "Initialized";
+        }
+
+        private void StartWSServer()
+        {
+            webSocketServer = new WebSocketServer($"ws://{GetHostAddress()}:{PortNumber}");
+            webSocketServer.AddWebSocketService<ServerBehavior>($"/{ServicePath}");
+            webSocketServer.Start();
+            Debug.Print($"Server was started on {ServerURL}");
+        }
+
+        private void StopWSServer()
+        {
+            if (webSocketServer.IsListening)
+            {
+                webSocketServer.Stop();
+            }                
+            Debug.Print("Server was stopped");
+        }
+
+        private void WSBroadCastString(string payload)
+        {
+            if (webSocketServer.IsListening)
+            {
+                webSocketServer.WebSocketServices[$"/{ServicePath}"].Sessions.Broadcast(payload);
+                Debug.Print($"Broadcast: {payload}");
+            }
+        }
+
+        private void AppendSBGazeDataToCollection(long time, int x, int y)
+        {
+            collectGazeDataArray[collectGazeDataCount].time = time;
+            collectGazeDataArray[collectGazeDataCount].x = x;
+            collectGazeDataArray[collectGazeDataCount].y = y;
+            collectGazeDataCount++;
+        }
+
+        private void SendSBGazeDataCollection()
+        {
+            string payloadText = $"n{ConsecutiveDataCount}";
+            foreach (SBGazeCollectData collectData in collectGazeDataArray)
+            {
+                payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
+            }
+            Debug.Print($"Collection: {payloadText}");
+            if (!IsNotWSStarted)
+            {
+                WSBroadCastString(payloadText);
+            }
+        }
+        #endregion
+
+        #region Static methods
+        private static string GetHostAddress()
+        {
+            string ipAddress = "";
+            string hostname = System.Net.Dns.GetHostName();
+            System.Net.IPAddress[] addresses = System.Net.Dns.GetHostAddresses(hostname);
+            foreach (System.Net.IPAddress address in addresses)
+            {
+                string ipAddressStr = address.ToString();
+                if (ipAddressStr.IndexOf(".") > 0 && !ipAddressStr.StartsWith("127."))
+                {
+                    ipAddress = ipAddressStr;
+                    break;
+                }
+            }
+            return ipAddress;
+        }
+
+        private static long GetUnixTimeInMs()
+        {
+            DateTimeOffset now = DateTimeOffset.UtcNow;
+            return now.ToUnixTimeMilliseconds();
         }
         #endregion
     }

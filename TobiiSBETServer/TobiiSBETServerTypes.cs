@@ -13,4 +13,11 @@ namespace TobiiSBETServer
         WaitForWSStart,
         WSStarted
     }
+
+    public struct SBGazeCollectData
+    {
+        public long time;
+        public int x;
+        public int y;
+    }
 }
