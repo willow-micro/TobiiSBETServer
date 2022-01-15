@@ -32,6 +32,19 @@ namespace TobiiSBETServer
     public struct SBGazeCollectData
     {
         /// <summary>
+        /// Initialzer for SBGazeCollectData
+        /// </summary>
+        /// <param name="t">Unix time in ms</param>
+        /// <param name="x">X</param>
+        /// <param name="y">Y</param>
+        public SBGazeCollectData(long t, int x, int y)
+        {
+            this.time = t;
+            this.x = x;
+            this.y = y;
+        }
+
+        /// <summary>
         /// Unix time in ms
         /// </summary>
         public long time;

@@ -2,19 +2,8 @@
 
 // Default
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 // Additional
 using System.ComponentModel;
 using System.Diagnostics;
@@ -61,7 +50,7 @@ namespace TobiiSBETServer
         /// </summary>
         private long debounceTemp;
         /// <summary>
-        /// Unix Time in ms when received gaze data last time
+        /// Previous unix time in ms when received gaze data last time
         /// </summary>
         private long prevUnixTimeInMs;
         /// <summary>
@@ -80,6 +69,14 @@ namespace TobiiSBETServer
         /// Array of gaze data to collect
         /// </summary>
         private SBGazeCollectData[] collectGazeDataArray;
+        /// <summary>
+        /// Previous eye movement type when received gaze data last time
+        /// </summary>
+        private EyeMovementType prevEyeMovementType;
+        /// <summary>
+        /// Previous gaze data
+        /// </summary>
+        private SBGazeCollectData prevGazeData;
         #endregion
 
         #region XAML binding handler
@@ -616,7 +613,7 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnContentRendered(object sender, EventArgs e)
         {
-            Debug.Print("Debug: ContentRendered");
+            Debug.Print("OnContentRendered");
         }
 
         /// <summary>
@@ -626,8 +623,9 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnClosed(object sender, EventArgs e)
         {
+            eyeTracker.StopReceivingGazeData();
             previewWindow.Close();
-            Debug.Print("Debug: Closed");
+            Debug.Print("OnClosed");
         }
 
         /// <summary>
@@ -637,11 +635,10 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void AppCloseEvent(object sender, ExecutedRoutedEventArgs e)
         {
-            Debug.Print("Debug: AppClose");
+            Debug.Print("AppCloseEvent(esc)");
 
             if (MessageBox.Show("Are you sure to close?", "Close", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                eyeTracker.StopReceivingGazeData();
                 Close();
             }
         }
@@ -659,7 +656,10 @@ namespace TobiiSBETServer
 
             if (IsDebouncingEnabled)
             {
+                prevUnixTimeInMs = GetUnixTimeInMs();
                 debounceTemp = (long)DebounceTime + 1;
+                prevEyeMovementType = EyeMovementType.Unknown;
+                prevGazeData = new SBGazeCollectData(GetUnixTimeInMs(), 0, 0);
             }
 
             if (IsLFHFComputerEnabled)
@@ -698,7 +698,6 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void ShowPreviewButtonClicked(object sender, RoutedEventArgs e)
         {
-            Debug.Print("ShowPreviewButton was clicked");
             previewWindow.Show();
             IsShowPreviewButtonEnabled = false;
             previewWindow.PlaceGazePoint(screenWidthInPixels, screenHeightInPixels, screenWidthInPixels / 2, screenHeightInPixels / 2);
@@ -731,11 +730,14 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnGazeData(object sender, OnGazeDataEventArgs e)
         {
+            // Gaze data (left)
             if (e.IsLeftValid)
             {
+                long unixTime = GetUnixTimeInMs();
                 int xPos = (int)(e.LeftX);
                 int yPos = (int)(e.LeftY);
 
+                // For FixationStarted event
                 if (IsDebouncingEnabled)
                 {
                     if (e.LeftEyeMovementType == EyeMovementType.Fixation)
@@ -763,9 +765,8 @@ namespace TobiiSBETServer
                     }
                     else
                     {
-                        long unixTimeInMs = GetUnixTimeInMs();
-                        debounceTemp += unixTimeInMs - prevUnixTimeInMs;
-                        prevUnixTimeInMs = unixTimeInMs;
+                        debounceTemp += unixTime - prevUnixTimeInMs;
+                        prevUnixTimeInMs = unixTime;
                     }
                 }
                 else
@@ -780,7 +781,7 @@ namespace TobiiSBETServer
                         if (collectGazeDataCount < ConsecutiveDataCount)
                         {
                             isGazeDataCollecting = true;
-                            AppendSBGazeDataToCollection(GetUnixTimeInMs(), xPos, yPos);
+                            AppendSBGazeDataToCollection(unixTime, xPos, yPos);
                         }
                         if (collectGazeDataCount >= ConsecutiveDataCount)
                         {
@@ -791,18 +792,34 @@ namespace TobiiSBETServer
                     }
                 }
 
-                if (IsLFHFComputerEnabled && pupilDataProcessor != null)
+                // For FixationEnded event
+                if (e.LeftEyeMovementType == EyeMovementType.Saccade &&
+                    prevEyeMovementType == EyeMovementType.Fixation)
                 {
-                    // Add diameter
-                    if (pupilDataProcessor.UpdateWith(new PupilDataForProcess(e.LeftPD, e.IsLeftPDValid)) == LFHFComputeStatus.Ready)
+                    string payloadText = $"e{WSEventID.FixationEnded},t{prevGazeData.time},x{prevGazeData.x},y{prevGazeData.y}";
+                    Debug.Print($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationEnded)}[{WSEventID.FixationEnded}]: {payloadText}");
+                    if (!IsNotWSStarted)
                     {
-                        long unixTime = GetUnixTimeInMs();
-                        string payloadText = $"e{WSEventID.LFHFComputed},t{unixTime},r{pupilDataProcessor.LatestLFHF:F3}";
-                        Debug.Print($"LFHF: {payloadText}");
-                        if (!IsNotWSStarted)
-                        {
-                            WSBroadCastString(payloadText);
-                        }
+                        WSBroadCastString(payloadText);
+                    }
+                }
+                prevEyeMovementType = e.LeftEyeMovementType;
+                prevGazeData = new SBGazeCollectData(unixTime, xPos, yPos);
+            }
+
+            // Pupil data
+            // For LFHFComputed event
+            if (IsLFHFComputerEnabled && pupilDataProcessor != null)
+            {
+                // Add diameter
+                if (pupilDataProcessor.UpdateWith(new PupilDataForProcess(e.LeftPD, e.IsLeftPDValid)) == LFHFComputeStatus.Ready)
+                {
+                    long unixTime = GetUnixTimeInMs();
+                    string payloadText = $"e{WSEventID.LFHFComputed},t{unixTime},r{pupilDataProcessor.LatestLFHF:F3}";
+                    Debug.Print($"{Enum.GetName(typeof(WSEventID), WSEventID.LFHFComputed)}[{WSEventID.LFHFComputed}]: {payloadText}");
+                    if (!IsNotWSStarted)
+                    {
+                        WSBroadCastString(payloadText);
                     }
                 }
             }
@@ -967,7 +984,7 @@ namespace TobiiSBETServer
             {
                 payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
             }
-            Debug.Print($"Collection: {payloadText}");
+            Debug.Print($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationStarted)}[{WSEventID.FixationStarted}]: {payloadText}");
             if (!IsNotWSStarted)
             {
                 WSBroadCastString(payloadText);

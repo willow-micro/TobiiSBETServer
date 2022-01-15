@@ -42,6 +42,8 @@
   - [lfHighFreq](#F-TobiiSBETServer-MainWindow-lfHighFreq 'TobiiSBETServer.MainWindow.lfHighFreq')
   - [lfLowFreq](#F-TobiiSBETServer-MainWindow-lfLowFreq 'TobiiSBETServer.MainWindow.lfLowFreq')
   - [portNumber](#F-TobiiSBETServer-MainWindow-portNumber 'TobiiSBETServer.MainWindow.portNumber')
+  - [prevEyeMovementType](#F-TobiiSBETServer-MainWindow-prevEyeMovementType 'TobiiSBETServer.MainWindow.prevEyeMovementType')
+  - [prevGazeData](#F-TobiiSBETServer-MainWindow-prevGazeData 'TobiiSBETServer.MainWindow.prevGazeData')
   - [prevUnixTimeInMs](#F-TobiiSBETServer-MainWindow-prevUnixTimeInMs 'TobiiSBETServer.MainWindow.prevUnixTimeInMs')
   - [previewWindow](#F-TobiiSBETServer-MainWindow-previewWindow 'TobiiSBETServer.MainWindow.previewWindow')
   - [pupilDataProcessor](#F-TobiiSBETServer-MainWindow-pupilDataProcessor 'TobiiSBETServer.MainWindow.pupilDataProcessor')
@@ -105,6 +107,7 @@
   - [pointDiameter](#F-TobiiSBETServer-PreviewWindow-pointDiameter 'TobiiSBETServer.PreviewWindow.pointDiameter')
   - [InitializeComponent()](#M-TobiiSBETServer-PreviewWindow-InitializeComponent 'TobiiSBETServer.PreviewWindow.InitializeComponent')
 - [SBGazeCollectData](#T-TobiiSBETServer-SBGazeCollectData 'TobiiSBETServer.SBGazeCollectData')
+  - [#ctor(t,x,y)](#M-TobiiSBETServer-SBGazeCollectData-#ctor-System-Int64,System-Int32,System-Int32- 'TobiiSBETServer.SBGazeCollectData.#ctor(System.Int64,System.Int32,System.Int32)')
   - [time](#F-TobiiSBETServer-SBGazeCollectData-time 'TobiiSBETServer.SBGazeCollectData.time')
   - [x](#F-TobiiSBETServer-SBGazeCollectData-x 'TobiiSBETServer.SBGazeCollectData.x')
   - [y](#F-TobiiSBETServer-SBGazeCollectData-y 'TobiiSBETServer.SBGazeCollectData.y')
@@ -410,12 +413,26 @@ Internal field for the binding property
 
 Internal field for the binding property
 
+<a name='F-TobiiSBETServer-MainWindow-prevEyeMovementType'></a>
+### prevEyeMovementType `constants`
+
+##### Summary
+
+Previous eye movement type when received gaze data last time
+
+<a name='F-TobiiSBETServer-MainWindow-prevGazeData'></a>
+### prevGazeData `constants`
+
+##### Summary
+
+Previous gaze data
+
 <a name='F-TobiiSBETServer-MainWindow-prevUnixTimeInMs'></a>
 ### prevUnixTimeInMs `constants`
 
 ##### Summary
 
-Unix Time in ms when received gaze data last time
+Previous unix time in ms when received gaze data last time
 
 <a name='F-TobiiSBETServer-MainWindow-previewWindow'></a>
 ### previewWindow `constants`
@@ -1012,6 +1029,21 @@ TobiiSBETServer
 ##### Summary
 
 Gaze data to collect from screen-based eye tracker
+
+<a name='M-TobiiSBETServer-SBGazeCollectData-#ctor-System-Int64,System-Int32,System-Int32-'></a>
+### #ctor(t,x,y) `constructor`
+
+##### Summary
+
+Initialzer for SBGazeCollectData
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| t | [System.Int64](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int64 'System.Int64') | Unix time in ms |
+| x | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | X |
+| y | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Y |
 
 <a name='F-TobiiSBETServer-SBGazeCollectData-time'></a>
 ### time `constants`

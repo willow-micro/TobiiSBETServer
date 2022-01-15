@@ -38,6 +38,10 @@ namespace TobiiSBETServer
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="pointRadius">Gaze point radius</param>
         public PreviewWindow(double pointRadius)
         {
             InitializeComponent();
@@ -53,6 +57,11 @@ namespace TobiiSBETServer
         #endregion
 
         #region Event handlers
+        /// <summary>
+        /// Closing event handler
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
@@ -61,6 +70,9 @@ namespace TobiiSBETServer
         #endregion
 
         #region Public methods
+        /// <summary>
+        /// Show gaze point in the preview window
+        /// </summary>
         public void ShowGazePoint()
         {
             Dispatcher.Invoke(() =>
@@ -68,7 +80,9 @@ namespace TobiiSBETServer
                 gazePoint.Fill = Brushes.DarkBlue;
             }); 
         }
-
+        /// <summary>
+        /// Hide gaze point in the preview window
+        /// </summary>
         public void HideGazePoint()
         {
             Dispatcher.Invoke(() =>
@@ -76,7 +90,13 @@ namespace TobiiSBETServer
                 gazePoint.Fill = Brushes.Transparent;
             });
         }
-
+        /// <summary>
+        /// Place gaze point int the preview window
+        /// </summary>
+        /// <param name="screenWidth">Screen width</param>
+        /// <param name="screenHeight">Screen height</param>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
         public void PlaceGazePoint(double screenWidth, double screenHeight, double x, double y)
         {
             Dispatcher.Invoke(() =>
