@@ -62,7 +62,7 @@
         </member>
         <member name="F:TobiiSBETServer.MainWindow.prevUnixTimeInMs">
             <summary>
-            Unix Time in ms when received gaze data last time
+            Previous unix time in ms when received gaze data last time
             </summary>
         </member>
         <member name="F:TobiiSBETServer.MainWindow.previewWindow">
@@ -83,6 +83,16 @@
         <member name="F:TobiiSBETServer.MainWindow.collectGazeDataArray">
             <summary>
             Array of gaze data to collect
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.prevEyeMovementType">
+            <summary>
+            Previous eye movement type when received gaze data last time
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.MainWindow.prevGazeData">
+            <summary>
+            Previous gaze data
             </summary>
         </member>
         <member name="E:TobiiSBETServer.MainWindow.PropertyChanged">
@@ -568,6 +578,14 @@
             <summary>
             Gaze data to collect from screen-based eye tracker
             </summary>
+        </member>
+        <member name="M:TobiiSBETServer.SBGazeCollectData.#ctor(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            Initialzer for SBGazeCollectData
+            </summary>
+            <param name="t">Unix time in ms</param>
+            <param name="x">X</param>
+            <param name="y">Y</param>
         </member>
         <member name="F:TobiiSBETServer.SBGazeCollectData.time">
             <summary>
