@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetProjects.Extended.Wpf.Toolkit" Version="4.6.97" />
-    <PackageReference Include="PupilDataProcessor" Version="0.0.1-alpha.1" />
-    <PackageReference Include="TobiiSBETDriver" Version="0.0.1-alpha.5" />
+    <PackageReference Include="PupilDataProcessor" Version="0.0.1-beta.1" />
+    <PackageReference Include="TobiiSBETDriver" Version="0.0.1-beta.1" />
     <PackageReference Include="Vsxmd" Version="1.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
