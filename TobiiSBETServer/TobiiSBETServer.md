@@ -128,6 +128,9 @@
   - [time](#F-TobiiSBETServer-SBGazeCollectData-time 'TobiiSBETServer.SBGazeCollectData.time')
   - [x](#F-TobiiSBETServer-SBGazeCollectData-x 'TobiiSBETServer.SBGazeCollectData.x')
   - [y](#F-TobiiSBETServer-SBGazeCollectData-y 'TobiiSBETServer.SBGazeCollectData.y')
+- [ServerBehavior](#T-TobiiSBETServer-ServerBehavior 'TobiiSBETServer.ServerBehavior')
+  - [OnMessage(e)](#M-TobiiSBETServer-ServerBehavior-OnMessage-WebSocketSharp-MessageEventArgs- 'TobiiSBETServer.ServerBehavior.OnMessage(WebSocketSharp.MessageEventArgs)')
+  - [OnOpen()](#M-TobiiSBETServer-ServerBehavior-OnOpen 'TobiiSBETServer.ServerBehavior.OnOpen')
 - [WSEventID](#T-TobiiSBETServer-WSEventID 'TobiiSBETServer.WSEventID')
   - [FixationEnded](#F-TobiiSBETServer-WSEventID-FixationEnded 'TobiiSBETServer.WSEventID.FixationEnded')
   - [FixationStarted](#F-TobiiSBETServer-WSEventID-FixationStarted 'TobiiSBETServer.WSEventID.FixationStarted')
@@ -1262,6 +1265,41 @@ X coordinate
 ##### Summary
 
 Y coordinate
+
+<a name='T-TobiiSBETServer-ServerBehavior'></a>
+## ServerBehavior `type`
+
+##### Namespace
+
+TobiiSBETServer
+
+##### Summary
+
+Server behavior class for WebSocket
+
+<a name='M-TobiiSBETServer-ServerBehavior-OnMessage-WebSocketSharp-MessageEventArgs-'></a>
+### OnMessage(e) `method`
+
+##### Summary
+
+When a message was arrived
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| e | [WebSocketSharp.MessageEventArgs](#T-WebSocketSharp-MessageEventArgs 'WebSocketSharp.MessageEventArgs') | Args |
+
+<a name='M-TobiiSBETServer-ServerBehavior-OnOpen'></a>
+### OnOpen() `method`
+
+##### Summary
+
+When the connection is opened
+
+##### Parameters
+
+This method has no parameters.
 
 <a name='T-TobiiSBETServer-WSEventID'></a>
 ## WSEventID `type`

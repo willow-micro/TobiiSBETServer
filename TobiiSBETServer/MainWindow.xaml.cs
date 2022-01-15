@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 // Additional
 using System.ComponentModel;
-using System.Diagnostics;
+//using System.Diagnostics;
 // Third-party
 using EyeTracking;
 using WebSocketSharp.Server;
@@ -613,7 +613,7 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnContentRendered(object sender, EventArgs e)
         {
-            Debug.Print("OnContentRendered");
+            Console.WriteLine("OnContentRendered");
         }
 
         /// <summary>
@@ -631,7 +631,7 @@ namespace TobiiSBETServer
             {
                 previewWindow.Close();
             }
-            Debug.Print("OnClosed");
+            Console.WriteLine("OnClosed");
         }
 
         /// <summary>
@@ -641,7 +641,7 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void AppCloseEvent(object sender, ExecutedRoutedEventArgs e)
         {
-            Debug.Print("AppCloseEvent(esc)");
+            Console.WriteLine("AppCloseEvent(esc)");
 
             if (MessageBox.Show("Are you sure to close?", "Close", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
@@ -803,7 +803,7 @@ namespace TobiiSBETServer
                     prevEyeMovementType == EyeMovementType.Fixation)
                 {
                     string payloadText = $"e{WSEventID.FixationEnded},t{prevGazeData.time},x{prevGazeData.x},y{prevGazeData.y}";
-                    Debug.Print($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationEnded)}[{WSEventID.FixationEnded}]: {payloadText}");
+                    Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationEnded)}[{WSEventID.FixationEnded}]: {payloadText}");
                     if (!IsNotWSStarted)
                     {
                         WSBroadCastString(payloadText);
@@ -822,7 +822,7 @@ namespace TobiiSBETServer
                 {
                     long unixTime = GetUnixTimeInMs();
                     string payloadText = $"e{WSEventID.LFHFComputed},t{unixTime},r{pupilDataProcessor.LatestLFHF:F3}";
-                    Debug.Print($"{Enum.GetName(typeof(WSEventID), WSEventID.LFHFComputed)}[{WSEventID.LFHFComputed}]: {payloadText}");
+                    Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.LFHFComputed)}[{WSEventID.LFHFComputed}]: {payloadText}");
                     if (!IsNotWSStarted)
                     {
                         WSBroadCastString(payloadText);
@@ -933,7 +933,7 @@ namespace TobiiSBETServer
             }
             catch (ArgumentOutOfRangeException e)
             {
-                Debug.Print(e.Message);
+                Console.WriteLine(e.Message);
                 Close();
             }
             catch (InvalidOperationException e)
@@ -952,7 +952,7 @@ namespace TobiiSBETServer
             webSocketServer = new WebSocketServer($"ws://{GetHostAddress()}:{PortNumber}");
             webSocketServer.AddWebSocketService<ServerBehavior>($"/{ServicePath}");
             webSocketServer.Start();
-            Debug.Print($"Server was started on {ServerURL}");
+            Console.WriteLine($"Server was started on {ServerURL}");
         }
         /// <summary>
         /// Stop websocket server
@@ -963,7 +963,7 @@ namespace TobiiSBETServer
             {
                 webSocketServer.Stop();
             }                
-            Debug.Print("Server was stopped");
+            Console.WriteLine("Server was stopped");
         }
         /// <summary>
         /// Broadcast a given string from the running websocket server
@@ -975,7 +975,7 @@ namespace TobiiSBETServer
             if (webSocketServer.IsListening)
             {
                 webSocketServer.WebSocketServices[$"/{ServicePath}"].Sessions.Broadcast(payload);
-                Debug.Print($"Broadcast: {payload}");
+                Console.WriteLine($"Broadcast: {payload}");
             }
             else
             {
@@ -1005,7 +1005,7 @@ namespace TobiiSBETServer
             {
                 payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
             }
-            Debug.Print($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationStarted)}[{WSEventID.FixationStarted}]: {payloadText}");
+            Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationStarted)}[{WSEventID.FixationStarted}]: {payloadText}");
             if (!IsNotWSStarted)
             {
                 WSBroadCastString(payloadText);

@@ -627,6 +627,22 @@
             InitializeComponent
             </summary>
         </member>
+        <member name="T:TobiiSBETServer.ServerBehavior">
+            <summary>
+            Server behavior class for WebSocket
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.ServerBehavior.OnMessage(WebSocketSharp.MessageEventArgs)">
+            <summary>
+            When a message was arrived
+            </summary>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.ServerBehavior.OnOpen">
+            <summary>
+            When the connection is opened
+            </summary>
+        </member>
         <member name="T:TobiiSBETServer.AppState">
             <summary>
             Application State for ui management and status bar
