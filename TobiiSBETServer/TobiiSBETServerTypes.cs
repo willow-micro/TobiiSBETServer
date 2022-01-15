@@ -3,7 +3,7 @@
 // Default
 // Additional
 // Third-party
-
+using EyeTracking;
 
 namespace TobiiSBETServer
 {
@@ -76,4 +76,40 @@ namespace TobiiSBETServer
         /// </summary>
         LFHFComputed
     }
+
+    /// <summary>
+    /// Data for the status bar in the preview window
+    /// </summary>
+    public struct PreviewData
+    {
+        /// <summary>
+        /// Eye movement
+        /// </summary>
+        public EyeMovementType eyeMovementType;
+        /// <summary>
+        /// Validity
+        /// </summary>
+        public bool isValid;
+        /// <summary>
+        /// X coordinate
+        /// </summary>
+        public int x;
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
+        public int y;
+        /// <summary>
+        /// Angular velocity [deg/s]
+        /// </summary>
+        public float angularVelocity;
+        /// <summary>
+        /// Average pupil diameters of left and right eyes [mm]
+        /// </summary>
+        public float pdLRAverage;
+        /// <summary>
+        /// Latest LF/HF ratio
+        /// </summary>
+        public float latestLFHF;
+    }
+
 }

@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 // Additional
 using System.Diagnostics;
+using System.ComponentModel;
 // Third-party
 
 
@@ -24,7 +25,7 @@ namespace TobiiSBETServer
     /// <summary>
     /// Interaction logic for PreviewWindow.xaml
     /// </summary>
-    public partial class PreviewWindow : Window
+    public partial class PreviewWindow : Window, INotifyPropertyChanged
     {
         #region Fields
         /// <summary>
@@ -35,6 +36,54 @@ namespace TobiiSBETServer
         /// Gaze point for preview
         /// </summary>
         private readonly Ellipse gazePoint;
+        #endregion
+
+        #region XAML binding handler
+        /// <summary>
+        /// Event handler object for XAML binding properties
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Notifier for xaml binding properties
+        /// </summary>
+        /// <param name="name">Name of the property</param>
+        /// <example>
+        /// <code>
+        /// private string _HogeStr;
+        /// public string HogeStr
+        /// {
+        ///     get { return _HogeStr; }
+        ///     set
+        ///     {
+        ///         _HogeStr = value;
+        ///         NotifyPropertyChanged(nameof(HogeStr));
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        private void NotifyPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        #endregion
+
+        #region XAML binding properties
+        /// <summary>
+        /// Internal field for the binding property
+        /// </summary>
+        private string previewStatusStr;
+        /// <summary>
+        /// A XAML binding property
+        /// </summary>
+        public string PreviewStatusStr
+        {
+            get { return previewStatusStr; }
+            set
+            {
+                previewStatusStr = value;
+                NotifyPropertyChanged(nameof(PreviewStatusStr));
+            }
+        }
         #endregion
 
         #region Constructors
@@ -53,6 +102,7 @@ namespace TobiiSBETServer
                 Height = pointDiameter
             };
             PreviewCanvas.Children.Add(gazePoint);
+            PreviewStatusStr = "Validity: -- | Eye Movement: -- | X: -- | Y: -- | Velocity: -- | PD: -- | LFHF: -- |";
         }
         #endregion
 
@@ -104,6 +154,15 @@ namespace TobiiSBETServer
                 Canvas.SetLeft(gazePoint, x * 640 / screenWidth - pointDiameter / 2.0);
                 Canvas.SetTop(gazePoint, y * 360 / screenHeight - pointDiameter / 2.0);
             });
+        }
+
+        /// <summary>
+        /// Update status string in the bottom status bar
+        /// </summary>
+        /// <param name="data">Data to update</param>
+        public void UpdateStatusStr(PreviewData data)
+        {
+            PreviewStatusStr = $"Validity: {(data.isValid ? "ok" : "no")} | Eye Movement: {Enum.GetName(typeof(EyeTracking.EyeMovementType), data.eyeMovementType)} | X: {data.x} | Y: {data.y} | Velocity: {data.angularVelocity:F2} | PD: {data.pdLRAverage:F2} | LFHF: {data.latestLFHF:F2} |";
         }
         #endregion
     }

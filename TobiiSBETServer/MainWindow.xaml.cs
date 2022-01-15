@@ -623,8 +623,14 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnClosed(object sender, EventArgs e)
         {
-            eyeTracker.StopReceivingGazeData();
-            previewWindow.Close();
+            if (eyeTracker != null)
+            {
+                eyeTracker.StopReceivingGazeData();
+            }
+            if (previewWindow != null)
+            {
+                previewWindow.Close();
+            }
             Debug.Print("OnClosed");
         }
 
@@ -823,6 +829,20 @@ namespace TobiiSBETServer
                     }
                 }
             }
+
+            // Update the status string in the bottom of preview window
+            if (previewWindow != null)
+            {
+                PreviewData newData;
+                newData.isValid = e.IsLeftValid && e.IsLeftPDValid && e.IsRightPDValid;
+                newData.eyeMovementType = e.LeftEyeMovementType;
+                newData.x = (int)(e.LeftX);
+                newData.y = (int)(e.LeftY);
+                newData.angularVelocity = (float)(e.LeftGazeAngularVelocity);
+                newData.pdLRAverage = (e.LeftPD + e.RightPD) / 2.0f;
+                newData.latestLFHF = pupilDataProcessor != null ? pupilDataProcessor.LatestLFHF : 0.0f;
+                previewWindow.UpdateStatusStr(newData);
+            }
         }
         #endregion
 
@@ -905,6 +925,11 @@ namespace TobiiSBETServer
             {
                 eyeTracker = new TobiiSBEyeTracker(screenWidthInPixels, screenHeightInPixels, VelocityCalcType.UCSGazeVector, AngularVelocityThreshold, DurationThreshold);
                 eyeTracker.OnGazeData += OnGazeData;
+
+                DeviceInfoStr = $"{eyeTracker.GetModel()}";
+                FrequencyStr = $"{eyeTracker.GetFrequency():F2} Hz";
+                ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters():F2}x{eyeTracker.GetScreenHeightInMillimeters():F2} mm)";
+                DeviceStatusStr = "Initialized";
             }
             catch (ArgumentOutOfRangeException e)
             {
@@ -918,10 +943,6 @@ namespace TobiiSBETServer
                     Close();
                 }
             }
-            DeviceInfoStr = $"{eyeTracker.GetModel()}";
-            FrequencyStr = $"{eyeTracker.GetFrequency():F2} Hz";
-            ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters():F2}x{eyeTracker.GetScreenHeightInMillimeters():F2} mm)";
-            DeviceStatusStr = "Initialized";
         }
         /// <summary>
         /// Start websocket server

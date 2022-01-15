@@ -549,6 +549,79 @@
             Gaze point for preview
             </summary>
         </member>
+        <member name="E:TobiiSBETServer.PreviewWindow.PropertyChanged">
+            <summary>
+            Event handler object for XAML binding properties
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.PreviewWindow.NotifyPropertyChanged(System.String)">
+            <summary>
+            Notifier for xaml binding properties
+            </summary>
+            <param name="name">Name of the property</param>
+            <example>
+            <code>
+            private string _HogeStr;
+            public string HogeStr
+            {
+                get { return _HogeStr; }
+                set
+                {
+                    _HogeStr = value;
+                    NotifyPropertyChanged(nameof(HogeStr));
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewWindow.previewStatusStr">
+            <summary>
+            Internal field for the binding property
+            </summary>
+        </member>
+        <member name="P:TobiiSBETServer.PreviewWindow.PreviewStatusStr">
+            <summary>
+            A XAML binding property
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.PreviewWindow.#ctor(System.Double)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="pointRadius">Gaze point radius</param>
+        </member>
+        <member name="M:TobiiSBETServer.PreviewWindow.Window_Closing(System.Object,System.ComponentModel.CancelEventArgs)">
+            <summary>
+            Closing event handler
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.PreviewWindow.ShowGazePoint">
+            <summary>
+            Show gaze point in the preview window
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.PreviewWindow.HideGazePoint">
+            <summary>
+            Hide gaze point in the preview window
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.PreviewWindow.PlaceGazePoint(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Place gaze point int the preview window
+            </summary>
+            <param name="screenWidth">Screen width</param>
+            <param name="screenHeight">Screen height</param>
+            <param name="x">X coordinate</param>
+            <param name="y">Y coordinate</param>
+        </member>
+        <member name="M:TobiiSBETServer.PreviewWindow.UpdateStatusStr(TobiiSBETServer.PreviewData)">
+            <summary>
+            Update status string in the bottom status bar
+            </summary>
+            <param name="data">Data to update</param>
+        </member>
         <member name="M:TobiiSBETServer.PreviewWindow.InitializeComponent">
             <summary>
             InitializeComponent
@@ -620,6 +693,46 @@
         <member name="F:TobiiSBETServer.WSEventID.LFHFComputed">
             <summary>
             Latest LF/HF ratio is computed
+            </summary>
+        </member>
+        <member name="T:TobiiSBETServer.PreviewData">
+            <summary>
+            Data for the status bar in the preview window
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewData.eyeMovementType">
+            <summary>
+            Eye movement
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewData.isValid">
+            <summary>
+            Validity
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewData.x">
+            <summary>
+            X coordinate
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewData.y">
+            <summary>
+            Y coordinate
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewData.angularVelocity">
+            <summary>
+            Angular velocity [deg/s]
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewData.pdLRAverage">
+            <summary>
+            Average pupil diameters of left and right eyes [mm]
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewData.latestLFHF">
+            <summary>
+            Latest LF/HF ratio
             </summary>
         </member>
     </members>

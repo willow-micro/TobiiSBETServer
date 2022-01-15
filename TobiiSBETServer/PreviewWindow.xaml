@@ -6,18 +6,22 @@
         Closing="Window_Closing" SizeToContent="WidthAndHeight"
         mc:Ignorable="d">
 
-    <Grid Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Grid.Column="0"
+        <Border Grid.Row="0"
+                Margin="20"
                 BorderBrush="DarkBlue" BorderThickness="2">
             <Canvas x:Name="PreviewCanvas"
                     Width="640" Height="360" />
         </Border>
+
+        <StatusBar Grid.Row="2">
+            <Label VerticalContentAlignment="Center" Content="{Binding PreviewStatusStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='Validity: -- | Eye Movement: -- | X: -- | Y: -- | Velocity: -- | PD: -- | LFHF: -- |'}" />
+        </StatusBar>
     </Grid>
 </Window>

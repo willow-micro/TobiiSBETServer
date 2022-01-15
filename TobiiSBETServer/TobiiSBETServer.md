@@ -102,10 +102,27 @@
   - [WSBroadCastString(payload)](#M-TobiiSBETServer-MainWindow-WSBroadCastString-System-String- 'TobiiSBETServer.MainWindow.WSBroadCastString(System.String)')
   - [WSStartButtonClicked(sender,e)](#M-TobiiSBETServer-MainWindow-WSStartButtonClicked-System-Object,System-Windows-RoutedEventArgs- 'TobiiSBETServer.MainWindow.WSStartButtonClicked(System.Object,System.Windows.RoutedEventArgs)')
   - [WSStopButtonClicked(sender,e)](#M-TobiiSBETServer-MainWindow-WSStopButtonClicked-System-Object,System-Windows-RoutedEventArgs- 'TobiiSBETServer.MainWindow.WSStopButtonClicked(System.Object,System.Windows.RoutedEventArgs)')
+- [PreviewData](#T-TobiiSBETServer-PreviewData 'TobiiSBETServer.PreviewData')
+  - [angularVelocity](#F-TobiiSBETServer-PreviewData-angularVelocity 'TobiiSBETServer.PreviewData.angularVelocity')
+  - [eyeMovementType](#F-TobiiSBETServer-PreviewData-eyeMovementType 'TobiiSBETServer.PreviewData.eyeMovementType')
+  - [isValid](#F-TobiiSBETServer-PreviewData-isValid 'TobiiSBETServer.PreviewData.isValid')
+  - [latestLFHF](#F-TobiiSBETServer-PreviewData-latestLFHF 'TobiiSBETServer.PreviewData.latestLFHF')
+  - [pdLRAverage](#F-TobiiSBETServer-PreviewData-pdLRAverage 'TobiiSBETServer.PreviewData.pdLRAverage')
+  - [x](#F-TobiiSBETServer-PreviewData-x 'TobiiSBETServer.PreviewData.x')
+  - [y](#F-TobiiSBETServer-PreviewData-y 'TobiiSBETServer.PreviewData.y')
 - [PreviewWindow](#T-TobiiSBETServer-PreviewWindow 'TobiiSBETServer.PreviewWindow')
+  - [#ctor(pointRadius)](#M-TobiiSBETServer-PreviewWindow-#ctor-System-Double- 'TobiiSBETServer.PreviewWindow.#ctor(System.Double)')
   - [gazePoint](#F-TobiiSBETServer-PreviewWindow-gazePoint 'TobiiSBETServer.PreviewWindow.gazePoint')
   - [pointDiameter](#F-TobiiSBETServer-PreviewWindow-pointDiameter 'TobiiSBETServer.PreviewWindow.pointDiameter')
+  - [previewStatusStr](#F-TobiiSBETServer-PreviewWindow-previewStatusStr 'TobiiSBETServer.PreviewWindow.previewStatusStr')
+  - [PreviewStatusStr](#P-TobiiSBETServer-PreviewWindow-PreviewStatusStr 'TobiiSBETServer.PreviewWindow.PreviewStatusStr')
+  - [HideGazePoint()](#M-TobiiSBETServer-PreviewWindow-HideGazePoint 'TobiiSBETServer.PreviewWindow.HideGazePoint')
   - [InitializeComponent()](#M-TobiiSBETServer-PreviewWindow-InitializeComponent 'TobiiSBETServer.PreviewWindow.InitializeComponent')
+  - [NotifyPropertyChanged(name)](#M-TobiiSBETServer-PreviewWindow-NotifyPropertyChanged-System-String- 'TobiiSBETServer.PreviewWindow.NotifyPropertyChanged(System.String)')
+  - [PlaceGazePoint(screenWidth,screenHeight,x,y)](#M-TobiiSBETServer-PreviewWindow-PlaceGazePoint-System-Double,System-Double,System-Double,System-Double- 'TobiiSBETServer.PreviewWindow.PlaceGazePoint(System.Double,System.Double,System.Double,System.Double)')
+  - [ShowGazePoint()](#M-TobiiSBETServer-PreviewWindow-ShowGazePoint 'TobiiSBETServer.PreviewWindow.ShowGazePoint')
+  - [UpdateStatusStr(data)](#M-TobiiSBETServer-PreviewWindow-UpdateStatusStr-TobiiSBETServer-PreviewData- 'TobiiSBETServer.PreviewWindow.UpdateStatusStr(TobiiSBETServer.PreviewData)')
+  - [Window_Closing(sender,e)](#M-TobiiSBETServer-PreviewWindow-Window_Closing-System-Object,System-ComponentModel-CancelEventArgs- 'TobiiSBETServer.PreviewWindow.Window_Closing(System.Object,System.ComponentModel.CancelEventArgs)')
 - [SBGazeCollectData](#T-TobiiSBETServer-SBGazeCollectData 'TobiiSBETServer.SBGazeCollectData')
   - [#ctor(t,x,y)](#M-TobiiSBETServer-SBGazeCollectData-#ctor-System-Int64,System-Int32,System-Int32- 'TobiiSBETServer.SBGazeCollectData.#ctor(System.Int64,System.Int32,System.Int32)')
   - [time](#F-TobiiSBETServer-SBGazeCollectData-time 'TobiiSBETServer.SBGazeCollectData.time')
@@ -983,6 +1000,66 @@ Click event handler for the stop websocket server button
 | sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
 | e | [System.Windows.RoutedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.RoutedEventArgs 'System.Windows.RoutedEventArgs') | Args |
 
+<a name='T-TobiiSBETServer-PreviewData'></a>
+## PreviewData `type`
+
+##### Namespace
+
+TobiiSBETServer
+
+##### Summary
+
+Data for the status bar in the preview window
+
+<a name='F-TobiiSBETServer-PreviewData-angularVelocity'></a>
+### angularVelocity `constants`
+
+##### Summary
+
+Angular velocity [deg/s]
+
+<a name='F-TobiiSBETServer-PreviewData-eyeMovementType'></a>
+### eyeMovementType `constants`
+
+##### Summary
+
+Eye movement
+
+<a name='F-TobiiSBETServer-PreviewData-isValid'></a>
+### isValid `constants`
+
+##### Summary
+
+Validity
+
+<a name='F-TobiiSBETServer-PreviewData-latestLFHF'></a>
+### latestLFHF `constants`
+
+##### Summary
+
+Latest LF/HF ratio
+
+<a name='F-TobiiSBETServer-PreviewData-pdLRAverage'></a>
+### pdLRAverage `constants`
+
+##### Summary
+
+Average pupil diameters of left and right eyes [mm]
+
+<a name='F-TobiiSBETServer-PreviewData-x'></a>
+### x `constants`
+
+##### Summary
+
+X coordinate
+
+<a name='F-TobiiSBETServer-PreviewData-y'></a>
+### y `constants`
+
+##### Summary
+
+Y coordinate
+
 <a name='T-TobiiSBETServer-PreviewWindow'></a>
 ## PreviewWindow `type`
 
@@ -993,6 +1070,19 @@ TobiiSBETServer
 ##### Summary
 
 Interaction logic for PreviewWindow.xaml
+
+<a name='M-TobiiSBETServer-PreviewWindow-#ctor-System-Double-'></a>
+### #ctor(pointRadius) `constructor`
+
+##### Summary
+
+Constructor.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| pointRadius | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | Gaze point radius |
 
 <a name='F-TobiiSBETServer-PreviewWindow-gazePoint'></a>
 ### gazePoint `constants`
@@ -1008,6 +1098,31 @@ Gaze point for preview
 
 Diameter in pixels for the gaze point
 
+<a name='F-TobiiSBETServer-PreviewWindow-previewStatusStr'></a>
+### previewStatusStr `constants`
+
+##### Summary
+
+Internal field for the binding property
+
+<a name='P-TobiiSBETServer-PreviewWindow-PreviewStatusStr'></a>
+### PreviewStatusStr `property`
+
+##### Summary
+
+A XAML binding property
+
+<a name='M-TobiiSBETServer-PreviewWindow-HideGazePoint'></a>
+### HideGazePoint() `method`
+
+##### Summary
+
+Hide gaze point in the preview window
+
+##### Parameters
+
+This method has no parameters.
+
 <a name='M-TobiiSBETServer-PreviewWindow-InitializeComponent'></a>
 ### InitializeComponent() `method`
 
@@ -1018,6 +1133,88 @@ InitializeComponent
 ##### Parameters
 
 This method has no parameters.
+
+<a name='M-TobiiSBETServer-PreviewWindow-NotifyPropertyChanged-System-String-'></a>
+### NotifyPropertyChanged(name) `method`
+
+##### Summary
+
+Notifier for xaml binding properties
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| name | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Name of the property |
+
+##### Example
+
+```
+private string _HogeStr;
+public string HogeStr
+{
+    get { return _HogeStr; }
+    set
+    {
+        _HogeStr = value;
+        NotifyPropertyChanged(nameof(HogeStr));
+    }
+}
+```
+
+<a name='M-TobiiSBETServer-PreviewWindow-PlaceGazePoint-System-Double,System-Double,System-Double,System-Double-'></a>
+### PlaceGazePoint(screenWidth,screenHeight,x,y) `method`
+
+##### Summary
+
+Place gaze point int the preview window
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| screenWidth | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | Screen width |
+| screenHeight | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | Screen height |
+| x | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | X coordinate |
+| y | [System.Double](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Double 'System.Double') | Y coordinate |
+
+<a name='M-TobiiSBETServer-PreviewWindow-ShowGazePoint'></a>
+### ShowGazePoint() `method`
+
+##### Summary
+
+Show gaze point in the preview window
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-TobiiSBETServer-PreviewWindow-UpdateStatusStr-TobiiSBETServer-PreviewData-'></a>
+### UpdateStatusStr(data) `method`
+
+##### Summary
+
+Update status string in the bottom status bar
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| data | [TobiiSBETServer.PreviewData](#T-TobiiSBETServer-PreviewData 'TobiiSBETServer.PreviewData') | Data to update |
+
+<a name='M-TobiiSBETServer-PreviewWindow-Window_Closing-System-Object,System-ComponentModel-CancelEventArgs-'></a>
+### Window_Closing(sender,e) `method`
+
+##### Summary
+
+Closing event handler
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
+| e | [System.ComponentModel.CancelEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ComponentModel.CancelEventArgs 'System.ComponentModel.CancelEventArgs') | Args |
 
 <a name='T-TobiiSBETServer-SBGazeCollectData'></a>
 ## SBGazeCollectData `type`
