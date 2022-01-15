@@ -646,6 +646,11 @@ namespace TobiiSBETServer
             }
         }
 
+        /// <summary>
+        /// Click event handler for the start eye tracking button
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
         private void ETStartButtonClicked(object sender, RoutedEventArgs e)
         {
             collectGazeDataCount = 0;
@@ -662,13 +667,18 @@ namespace TobiiSBETServer
                 pupilDataProcessor = new PupilDataProcessor((int)eyeTracker.GetFrequency(), new FrequencyRange(LFLowFreq, LFHighFreq), new FrequencyRange(HFLowFreq, HFHighFreq), IdealFreqResolution, ComputeSpanSec);
             }
 
-            eyeTracker.ChangeFixationVelocityThresh(IsFixationFilterEnabled ? AngularVelocityThreshold : 1);
-            eyeTracker.ChangeFixationDurationThresh(IsFixationFilterEnabled ? DurationThreshold : 0);
+            eyeTracker.ModifyFixationVelocityThresh(IsFixationFilterEnabled ? AngularVelocityThreshold : 1);
+            eyeTracker.ModifyFixationDurationThresh(IsFixationFilterEnabled ? DurationThreshold : 0);
 
             UpdateAppState(AppState.WaitForWSStart);
             eyeTracker.StartReceivingGazeData();
             DeviceStatusStr = "Tracking";
         }
+        /// <summary>
+        /// Click event handler for the stop eye tracker button
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
         private void ETStopButtonClicked(object sender, RoutedEventArgs e)
         {
             previewWindow.Hide();
@@ -681,6 +691,11 @@ namespace TobiiSBETServer
                 pupilDataProcessor = null;
             }
         }
+        /// <summary>
+        /// Click event handler for the show preview window button
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
         private void ShowPreviewButtonClicked(object sender, RoutedEventArgs e)
         {
             Debug.Print("ShowPreviewButton was clicked");
@@ -688,17 +703,32 @@ namespace TobiiSBETServer
             IsShowPreviewButtonEnabled = false;
             previewWindow.PlaceGazePoint(screenWidthInPixels, screenHeightInPixels, screenWidthInPixels / 2, screenHeightInPixels / 2);
         }
+        /// <summary>
+        /// Click event handler for the start websocket server button
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
         private void WSStartButtonClicked(object sender, RoutedEventArgs e)
         {
             UpdateAppState(AppState.WSStarted);
             StartWSServer();
         }
+        /// <summary>
+        /// Click event handler for the stop websocket server button
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
         private void WSStopButtonClicked(object sender, RoutedEventArgs e)
         {
             UpdateAppState(AppState.WaitForWSStart);
             StopWSServer();
         }
 
+        /// <summary>
+        /// OnGazeData event handler. Receives gaze data from the eye tracker
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
         private void OnGazeData(object sender, OnGazeDataEventArgs e)
         {
             if (e.IsLeftValid)
@@ -780,6 +810,10 @@ namespace TobiiSBETServer
         #endregion
 
         #region Private methods
+        /// <summary>
+        /// Update app state with a given state
+        /// </summary>
+        /// <param name="state">State for updating</param>
         private void UpdateAppState(AppState state)
         {
             switch (state)
@@ -818,6 +852,9 @@ namespace TobiiSBETServer
                     break;
             }
         }
+        /// <summary>
+        /// Initialize XAML binding parameters
+        /// </summary>
         private void InitializeParameters()
         {
             AppStatusStr = "--";
@@ -842,7 +879,9 @@ namespace TobiiSBETServer
             PortNumber = 8008;
             ServerURL = $"ws://{GetHostAddress()}:{PortNumber}/{ServicePath}";
         }
-
+        /// <summary>
+        /// Initialzie a eye tracker
+        /// </summary>
         private void InitializeEyeTracker()
         {
             try
@@ -867,7 +906,9 @@ namespace TobiiSBETServer
             ScreenDimensionsStr = $"{eyeTracker.GetScreenWidthInPixels()}x{eyeTracker.GetScreenHeightInPixels()} ({eyeTracker.GetScreenWidthInMillimeters():F2}x{eyeTracker.GetScreenHeightInMillimeters():F2} mm)";
             DeviceStatusStr = "Initialized";
         }
-
+        /// <summary>
+        /// Start websocket server
+        /// </summary>
         private void StartWSServer()
         {
             webSocketServer = new WebSocketServer($"ws://{GetHostAddress()}:{PortNumber}");
@@ -875,7 +916,9 @@ namespace TobiiSBETServer
             webSocketServer.Start();
             Debug.Print($"Server was started on {ServerURL}");
         }
-
+        /// <summary>
+        /// Stop websocket server
+        /// </summary>
         private void StopWSServer()
         {
             if (webSocketServer.IsListening)
@@ -884,7 +927,11 @@ namespace TobiiSBETServer
             }                
             Debug.Print("Server was stopped");
         }
-
+        /// <summary>
+        /// Broadcast a given string from the running websocket server
+        /// </summary>
+        /// <param name="payload">A payload string to broadcast over the websocket connection</param>
+        /// <exception cref="InvalidOperationException">"Websocket server is not running. Cannot broadcast."</exception>
         private void WSBroadCastString(string payload)
         {
             if (webSocketServer.IsListening)
@@ -892,8 +939,17 @@ namespace TobiiSBETServer
                 webSocketServer.WebSocketServices[$"/{ServicePath}"].Sessions.Broadcast(payload);
                 Debug.Print($"Broadcast: {payload}");
             }
+            else
+            {
+                throw new InvalidOperationException("Websocket server is not running. Cannot broadcast.");
+            }
         }
-
+        /// <summary>
+        /// Append gaze data to the collection. When the collection is full, send it with SendSBGazeDataCollection().
+        /// </summary>
+        /// <param name="time">Unix time</param>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
         private void AppendSBGazeDataToCollection(long time, int x, int y)
         {
             collectGazeDataArray[collectGazeDataCount].time = time;
@@ -901,7 +957,9 @@ namespace TobiiSBETServer
             collectGazeDataArray[collectGazeDataCount].y = y;
             collectGazeDataCount++;
         }
-
+        /// <summary>
+        /// Send collected gaze data over the websocket connection
+        /// </summary>
         private void SendSBGazeDataCollection()
         {
             string payloadText = $"e{WSEventID.FixationStarted},n{ConsecutiveDataCount}";
@@ -919,6 +977,10 @@ namespace TobiiSBETServer
         #endregion
 
         #region Static methods
+        /// <summary>
+        /// Get host ipv4 address
+        /// </summary>
+        /// <returns>[string] IPv4 address</returns>
         private static string GetHostAddress()
         {
             string ipAddress = "";
@@ -935,7 +997,10 @@ namespace TobiiSBETServer
             }
             return ipAddress;
         }
-
+        /// <summary>
+        /// Get current unix time in ms
+        /// </summary>
+        /// <returns>[long] Unix time</returns>
         private static long GetUnixTimeInMs()
         {
             DateTimeOffset now = DateTimeOffset.UtcNow;

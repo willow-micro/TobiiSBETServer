@@ -6,6 +6,10 @@
 - [App](#T-TobiiSBETServer-App 'TobiiSBETServer.App')
   - [InitializeComponent()](#M-TobiiSBETServer-App-InitializeComponent 'TobiiSBETServer.App.InitializeComponent')
   - [Main()](#M-TobiiSBETServer-App-Main 'TobiiSBETServer.App.Main')
+- [AppState](#T-TobiiSBETServer-AppState 'TobiiSBETServer.AppState')
+  - [WSStarted](#F-TobiiSBETServer-AppState-WSStarted 'TobiiSBETServer.AppState.WSStarted')
+  - [WaitForETStart](#F-TobiiSBETServer-AppState-WaitForETStart 'TobiiSBETServer.AppState.WaitForETStart')
+  - [WaitForWSStart](#F-TobiiSBETServer-AppState-WaitForWSStart 'TobiiSBETServer.AppState.WaitForWSStart')
 - [MainWindow](#T-TobiiSBETServer-MainWindow 'TobiiSBETServer.MainWindow')
   - [#ctor()](#M-TobiiSBETServer-MainWindow-#ctor 'TobiiSBETServer.MainWindow.#ctor')
   - [angularVelocityThreshold](#F-TobiiSBETServer-MainWindow-angularVelocityThreshold 'TobiiSBETServer.MainWindow.angularVelocityThreshold')
@@ -76,14 +80,38 @@
   - [ServerURL](#P-TobiiSBETServer-MainWindow-ServerURL 'TobiiSBETServer.MainWindow.ServerURL')
   - [ServicePath](#P-TobiiSBETServer-MainWindow-ServicePath 'TobiiSBETServer.MainWindow.ServicePath')
   - [AppCloseEvent(sender,e)](#M-TobiiSBETServer-MainWindow-AppCloseEvent-System-Object,System-Windows-Input-ExecutedRoutedEventArgs- 'TobiiSBETServer.MainWindow.AppCloseEvent(System.Object,System.Windows.Input.ExecutedRoutedEventArgs)')
+  - [AppendSBGazeDataToCollection(time,x,y)](#M-TobiiSBETServer-MainWindow-AppendSBGazeDataToCollection-System-Int64,System-Int32,System-Int32- 'TobiiSBETServer.MainWindow.AppendSBGazeDataToCollection(System.Int64,System.Int32,System.Int32)')
+  - [ETStartButtonClicked(sender,e)](#M-TobiiSBETServer-MainWindow-ETStartButtonClicked-System-Object,System-Windows-RoutedEventArgs- 'TobiiSBETServer.MainWindow.ETStartButtonClicked(System.Object,System.Windows.RoutedEventArgs)')
+  - [ETStopButtonClicked(sender,e)](#M-TobiiSBETServer-MainWindow-ETStopButtonClicked-System-Object,System-Windows-RoutedEventArgs- 'TobiiSBETServer.MainWindow.ETStopButtonClicked(System.Object,System.Windows.RoutedEventArgs)')
+  - [GetHostAddress()](#M-TobiiSBETServer-MainWindow-GetHostAddress 'TobiiSBETServer.MainWindow.GetHostAddress')
+  - [GetUnixTimeInMs()](#M-TobiiSBETServer-MainWindow-GetUnixTimeInMs 'TobiiSBETServer.MainWindow.GetUnixTimeInMs')
   - [InitializeComponent()](#M-TobiiSBETServer-MainWindow-InitializeComponent 'TobiiSBETServer.MainWindow.InitializeComponent')
+  - [InitializeEyeTracker()](#M-TobiiSBETServer-MainWindow-InitializeEyeTracker 'TobiiSBETServer.MainWindow.InitializeEyeTracker')
+  - [InitializeParameters()](#M-TobiiSBETServer-MainWindow-InitializeParameters 'TobiiSBETServer.MainWindow.InitializeParameters')
   - [NotifyPropertyChanged(name)](#M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String- 'TobiiSBETServer.MainWindow.NotifyPropertyChanged(System.String)')
   - [OnClosed(sender,e)](#M-TobiiSBETServer-MainWindow-OnClosed-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnClosed(System.Object,System.EventArgs)')
   - [OnContentRendered(sender,e)](#M-TobiiSBETServer-MainWindow-OnContentRendered-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnContentRendered(System.Object,System.EventArgs)')
+  - [OnGazeData(sender,e)](#M-TobiiSBETServer-MainWindow-OnGazeData-System-Object,EyeTracking-OnGazeDataEventArgs- 'TobiiSBETServer.MainWindow.OnGazeData(System.Object,EyeTracking.OnGazeDataEventArgs)')
+  - [SendSBGazeDataCollection()](#M-TobiiSBETServer-MainWindow-SendSBGazeDataCollection 'TobiiSBETServer.MainWindow.SendSBGazeDataCollection')
+  - [ShowPreviewButtonClicked(sender,e)](#M-TobiiSBETServer-MainWindow-ShowPreviewButtonClicked-System-Object,System-Windows-RoutedEventArgs- 'TobiiSBETServer.MainWindow.ShowPreviewButtonClicked(System.Object,System.Windows.RoutedEventArgs)')
+  - [StartWSServer()](#M-TobiiSBETServer-MainWindow-StartWSServer 'TobiiSBETServer.MainWindow.StartWSServer')
+  - [StopWSServer()](#M-TobiiSBETServer-MainWindow-StopWSServer 'TobiiSBETServer.MainWindow.StopWSServer')
+  - [UpdateAppState(state)](#M-TobiiSBETServer-MainWindow-UpdateAppState-TobiiSBETServer-AppState- 'TobiiSBETServer.MainWindow.UpdateAppState(TobiiSBETServer.AppState)')
+  - [WSBroadCastString(payload)](#M-TobiiSBETServer-MainWindow-WSBroadCastString-System-String- 'TobiiSBETServer.MainWindow.WSBroadCastString(System.String)')
+  - [WSStartButtonClicked(sender,e)](#M-TobiiSBETServer-MainWindow-WSStartButtonClicked-System-Object,System-Windows-RoutedEventArgs- 'TobiiSBETServer.MainWindow.WSStartButtonClicked(System.Object,System.Windows.RoutedEventArgs)')
+  - [WSStopButtonClicked(sender,e)](#M-TobiiSBETServer-MainWindow-WSStopButtonClicked-System-Object,System-Windows-RoutedEventArgs- 'TobiiSBETServer.MainWindow.WSStopButtonClicked(System.Object,System.Windows.RoutedEventArgs)')
 - [PreviewWindow](#T-TobiiSBETServer-PreviewWindow 'TobiiSBETServer.PreviewWindow')
   - [gazePoint](#F-TobiiSBETServer-PreviewWindow-gazePoint 'TobiiSBETServer.PreviewWindow.gazePoint')
   - [pointDiameter](#F-TobiiSBETServer-PreviewWindow-pointDiameter 'TobiiSBETServer.PreviewWindow.pointDiameter')
   - [InitializeComponent()](#M-TobiiSBETServer-PreviewWindow-InitializeComponent 'TobiiSBETServer.PreviewWindow.InitializeComponent')
+- [SBGazeCollectData](#T-TobiiSBETServer-SBGazeCollectData 'TobiiSBETServer.SBGazeCollectData')
+  - [time](#F-TobiiSBETServer-SBGazeCollectData-time 'TobiiSBETServer.SBGazeCollectData.time')
+  - [x](#F-TobiiSBETServer-SBGazeCollectData-x 'TobiiSBETServer.SBGazeCollectData.x')
+  - [y](#F-TobiiSBETServer-SBGazeCollectData-y 'TobiiSBETServer.SBGazeCollectData.y')
+- [WSEventID](#T-TobiiSBETServer-WSEventID 'TobiiSBETServer.WSEventID')
+  - [FixationEnded](#F-TobiiSBETServer-WSEventID-FixationEnded 'TobiiSBETServer.WSEventID.FixationEnded')
+  - [FixationStarted](#F-TobiiSBETServer-WSEventID-FixationStarted 'TobiiSBETServer.WSEventID.FixationStarted')
+  - [LFHFComputed](#F-TobiiSBETServer-WSEventID-LFHFComputed 'TobiiSBETServer.WSEventID.LFHFComputed')
 
 <a name='T-TobiiSBETServer-App'></a>
 ## App `type`
@@ -117,6 +145,38 @@ Application Entry Point.
 ##### Parameters
 
 This method has no parameters.
+
+<a name='T-TobiiSBETServer-AppState'></a>
+## AppState `type`
+
+##### Namespace
+
+TobiiSBETServer
+
+##### Summary
+
+Application State for ui management and status bar
+
+<a name='F-TobiiSBETServer-AppState-WSStarted'></a>
+### WSStarted `constants`
+
+##### Summary
+
+Websocket server is started
+
+<a name='F-TobiiSBETServer-AppState-WaitForETStart'></a>
+### WaitForETStart `constants`
+
+##### Summary
+
+Waiting for starting the eye tracker
+
+<a name='F-TobiiSBETServer-AppState-WaitForWSStart'></a>
+### WaitForWSStart `constants`
+
+##### Summary
+
+Waiting for starting the websocket server
 
 <a name='T-TobiiSBETServer-MainWindow'></a>
 ## MainWindow `type`
@@ -623,12 +683,107 @@ Ask user to close or not when the Esc key was pressed
 | sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
 | e | [System.Windows.Input.ExecutedRoutedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.Input.ExecutedRoutedEventArgs 'System.Windows.Input.ExecutedRoutedEventArgs') | Args |
 
+<a name='M-TobiiSBETServer-MainWindow-AppendSBGazeDataToCollection-System-Int64,System-Int32,System-Int32-'></a>
+### AppendSBGazeDataToCollection(time,x,y) `method`
+
+##### Summary
+
+Append gaze data to the collection. When the collection is full, send it with SendSBGazeDataCollection().
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| time | [System.Int64](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int64 'System.Int64') | Unix time |
+| x | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | X coordinate |
+| y | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | Y coordinate |
+
+<a name='M-TobiiSBETServer-MainWindow-ETStartButtonClicked-System-Object,System-Windows-RoutedEventArgs-'></a>
+### ETStartButtonClicked(sender,e) `method`
+
+##### Summary
+
+Click event handler for the start eye tracking button
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
+| e | [System.Windows.RoutedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.RoutedEventArgs 'System.Windows.RoutedEventArgs') | Args |
+
+<a name='M-TobiiSBETServer-MainWindow-ETStopButtonClicked-System-Object,System-Windows-RoutedEventArgs-'></a>
+### ETStopButtonClicked(sender,e) `method`
+
+##### Summary
+
+Click event handler for the stop eye tracker button
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
+| e | [System.Windows.RoutedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.RoutedEventArgs 'System.Windows.RoutedEventArgs') | Args |
+
+<a name='M-TobiiSBETServer-MainWindow-GetHostAddress'></a>
+### GetHostAddress() `method`
+
+##### Summary
+
+Get host ipv4 address
+
+##### Returns
+
+[string] IPv4 address
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-TobiiSBETServer-MainWindow-GetUnixTimeInMs'></a>
+### GetUnixTimeInMs() `method`
+
+##### Summary
+
+Get current unix time in ms
+
+##### Returns
+
+[long] Unix time
+
+##### Parameters
+
+This method has no parameters.
+
 <a name='M-TobiiSBETServer-MainWindow-InitializeComponent'></a>
 ### InitializeComponent() `method`
 
 ##### Summary
 
 InitializeComponent
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-TobiiSBETServer-MainWindow-InitializeEyeTracker'></a>
+### InitializeEyeTracker() `method`
+
+##### Summary
+
+Initialzie a eye tracker
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-TobiiSBETServer-MainWindow-InitializeParameters'></a>
+### InitializeParameters() `method`
+
+##### Summary
+
+Initialize XAML binding parameters
 
 ##### Parameters
 
@@ -690,6 +845,127 @@ Called when all content was loaded.
 | sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
 | e | [System.EventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.EventArgs 'System.EventArgs') | Args |
 
+<a name='M-TobiiSBETServer-MainWindow-OnGazeData-System-Object,EyeTracking-OnGazeDataEventArgs-'></a>
+### OnGazeData(sender,e) `method`
+
+##### Summary
+
+OnGazeData event handler. Receives gaze data from the eye tracker
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
+| e | [EyeTracking.OnGazeDataEventArgs](#T-EyeTracking-OnGazeDataEventArgs 'EyeTracking.OnGazeDataEventArgs') | Args |
+
+<a name='M-TobiiSBETServer-MainWindow-SendSBGazeDataCollection'></a>
+### SendSBGazeDataCollection() `method`
+
+##### Summary
+
+Send collected gaze data over the websocket connection
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-TobiiSBETServer-MainWindow-ShowPreviewButtonClicked-System-Object,System-Windows-RoutedEventArgs-'></a>
+### ShowPreviewButtonClicked(sender,e) `method`
+
+##### Summary
+
+Click event handler for the show preview window button
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
+| e | [System.Windows.RoutedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.RoutedEventArgs 'System.Windows.RoutedEventArgs') | Args |
+
+<a name='M-TobiiSBETServer-MainWindow-StartWSServer'></a>
+### StartWSServer() `method`
+
+##### Summary
+
+Start websocket server
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-TobiiSBETServer-MainWindow-StopWSServer'></a>
+### StopWSServer() `method`
+
+##### Summary
+
+Stop websocket server
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-TobiiSBETServer-MainWindow-UpdateAppState-TobiiSBETServer-AppState-'></a>
+### UpdateAppState(state) `method`
+
+##### Summary
+
+Update app state with a given state
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| state | [TobiiSBETServer.AppState](#T-TobiiSBETServer-AppState 'TobiiSBETServer.AppState') | State for updating |
+
+<a name='M-TobiiSBETServer-MainWindow-WSBroadCastString-System-String-'></a>
+### WSBroadCastString(payload) `method`
+
+##### Summary
+
+Broadcast a given string from the running websocket server
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| payload | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | A payload string to broadcast over the websocket connection |
+
+##### Exceptions
+
+| Name | Description |
+| ---- | ----------- |
+| [System.InvalidOperationException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.InvalidOperationException 'System.InvalidOperationException') | "Websocket server is not running. Cannot broadcast." |
+
+<a name='M-TobiiSBETServer-MainWindow-WSStartButtonClicked-System-Object,System-Windows-RoutedEventArgs-'></a>
+### WSStartButtonClicked(sender,e) `method`
+
+##### Summary
+
+Click event handler for the start websocket server button
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
+| e | [System.Windows.RoutedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.RoutedEventArgs 'System.Windows.RoutedEventArgs') | Args |
+
+<a name='M-TobiiSBETServer-MainWindow-WSStopButtonClicked-System-Object,System-Windows-RoutedEventArgs-'></a>
+### WSStopButtonClicked(sender,e) `method`
+
+##### Summary
+
+Click event handler for the stop websocket server button
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| sender | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | Sender |
+| e | [System.Windows.RoutedEventArgs](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Windows.RoutedEventArgs 'System.Windows.RoutedEventArgs') | Args |
+
 <a name='T-TobiiSBETServer-PreviewWindow'></a>
 ## PreviewWindow `type`
 
@@ -725,3 +1001,67 @@ InitializeComponent
 ##### Parameters
 
 This method has no parameters.
+
+<a name='T-TobiiSBETServer-SBGazeCollectData'></a>
+## SBGazeCollectData `type`
+
+##### Namespace
+
+TobiiSBETServer
+
+##### Summary
+
+Gaze data to collect from screen-based eye tracker
+
+<a name='F-TobiiSBETServer-SBGazeCollectData-time'></a>
+### time `constants`
+
+##### Summary
+
+Unix time in ms
+
+<a name='F-TobiiSBETServer-SBGazeCollectData-x'></a>
+### x `constants`
+
+##### Summary
+
+X coordinate
+
+<a name='F-TobiiSBETServer-SBGazeCollectData-y'></a>
+### y `constants`
+
+##### Summary
+
+Y coordinate
+
+<a name='T-TobiiSBETServer-WSEventID'></a>
+## WSEventID `type`
+
+##### Namespace
+
+TobiiSBETServer
+
+##### Summary
+
+Event ID for websocket packets
+
+<a name='F-TobiiSBETServer-WSEventID-FixationEnded'></a>
+### FixationEnded `constants`
+
+##### Summary
+
+Detected a fixation is ending
+
+<a name='F-TobiiSBETServer-WSEventID-FixationStarted'></a>
+### FixationStarted `constants`
+
+##### Summary
+
+Detected a fixation is starting
+
+<a name='F-TobiiSBETServer-WSEventID-LFHFComputed'></a>
+### LFHFComputed `constants`
+
+##### Summary
+
+Latest LF/HF ratio is computed

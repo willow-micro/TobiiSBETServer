@@ -416,6 +416,106 @@
             <param name="sender">Sender</param>
             <param name="e">Args</param>
         </member>
+        <member name="M:TobiiSBETServer.MainWindow.ETStartButtonClicked(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Click event handler for the start eye tracking button
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.ETStopButtonClicked(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Click event handler for the stop eye tracker button
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.ShowPreviewButtonClicked(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Click event handler for the show preview window button
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.WSStartButtonClicked(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Click event handler for the start websocket server button
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.WSStopButtonClicked(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Click event handler for the stop websocket server button
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.OnGazeData(System.Object,EyeTracking.OnGazeDataEventArgs)">
+            <summary>
+            OnGazeData event handler. Receives gaze data from the eye tracker
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Args</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.UpdateAppState(TobiiSBETServer.AppState)">
+            <summary>
+            Update app state with a given state
+            </summary>
+            <param name="state">State for updating</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.InitializeParameters">
+            <summary>
+            Initialize XAML binding parameters
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.InitializeEyeTracker">
+            <summary>
+            Initialzie a eye tracker
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.StartWSServer">
+            <summary>
+            Start websocket server
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.StopWSServer">
+            <summary>
+            Stop websocket server
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.WSBroadCastString(System.String)">
+            <summary>
+            Broadcast a given string from the running websocket server
+            </summary>
+            <param name="payload">A payload string to broadcast over the websocket connection</param>
+            <exception cref="T:System.InvalidOperationException">"Websocket server is not running. Cannot broadcast."</exception>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.AppendSBGazeDataToCollection(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            Append gaze data to the collection. When the collection is full, send it with SendSBGazeDataCollection().
+            </summary>
+            <param name="time">Unix time</param>
+            <param name="x">X coordinate</param>
+            <param name="y">Y coordinate</param>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.SendSBGazeDataCollection">
+            <summary>
+            Send collected gaze data over the websocket connection
+            </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.GetHostAddress">
+            <summary>
+            Get host ipv4 address
+            </summary>
+            <returns>[string] IPv4 address</returns>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.GetUnixTimeInMs">
+            <summary>
+            Get current unix time in ms
+            </summary>
+            <returns>[long] Unix time</returns>
+        </member>
         <member name="M:TobiiSBETServer.MainWindow.InitializeComponent">
             <summary>
             InitializeComponent
@@ -442,6 +542,66 @@
         <member name="M:TobiiSBETServer.PreviewWindow.InitializeComponent">
             <summary>
             InitializeComponent
+            </summary>
+        </member>
+        <member name="T:TobiiSBETServer.AppState">
+            <summary>
+            Application State for ui management and status bar
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.AppState.WaitForETStart">
+            <summary>
+            Waiting for starting the eye tracker
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.AppState.WaitForWSStart">
+            <summary>
+            Waiting for starting the websocket server
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.AppState.WSStarted">
+            <summary>
+            Websocket server is started
+            </summary>
+        </member>
+        <member name="T:TobiiSBETServer.SBGazeCollectData">
+            <summary>
+            Gaze data to collect from screen-based eye tracker
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.SBGazeCollectData.time">
+            <summary>
+            Unix time in ms
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.SBGazeCollectData.x">
+            <summary>
+            X coordinate
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.SBGazeCollectData.y">
+            <summary>
+            Y coordinate
+            </summary>
+        </member>
+        <member name="T:TobiiSBETServer.WSEventID">
+            <summary>
+            Event ID for websocket packets
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.WSEventID.FixationStarted">
+            <summary>
+            Detected a fixation is starting
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.WSEventID.FixationEnded">
+            <summary>
+            Detected a fixation is ending
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.WSEventID.LFHFComputed">
+            <summary>
+            Latest LF/HF ratio is computed
             </summary>
         </member>
     </members>
