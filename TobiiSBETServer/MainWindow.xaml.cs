@@ -802,7 +802,7 @@ namespace TobiiSBETServer
                 if (e.LeftEyeMovementType == EyeMovementType.Saccade &&
                     prevEyeMovementType == EyeMovementType.Fixation)
                 {
-                    string payloadText = $"e{WSEventID.FixationEnded},t{prevGazeData.time},x{prevGazeData.x},y{prevGazeData.y}";
+                    string payloadText = $"e{(int)WSEventID.FixationEnded},t{prevGazeData.time},x{prevGazeData.x},y{prevGazeData.y}";
                     Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationEnded)}[{(int)WSEventID.FixationEnded}]: {payloadText}");
                     if (!IsNotWSStarted)
                     {
@@ -843,7 +843,7 @@ namespace TobiiSBETServer
                 if (pupilDataProcessor.UpdateWith(pupilData) == LFHFComputeStatus.Ready)
                 {
                     long unixTime = GetUnixTimeInMs();
-                    string payloadText = $"e{WSEventID.LFHFComputed},t{unixTime},r{pupilDataProcessor.LatestLFHF:F3}";
+                    string payloadText = $"e{(int)WSEventID.LFHFComputed},t{unixTime},r{pupilDataProcessor.LatestLFHF:F3}";
                     Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.LFHFComputed)}[{(int)WSEventID.LFHFComputed}]: {payloadText}");
                     if (!IsNotWSStarted)
                     {
@@ -1023,7 +1023,7 @@ namespace TobiiSBETServer
         /// </summary>
         private void SendSBGazeDataCollection()
         {
-            string payloadText = $"e{WSEventID.FixationStarted},n{ConsecutiveDataCount}";
+            string payloadText = $"e{(int)WSEventID.FixationStarted},n{ConsecutiveDataCount}";
             foreach (SBGazeCollectData collectData in collectGazeDataArray)
             {
                 payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
