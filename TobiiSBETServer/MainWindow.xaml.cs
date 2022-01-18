@@ -820,19 +820,9 @@ namespace TobiiSBETServer
             {
                 // Create pupil data
                 PupilDataForProcess pupilData;
-                if (e.IsLeftPDValid && e.IsRightPDValid)
-                {
-                    pupilData.Diameter = (e.LeftPD + e.RightPD) / 2.0f;
-                    pupilData.IsValid = true;
-                }
-                else if (e.IsLeftPDValid)
+                if (e.IsLeftPDValid)
                 {
                     pupilData.Diameter = e.LeftPD;
-                    pupilData.IsValid = true;
-                }
-                else if (e.IsRightPDValid)
-                {
-                    pupilData.Diameter = e.RightPD;
                     pupilData.IsValid = true;
                 }
                 else
