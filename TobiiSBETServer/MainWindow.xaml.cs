@@ -803,7 +803,7 @@ namespace TobiiSBETServer
                     prevEyeMovementType == EyeMovementType.Fixation)
                 {
                     string payloadText = $"e{WSEventID.FixationEnded},t{prevGazeData.time},x{prevGazeData.x},y{prevGazeData.y}";
-                    Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationEnded)}[{WSEventID.FixationEnded}]: {payloadText}");
+                    Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationEnded)}[{(int)WSEventID.FixationEnded}]: {payloadText}");
                     if (!IsNotWSStarted)
                     {
                         WSBroadCastString(payloadText);
@@ -817,12 +817,34 @@ namespace TobiiSBETServer
             // For LFHFComputed event
             if (IsLFHFComputerEnabled && pupilDataProcessor != null)
             {
+                // Create pupil data
+                PupilDataForProcess pupilData;
+                if (e.IsLeftPDValid && e.IsRightPDValid)
+                {
+                    pupilData.Diameter = (e.LeftPD + e.RightPD) / 2.0f;
+                    pupilData.IsValid = true;
+                }
+                else if (e.IsLeftPDValid)
+                {
+                    pupilData.Diameter = e.LeftPD;
+                    pupilData.IsValid = true;
+                }
+                else if (e.IsRightPDValid)
+                {
+                    pupilData.Diameter = e.RightPD;
+                    pupilData.IsValid = true;
+                }
+                else
+                {
+                    pupilData.Diameter = 0.0f;
+                    pupilData.IsValid = false;
+                }
                 // Add diameter
-                if (pupilDataProcessor.UpdateWith(new PupilDataForProcess(e.LeftPD, e.IsLeftPDValid)) == LFHFComputeStatus.Ready)
+                if (pupilDataProcessor.UpdateWith(pupilData) == LFHFComputeStatus.Ready)
                 {
                     long unixTime = GetUnixTimeInMs();
                     string payloadText = $"e{WSEventID.LFHFComputed},t{unixTime},r{pupilDataProcessor.LatestLFHF:F3}";
-                    Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.LFHFComputed)}[{WSEventID.LFHFComputed}]: {payloadText}");
+                    Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.LFHFComputed)}[{(int)WSEventID.LFHFComputed}]: {payloadText}");
                     if (!IsNotWSStarted)
                     {
                         WSBroadCastString(payloadText);
@@ -839,7 +861,8 @@ namespace TobiiSBETServer
                 newData.x = (int)(e.LeftX);
                 newData.y = (int)(e.LeftY);
                 newData.angularVelocity = (float)(e.LeftGazeAngularVelocity);
-                newData.pdLRAverage = (e.LeftPD + e.RightPD) / 2.0f;
+                newData.leftPD = e.IsLeftPDValid ? e.LeftPD : 0.0f;
+                newData.rightPD = e.IsRightPDValid ? e.RightPD : 0.0f;
                 newData.latestLFHF = pupilDataProcessor != null ? pupilDataProcessor.LatestLFHF : 0.0f;
                 previewWindow.UpdateStatusStr(newData);
             }
@@ -1005,7 +1028,7 @@ namespace TobiiSBETServer
             {
                 payloadText += $",t{collectData.time},x{collectData.x},y{collectData.y}";
             }
-            Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationStarted)}[{WSEventID.FixationStarted}]: {payloadText}");
+            Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationStarted)}[{(int)WSEventID.FixationStarted}]: {payloadText}");
             if (!IsNotWSStarted)
             {
                 WSBroadCastString(payloadText);

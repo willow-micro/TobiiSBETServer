@@ -21,7 +21,9 @@
         </Border>
 
         <StatusBar Grid.Row="2">
-            <Label VerticalContentAlignment="Center" Content="{Binding PreviewStatusStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='Validity: -- | Eye Movement: -- | X: -- | Y: -- | Velocity: -- | PD: -- | LFHF: -- |'}" />
+            <Label VerticalContentAlignment="Center"
+                   Content="{Binding PreviewStatusStr, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='Valid:-- Move:-- X:-- Y:-- Velo:-- LPD:-- RPD:-- LFHF:--'}"
+                   FontFamily="Courier New" FontSize="12" />
         </StatusBar>
     </Grid>
 </Window>

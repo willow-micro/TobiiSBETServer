@@ -107,7 +107,8 @@
   - [eyeMovementType](#F-TobiiSBETServer-PreviewData-eyeMovementType 'TobiiSBETServer.PreviewData.eyeMovementType')
   - [isValid](#F-TobiiSBETServer-PreviewData-isValid 'TobiiSBETServer.PreviewData.isValid')
   - [latestLFHF](#F-TobiiSBETServer-PreviewData-latestLFHF 'TobiiSBETServer.PreviewData.latestLFHF')
-  - [pdLRAverage](#F-TobiiSBETServer-PreviewData-pdLRAverage 'TobiiSBETServer.PreviewData.pdLRAverage')
+  - [leftPD](#F-TobiiSBETServer-PreviewData-leftPD 'TobiiSBETServer.PreviewData.leftPD')
+  - [rightPD](#F-TobiiSBETServer-PreviewData-rightPD 'TobiiSBETServer.PreviewData.rightPD')
   - [x](#F-TobiiSBETServer-PreviewData-x 'TobiiSBETServer.PreviewData.x')
   - [y](#F-TobiiSBETServer-PreviewData-y 'TobiiSBETServer.PreviewData.y')
 - [PreviewWindow](#T-TobiiSBETServer-PreviewWindow 'TobiiSBETServer.PreviewWindow')
@@ -1042,12 +1043,19 @@ Validity
 
 Latest LF/HF ratio
 
-<a name='F-TobiiSBETServer-PreviewData-pdLRAverage'></a>
-### pdLRAverage `constants`
+<a name='F-TobiiSBETServer-PreviewData-leftPD'></a>
+### leftPD `constants`
 
 ##### Summary
 
-Average pupil diameters of left and right eyes [mm]
+Pupil diameter of left eye [mm]
+
+<a name='F-TobiiSBETServer-PreviewData-rightPD'></a>
+### rightPD `constants`
+
+##### Summary
+
+Pupil diameter of right eye [mm]
 
 <a name='F-TobiiSBETServer-PreviewData-x'></a>
 ### x `constants`

@@ -103,9 +103,13 @@ namespace TobiiSBETServer
         /// </summary>
         public float angularVelocity;
         /// <summary>
-        /// Average pupil diameters of left and right eyes [mm]
+        /// Pupil diameter of left eye [mm]
         /// </summary>
-        public float pdLRAverage;
+        public float leftPD;
+        /// <summary>
+        /// Pupil diameter of right eye [mm]
+        /// </summary>
+        public float rightPD;
         /// <summary>
         /// Latest LF/HF ratio
         /// </summary>

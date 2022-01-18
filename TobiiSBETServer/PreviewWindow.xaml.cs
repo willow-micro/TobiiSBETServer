@@ -96,8 +96,7 @@ namespace TobiiSBETServer
                 Height = pointDiameter
             };
             PreviewCanvas.Children.Add(gazePoint);
-            //PreviewStatusStr = "Validity: -- | Eye Movement: -- | X: -- | Y: -- | Velocity: -- | PD: -- | LFHF: -- |";
-            PreviewStatusStr = "Not";
+            PreviewStatusStr = "Valid:-- Move:-- X:-- Y:-- Velo:-- LPD:-- RPD:-- LFHF:--";
         }
         #endregion
 
@@ -157,8 +156,7 @@ namespace TobiiSBETServer
         /// <param name="data">Data to update</param>
         public void UpdateStatusStr(PreviewData data)
         {
-            PreviewStatusStr = $"Validity: {(data.isValid ? "ok" : "no")} | Eye Movement: {Enum.GetName(typeof(EyeTracking.EyeMovementType), data.eyeMovementType)} | X: {data.x} | Y: {data.y} | Velocity: {data.angularVelocity:F2} | PD: {data.pdLRAverage:F2} | LFHF: {data.latestLFHF:F2} |";
-            Console.WriteLine(PreviewStatusStr);
+            PreviewStatusStr = $"Valid:{(data.isValid ? "ok" : "no")} Move:{Enum.GetName(typeof(EyeTracking.EyeMovementType), data.eyeMovementType),11} X:{String.Format("{0,4:}", data.isValid ? data.x : 0)} Y:{String.Format("{0,4:}", data.isValid ? data.y : 0)} Velo:{String.Format("{0,5:0.00}", data.isValid ? data.angularVelocity : 0)} LPD:{String.Format("{0,4:0.00}", data.isValid ? data.leftPD : 0.0f)} RPD:{String.Format("{0,4:0.00}", data.isValid ? data.rightPD : 0.0f)} LFHF:{String.Format("{0,3:0.00}", data.latestLFHF)}";
         }
         #endregion
     }

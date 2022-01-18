@@ -741,9 +741,14 @@
             Angular velocity [deg/s]
             </summary>
         </member>
-        <member name="F:TobiiSBETServer.PreviewData.pdLRAverage">
+        <member name="F:TobiiSBETServer.PreviewData.leftPD">
             <summary>
-            Average pupil diameters of left and right eyes [mm]
+            Pupil diameter of left eye [mm]
+            </summary>
+        </member>
+        <member name="F:TobiiSBETServer.PreviewData.rightPD">
+            <summary>
+            Pupil diameter of right eye [mm]
             </summary>
         </member>
         <member name="F:TobiiSBETServer.PreviewData.latestLFHF">
