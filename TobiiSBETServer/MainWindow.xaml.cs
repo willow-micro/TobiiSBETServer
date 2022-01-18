@@ -800,7 +800,8 @@ namespace TobiiSBETServer
 
                 // For FixationEnded event
                 if (e.LeftEyeMovementType == EyeMovementType.Saccade &&
-                    prevEyeMovementType == EyeMovementType.Fixation)
+                    prevEyeMovementType == EyeMovementType.Fixation &&
+                    !isGazeDataCollecting)
                 {
                     string payloadText = $"e{(int)WSEventID.FixationEnded},t{prevGazeData.time},x{prevGazeData.x},y{prevGazeData.y}";
                     Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationEnded)}[{(int)WSEventID.FixationEnded}]: {payloadText}");
