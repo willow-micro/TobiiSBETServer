@@ -85,6 +85,9 @@ namespace TobiiSBETServer
         public PreviewWindow(double pointRadius)
         {
             InitializeComponent();
+            // For notifying
+            DataContext = this;
+
             pointDiameter = pointRadius * 2.0;
             gazePoint = new Ellipse()
             {
@@ -93,7 +96,8 @@ namespace TobiiSBETServer
                 Height = pointDiameter
             };
             PreviewCanvas.Children.Add(gazePoint);
-            PreviewStatusStr = "Validity: -- | Eye Movement: -- | X: -- | Y: -- | Velocity: -- | PD: -- | LFHF: -- |";
+            //PreviewStatusStr = "Validity: -- | Eye Movement: -- | X: -- | Y: -- | Velocity: -- | PD: -- | LFHF: -- |";
+            PreviewStatusStr = "Not";
         }
         #endregion
 
@@ -154,6 +158,7 @@ namespace TobiiSBETServer
         public void UpdateStatusStr(PreviewData data)
         {
             PreviewStatusStr = $"Validity: {(data.isValid ? "ok" : "no")} | Eye Movement: {Enum.GetName(typeof(EyeTracking.EyeMovementType), data.eyeMovementType)} | X: {data.x} | Y: {data.y} | Velocity: {data.angularVelocity:F2} | PD: {data.pdLRAverage:F2} | LFHF: {data.latestLFHF:F2} |";
+            Console.WriteLine(PreviewStatusStr);
         }
         #endregion
     }
