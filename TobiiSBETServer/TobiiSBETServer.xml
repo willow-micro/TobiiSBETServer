@@ -95,6 +95,11 @@
             Previous gaze data
             </summary>
         </member>
+        <member name="F:TobiiSBETServer.MainWindow.logWriter">
+            <summary>
+            StreamWriter for log output
+            </summary>
+        </member>
         <member name="E:TobiiSBETServer.MainWindow.PropertyChanged">
             <summary>
             Event handler object for XAML binding properties
@@ -484,6 +489,12 @@
             Initialzie a eye tracker
             </summary>
         </member>
+        <member name="M:TobiiSBETServer.MainWindow.InitializeLogWriter">
+            <summary>
+            Initialize the streamwriter for logging csv
+            </summary>
+            <returns>[bool] success or not</returns>
+        </member>
         <member name="M:TobiiSBETServer.MainWindow.StartWSServer">
             <summary>
             Start websocket server
@@ -513,6 +524,13 @@
             <summary>
             Send collected gaze data over the websocket connection
             </summary>
+        </member>
+        <member name="M:TobiiSBETServer.MainWindow.LogPreviewData(System.Int64,TobiiSBETServer.PreviewData)">
+            <summary>
+            Log data
+            </summary>
+            <param name="time">Unix time in ms</param>
+            <param name="data">Data for logging (same as previewwindow's status)</param>
         </member>
         <member name="M:TobiiSBETServer.MainWindow.GetHostAddress">
             <summary>

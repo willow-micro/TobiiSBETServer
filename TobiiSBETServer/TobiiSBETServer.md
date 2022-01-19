@@ -41,6 +41,7 @@
   - [isWSStopButtonEnabled](#F-TobiiSBETServer-MainWindow-isWSStopButtonEnabled 'TobiiSBETServer.MainWindow.isWSStopButtonEnabled')
   - [lfHighFreq](#F-TobiiSBETServer-MainWindow-lfHighFreq 'TobiiSBETServer.MainWindow.lfHighFreq')
   - [lfLowFreq](#F-TobiiSBETServer-MainWindow-lfLowFreq 'TobiiSBETServer.MainWindow.lfLowFreq')
+  - [logWriter](#F-TobiiSBETServer-MainWindow-logWriter 'TobiiSBETServer.MainWindow.logWriter')
   - [portNumber](#F-TobiiSBETServer-MainWindow-portNumber 'TobiiSBETServer.MainWindow.portNumber')
   - [prevEyeMovementType](#F-TobiiSBETServer-MainWindow-prevEyeMovementType 'TobiiSBETServer.MainWindow.prevEyeMovementType')
   - [prevGazeData](#F-TobiiSBETServer-MainWindow-prevGazeData 'TobiiSBETServer.MainWindow.prevGazeData')
@@ -89,7 +90,9 @@
   - [GetUnixTimeInMs()](#M-TobiiSBETServer-MainWindow-GetUnixTimeInMs 'TobiiSBETServer.MainWindow.GetUnixTimeInMs')
   - [InitializeComponent()](#M-TobiiSBETServer-MainWindow-InitializeComponent 'TobiiSBETServer.MainWindow.InitializeComponent')
   - [InitializeEyeTracker()](#M-TobiiSBETServer-MainWindow-InitializeEyeTracker 'TobiiSBETServer.MainWindow.InitializeEyeTracker')
+  - [InitializeLogWriter()](#M-TobiiSBETServer-MainWindow-InitializeLogWriter 'TobiiSBETServer.MainWindow.InitializeLogWriter')
   - [InitializeParameters()](#M-TobiiSBETServer-MainWindow-InitializeParameters 'TobiiSBETServer.MainWindow.InitializeParameters')
+  - [LogPreviewData(time,data)](#M-TobiiSBETServer-MainWindow-LogPreviewData-System-Int64,TobiiSBETServer-PreviewData- 'TobiiSBETServer.MainWindow.LogPreviewData(System.Int64,TobiiSBETServer.PreviewData)')
   - [NotifyPropertyChanged(name)](#M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String- 'TobiiSBETServer.MainWindow.NotifyPropertyChanged(System.String)')
   - [OnClosed(sender,e)](#M-TobiiSBETServer-MainWindow-OnClosed-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnClosed(System.Object,System.EventArgs)')
   - [OnContentRendered(sender,e)](#M-TobiiSBETServer-MainWindow-OnContentRendered-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnContentRendered(System.Object,System.EventArgs)')
@@ -426,6 +429,13 @@ Internal field for the binding property
 ##### Summary
 
 Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-logWriter'></a>
+### logWriter `constants`
+
+##### Summary
+
+StreamWriter for log output
 
 <a name='F-TobiiSBETServer-MainWindow-portNumber'></a>
 ### portNumber `constants`
@@ -816,6 +826,21 @@ Initialzie a eye tracker
 
 This method has no parameters.
 
+<a name='M-TobiiSBETServer-MainWindow-InitializeLogWriter'></a>
+### InitializeLogWriter() `method`
+
+##### Summary
+
+Initialize the streamwriter for logging csv
+
+##### Returns
+
+[bool] success or not
+
+##### Parameters
+
+This method has no parameters.
+
 <a name='M-TobiiSBETServer-MainWindow-InitializeParameters'></a>
 ### InitializeParameters() `method`
 
@@ -826,6 +851,20 @@ Initialize XAML binding parameters
 ##### Parameters
 
 This method has no parameters.
+
+<a name='M-TobiiSBETServer-MainWindow-LogPreviewData-System-Int64,TobiiSBETServer-PreviewData-'></a>
+### LogPreviewData(time,data) `method`
+
+##### Summary
+
+Log data
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| time | [System.Int64](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int64 'System.Int64') | Unix time in ms |
+| data | [TobiiSBETServer.PreviewData](#T-TobiiSBETServer-PreviewData 'TobiiSBETServer.PreviewData') | Data for logging (same as previewwindow's status) |
 
 <a name='M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String-'></a>
 ### NotifyPropertyChanged(name) `method`
