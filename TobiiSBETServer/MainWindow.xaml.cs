@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 // Additional
 using System.ComponentModel;
+using System.IO;
 //using System.Diagnostics;
 // Third-party
 using EyeTracking;
@@ -77,6 +78,10 @@ namespace TobiiSBETServer
         /// Previous gaze data
         /// </summary>
         private SBGazeCollectData prevGazeData;
+        /// <summary>
+        /// StreamWriter for log output
+        /// </summary>
+        private StreamWriter logWriter;
         #endregion
 
         #region XAML binding handler
@@ -631,6 +636,11 @@ namespace TobiiSBETServer
             {
                 previewWindow.Close();
             }
+            if (logWriter != null)
+            {
+                logWriter.Flush();
+                logWriter.Close();
+            }
             Console.WriteLine("OnClosed");
         }
 
@@ -717,6 +727,11 @@ namespace TobiiSBETServer
         {
             UpdateAppState(AppState.WSStarted);
             StartWSServer();
+            // Initialize StreamWriter for logging
+            if (InitializeLogWriter() == false)
+            {
+                Console.WriteLine("Logging not started");
+            }
         }
         /// <summary>
         /// Click event handler for the stop websocket server button
@@ -727,6 +742,11 @@ namespace TobiiSBETServer
         {
             UpdateAppState(AppState.WaitForWSStart);
             StopWSServer();
+            if (logWriter != null)
+            {
+                logWriter.Flush();
+                logWriter.Close();
+            }
         }
 
         /// <summary>
@@ -736,10 +756,10 @@ namespace TobiiSBETServer
         /// <param name="e">Args</param>
         private void OnGazeData(object sender, OnGazeDataEventArgs e)
         {
+            long unixTime = GetUnixTimeInMs();
             // Gaze data (left)
             if (e.IsLeftValid)
-            {
-                long unixTime = GetUnixTimeInMs();
+            {                
                 int xPos = (int)(e.LeftX);
                 int yPos = (int)(e.LeftY);
 
@@ -833,7 +853,6 @@ namespace TobiiSBETServer
                 // Add diameter
                 if (pupilDataProcessor.UpdateWith(pupilData) == LFHFComputeStatus.Ready)
                 {
-                    long unixTime = GetUnixTimeInMs();
                     string payloadText = $"e{(int)WSEventID.LFHFComputed},t{unixTime},r{pupilDataProcessor.LatestLFHF:F3}";
                     Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.LFHFComputed)}[{(int)WSEventID.LFHFComputed}]: {payloadText}");
                     if (!IsNotWSStarted)
@@ -856,7 +875,12 @@ namespace TobiiSBETServer
                 newData.rightPD = e.IsRightPDValid ? e.RightPD : 0.0f;
                 newData.latestLFHF = pupilDataProcessor != null ? pupilDataProcessor.LatestLFHF : 0.0f;
                 previewWindow.UpdateStatusStr(newData);
-            }
+                if (!isNotWSStarted)
+                {
+                    // And Logging
+                    LogPreviewData(unixTime, newData);
+                }
+            }            
         }
         #endregion
 
@@ -959,6 +983,23 @@ namespace TobiiSBETServer
             }
         }
         /// <summary>
+        /// Initialize the streamwriter for logging csv
+        /// </summary>
+        /// <returns>[bool] success or not</returns>
+        private bool InitializeLogWriter()
+        {
+            try
+            {
+                logWriter = new StreamWriter("log.csv");
+                logWriter.WriteLine("Timestamp,Validity,EyeMovement,X,Y,Velocity,LeftPD,RightPD,LFHF");
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
         /// Start websocket server
         /// </summary>
         private void StartWSServer()
@@ -1025,6 +1066,18 @@ namespace TobiiSBETServer
                 WSBroadCastString(payloadText);
             }
             collectGazeDataCount = 0;
+        }
+        /// <summary>
+        /// Log data
+        /// </summary>
+        /// <param name="time">Unix time in ms</param>
+        /// <param name="data">Data for logging (same as previewwindow's status)</param>
+        private void LogPreviewData(long time, PreviewData data)
+        {
+            if (logWriter != null)
+            {
+                logWriter.WriteLine($"{time},{(data.isValid ? "ok" : "no")},{Enum.GetName(typeof(EyeTracking.EyeMovementType), data.eyeMovementType)},{(data.isValid ? data.x : 0)},{(data.isValid ? data.y : 0)},{(data.isValid ? data.angularVelocity : 0)},{(data.isValid ? data.leftPD : 0.0f)},{(data.isValid ? data.rightPD : 0.0f)},{(data.latestLFHF)}");
+            }
         }
         #endregion
 
