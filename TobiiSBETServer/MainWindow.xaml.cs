@@ -637,6 +637,7 @@ namespace TobiiSBETServer
                 previewWindow.Close();
             }
             Console.WriteLine("OnClosed");
+            Environment.Exit(0);
         }
 
         /// <summary>

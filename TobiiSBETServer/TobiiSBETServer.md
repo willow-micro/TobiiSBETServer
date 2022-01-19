@@ -19,6 +19,7 @@
   - [computeSpanSec](#F-TobiiSBETServer-MainWindow-computeSpanSec 'TobiiSBETServer.MainWindow.computeSpanSec')
   - [consecutiveDataCount](#F-TobiiSBETServer-MainWindow-consecutiveDataCount 'TobiiSBETServer.MainWindow.consecutiveDataCount')
   - [debounceTemp](#F-TobiiSBETServer-MainWindow-debounceTemp 'TobiiSBETServer.MainWindow.debounceTemp')
+  - [debounceTempUnixTimeInMs](#F-TobiiSBETServer-MainWindow-debounceTempUnixTimeInMs 'TobiiSBETServer.MainWindow.debounceTempUnixTimeInMs')
   - [debounceTime](#F-TobiiSBETServer-MainWindow-debounceTime 'TobiiSBETServer.MainWindow.debounceTime')
   - [deviceInfoStr](#F-TobiiSBETServer-MainWindow-deviceInfoStr 'TobiiSBETServer.MainWindow.deviceInfoStr')
   - [deviceStatusStr](#F-TobiiSBETServer-MainWindow-deviceStatusStr 'TobiiSBETServer.MainWindow.deviceStatusStr')
@@ -45,7 +46,6 @@
   - [portNumber](#F-TobiiSBETServer-MainWindow-portNumber 'TobiiSBETServer.MainWindow.portNumber')
   - [prevEyeMovementType](#F-TobiiSBETServer-MainWindow-prevEyeMovementType 'TobiiSBETServer.MainWindow.prevEyeMovementType')
   - [prevGazeData](#F-TobiiSBETServer-MainWindow-prevGazeData 'TobiiSBETServer.MainWindow.prevGazeData')
-  - [prevUnixTimeInMs](#F-TobiiSBETServer-MainWindow-prevUnixTimeInMs 'TobiiSBETServer.MainWindow.prevUnixTimeInMs')
   - [previewWindow](#F-TobiiSBETServer-MainWindow-previewWindow 'TobiiSBETServer.MainWindow.previewWindow')
   - [pupilDataProcessor](#F-TobiiSBETServer-MainWindow-pupilDataProcessor 'TobiiSBETServer.MainWindow.pupilDataProcessor')
   - [screenDimensionsStr](#F-TobiiSBETServer-MainWindow-screenDimensionsStr 'TobiiSBETServer.MainWindow.screenDimensionsStr')
@@ -92,7 +92,7 @@
   - [InitializeEyeTracker()](#M-TobiiSBETServer-MainWindow-InitializeEyeTracker 'TobiiSBETServer.MainWindow.InitializeEyeTracker')
   - [InitializeLogWriter()](#M-TobiiSBETServer-MainWindow-InitializeLogWriter 'TobiiSBETServer.MainWindow.InitializeLogWriter')
   - [InitializeParameters()](#M-TobiiSBETServer-MainWindow-InitializeParameters 'TobiiSBETServer.MainWindow.InitializeParameters')
-  - [LogPreviewData(time,data)](#M-TobiiSBETServer-MainWindow-LogPreviewData-System-Int64,TobiiSBETServer-PreviewData- 'TobiiSBETServer.MainWindow.LogPreviewData(System.Int64,TobiiSBETServer.PreviewData)')
+  - [LogPreviewData(time,data,eventsFlag)](#M-TobiiSBETServer-MainWindow-LogPreviewData-System-Int64,TobiiSBETServer-PreviewData,System-Boolean[]- 'TobiiSBETServer.MainWindow.LogPreviewData(System.Int64,TobiiSBETServer.PreviewData,System.Boolean[])')
   - [NotifyPropertyChanged(name)](#M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String- 'TobiiSBETServer.MainWindow.NotifyPropertyChanged(System.String)')
   - [OnClosed(sender,e)](#M-TobiiSBETServer-MainWindow-OnClosed-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnClosed(System.Object,System.EventArgs)')
   - [OnContentRendered(sender,e)](#M-TobiiSBETServer-MainWindow-OnContentRendered-System-Object,System-EventArgs- 'TobiiSBETServer.MainWindow.OnContentRendered(System.Object,System.EventArgs)')
@@ -276,6 +276,13 @@ Internal field for the binding property
 
 Count time for debounce
 
+<a name='F-TobiiSBETServer-MainWindow-debounceTempUnixTimeInMs'></a>
+### debounceTempUnixTimeInMs `constants`
+
+##### Summary
+
+Unix time for calc debounceTemp
+
 <a name='F-TobiiSBETServer-MainWindow-debounceTime'></a>
 ### debounceTime `constants`
 
@@ -457,13 +464,6 @@ Previous eye movement type when received gaze data last time
 ##### Summary
 
 Previous gaze data
-
-<a name='F-TobiiSBETServer-MainWindow-prevUnixTimeInMs'></a>
-### prevUnixTimeInMs `constants`
-
-##### Summary
-
-Previous unix time in ms when received gaze data last time
 
 <a name='F-TobiiSBETServer-MainWindow-previewWindow'></a>
 ### previewWindow `constants`
@@ -852,8 +852,8 @@ Initialize XAML binding parameters
 
 This method has no parameters.
 
-<a name='M-TobiiSBETServer-MainWindow-LogPreviewData-System-Int64,TobiiSBETServer-PreviewData-'></a>
-### LogPreviewData(time,data) `method`
+<a name='M-TobiiSBETServer-MainWindow-LogPreviewData-System-Int64,TobiiSBETServer-PreviewData,System-Boolean[]-'></a>
+### LogPreviewData(time,data,eventsFlag) `method`
 
 ##### Summary
 
@@ -865,6 +865,7 @@ Log data
 | ---- | ---- | ----------- |
 | time | [System.Int64](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int64 'System.Int64') | Unix time in ms |
 | data | [TobiiSBETServer.PreviewData](#T-TobiiSBETServer-PreviewData 'TobiiSBETServer.PreviewData') | Data for logging (same as previewwindow's status) |
+| eventsFlag | [System.Boolean[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean[] 'System.Boolean[]') | Each WSEventIDs are fired ot not |
 
 <a name='M-TobiiSBETServer-MainWindow-NotifyPropertyChanged-System-String-'></a>
 ### NotifyPropertyChanged(name) `method`
