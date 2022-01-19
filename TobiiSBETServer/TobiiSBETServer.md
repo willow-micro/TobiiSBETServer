@@ -40,6 +40,7 @@
   - [isShowPreviewButtonEnabled](#F-TobiiSBETServer-MainWindow-isShowPreviewButtonEnabled 'TobiiSBETServer.MainWindow.isShowPreviewButtonEnabled')
   - [isWSStartButtonEnabled](#F-TobiiSBETServer-MainWindow-isWSStartButtonEnabled 'TobiiSBETServer.MainWindow.isWSStartButtonEnabled')
   - [isWSStopButtonEnabled](#F-TobiiSBETServer-MainWindow-isWSStopButtonEnabled 'TobiiSBETServer.MainWindow.isWSStopButtonEnabled')
+  - [isWaitingForFixationEnded](#F-TobiiSBETServer-MainWindow-isWaitingForFixationEnded 'TobiiSBETServer.MainWindow.isWaitingForFixationEnded')
   - [lfHighFreq](#F-TobiiSBETServer-MainWindow-lfHighFreq 'TobiiSBETServer.MainWindow.lfHighFreq')
   - [lfLowFreq](#F-TobiiSBETServer-MainWindow-lfLowFreq 'TobiiSBETServer.MainWindow.lfLowFreq')
   - [logWriter](#F-TobiiSBETServer-MainWindow-logWriter 'TobiiSBETServer.MainWindow.logWriter')
@@ -422,6 +423,13 @@ Internal field for the binding property
 ##### Summary
 
 Internal field for the binding property
+
+<a name='F-TobiiSBETServer-MainWindow-isWaitingForFixationEnded'></a>
+### isWaitingForFixationEnded `constants`
+
+##### Summary
+
+If waiting for the event FixationEnded, becomes true
 
 <a name='F-TobiiSBETServer-MainWindow-lfHighFreq'></a>
 ### lfHighFreq `constants`

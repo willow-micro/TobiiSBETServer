@@ -100,6 +100,11 @@
             StreamWriter for log output
             </summary>
         </member>
+        <member name="F:TobiiSBETServer.MainWindow.isWaitingForFixationEnded">
+            <summary>
+            If waiting for the event FixationEnded, becomes true
+            </summary>
+        </member>
         <member name="E:TobiiSBETServer.MainWindow.PropertyChanged">
             <summary>
             Event handler object for XAML binding properties

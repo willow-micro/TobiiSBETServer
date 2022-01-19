@@ -82,6 +82,10 @@ namespace TobiiSBETServer
         /// StreamWriter for log output
         /// </summary>
         private StreamWriter logWriter;
+        /// <summary>
+        /// If waiting for the event FixationEnded, becomes true
+        /// </summary>
+        private bool isWaitingForFixationEnded;
         #endregion
 
         #region XAML binding handler
@@ -666,6 +670,8 @@ namespace TobiiSBETServer
             isGazeDataCollecting = false;
             collectGazeDataArray = new SBGazeCollectData[ConsecutiveDataCount];
 
+            isWaitingForFixationEnded = false;
+
             if (IsDebouncingEnabled)
             {
                 debounceTempUnixTimeInMs = GetUnixTimeInMs();
@@ -818,7 +824,7 @@ namespace TobiiSBETServer
                         isGazeDataCollecting = false;
                         collectGazeDataCount = 0;
                     }
-                    else if (e.LeftEyeMovementType == EyeMovementType.Saccade && prevEyeMovementType == EyeMovementType.Fixation)
+                    else if (e.LeftEyeMovementType == EyeMovementType.Saccade && prevEyeMovementType == EyeMovementType.Fixation && isWaitingForFixationEnded)
                     {
                         // FixationEnded
                         string payloadText = $"e{(int)WSEventID.FixationEnded},t{prevGazeData.time},x{prevGazeData.x},y{prevGazeData.y}";
@@ -828,6 +834,7 @@ namespace TobiiSBETServer
                             WSBroadCastString(payloadText);
                         }
                         areEventsFired[(int)WSEventID.FixationEnded] = true;
+                        isWaitingForFixationEnded = false;
                     }
                 }
 
@@ -1076,6 +1083,7 @@ namespace TobiiSBETServer
                 WSBroadCastString(payloadText);
             }
             collectGazeDataCount = 0;
+            isWaitingForFixationEnded = true;
         }
         /// <summary>
         /// Log data
