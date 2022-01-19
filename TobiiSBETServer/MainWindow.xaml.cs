@@ -925,7 +925,7 @@ namespace TobiiSBETServer
             HFLowFreq = 0.15f;
             HFHighFreq = 0.50f;
             IdealFreqResolution = 0.04f;
-            ComputeSpanSec = 0.5f;
+            ComputeSpanSec = 1.0f;
             ServicePath = "SBET";
             PortNumber = 8008;
             ServerURL = $"ws://{GetHostAddress()}:{PortNumber}/{ServicePath}";
