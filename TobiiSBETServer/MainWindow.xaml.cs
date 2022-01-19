@@ -768,11 +768,6 @@ namespace TobiiSBETServer
                 {
                     if (e.LeftEyeMovementType == EyeMovementType.Fixation)
                     {
-                        if (previewWindow != null)
-                        {
-                            previewWindow.ShowGazePoint();
-                            previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
-                        }
                         if (this.debounceTemp > DebounceTime)
                         {
                             collectGazeDataCount = 0;
@@ -799,11 +794,6 @@ namespace TobiiSBETServer
                 {
                     if (e.LeftEyeMovementType == EyeMovementType.Fixation)
                     {
-                        if (previewWindow != null)
-                        {
-                            previewWindow.ShowGazePoint();
-                            previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
-                        }
                         if (collectGazeDataCount < ConsecutiveDataCount)
                         {
                             isGazeDataCollecting = true;
@@ -832,6 +822,14 @@ namespace TobiiSBETServer
                 }
                 prevEyeMovementType = e.LeftEyeMovementType;
                 prevGazeData = new SBGazeCollectData(unixTime, xPos, yPos);
+
+                // Show gaze point
+                if (previewWindow != null &&
+                    (e.LeftEyeMovementType == EyeMovementType.Fixation || e.LeftEyeMovementType == EyeMovementType.PreFixation))
+                {
+                    previewWindow.ShowGazePoint();
+                    previewWindow.PlaceGazePoint(eyeTracker.GetScreenWidthInPixels(), eyeTracker.GetScreenHeightInPixels(), e.LeftX, e.LeftY);
+                }
             }
 
             // Pupil data
