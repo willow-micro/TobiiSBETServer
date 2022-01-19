@@ -808,6 +808,13 @@ namespace TobiiSBETServer
                     }
                 }
 
+                // Terminate collecting when fixation is ended
+                if (e.LeftEyeMovementType != EyeMovementType.Fixation && isGazeDataCollecting)
+                {
+                    isGazeDataCollecting = false;
+                    collectGazeDataCount = 0;
+                }
+
                 // For FixationEnded event
                 if (e.LeftEyeMovementType == EyeMovementType.Saccade &&
                     prevEyeMovementType == EyeMovementType.Fixation &&
