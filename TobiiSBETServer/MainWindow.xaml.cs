@@ -51,9 +51,9 @@ namespace TobiiSBETServer
         /// </summary>
         private long debounceTemp;
         /// <summary>
-        /// Previous unix time in ms when received gaze data last time
+        /// Unix time for calc debounceTemp
         /// </summary>
-        private long prevUnixTimeInMs;
+        private long debounceTempUnixTimeInMs;
         /// <summary>
         /// Preview window
         /// </summary>
@@ -636,11 +636,6 @@ namespace TobiiSBETServer
             {
                 previewWindow.Close();
             }
-            if (logWriter != null)
-            {
-                logWriter.Flush();
-                logWriter.Close();
-            }
             Console.WriteLine("OnClosed");
         }
 
@@ -672,7 +667,7 @@ namespace TobiiSBETServer
 
             if (IsDebouncingEnabled)
             {
-                prevUnixTimeInMs = GetUnixTimeInMs();
+                debounceTempUnixTimeInMs = GetUnixTimeInMs();
                 debounceTemp = (long)DebounceTime + 1;
                 prevEyeMovementType = EyeMovementType.Unknown;
                 prevGazeData = new SBGazeCollectData(GetUnixTimeInMs(), 0, 0);
@@ -742,7 +737,7 @@ namespace TobiiSBETServer
         {
             UpdateAppState(AppState.WaitForWSStart);
             StopWSServer();
-            if (logWriter != null)
+            if (logWriter.BaseStream != null)
             {
                 logWriter.Flush();
                 logWriter.Close();
@@ -757,13 +752,14 @@ namespace TobiiSBETServer
         private void OnGazeData(object sender, OnGazeDataEventArgs e)
         {
             long unixTime = GetUnixTimeInMs();
+            bool[] areEventsFired = new bool[] { false, false, false };
+
             // Gaze data (left)
             if (e.IsLeftValid)
             {                
                 int xPos = (int)(e.LeftX);
                 int yPos = (int)(e.LeftY);
 
-                // For FixationStarted event
                 if (IsDebouncingEnabled)
                 {
                     if (e.LeftEyeMovementType == EyeMovementType.Fixation)
@@ -779,15 +775,18 @@ namespace TobiiSBETServer
                         }
                         if (collectGazeDataCount >= ConsecutiveDataCount)
                         {
+                            // FixationStarted
                             isGazeDataCollecting = false;
                             SendSBGazeDataCollection();
+                            areEventsFired[(int)WSEventID.FixationStarted] = true;
                         }
                         debounceTemp = 0;
                     }
                     else
                     {
-                        debounceTemp += unixTime - prevUnixTimeInMs;
-                        prevUnixTimeInMs = unixTime;
+                        // Count times without fixation for debouncing
+                        debounceTemp += unixTime - debounceTempUnixTimeInMs;
+                        debounceTempUnixTimeInMs = unixTime;
                     }
                 }
                 else
@@ -801,32 +800,36 @@ namespace TobiiSBETServer
                         }
                         if (collectGazeDataCount >= ConsecutiveDataCount)
                         {
+                            // FixationStarted
                             isGazeDataCollecting = false;
                             collectGazeDataCount = 0;
                             SendSBGazeDataCollection();
+                            areEventsFired[(int)WSEventID.FixationStarted] = true;
                         }
                     }
                 }
 
-                // Terminate collecting when fixation is ended
-                if (e.LeftEyeMovementType != EyeMovementType.Fixation && isGazeDataCollecting)
+                if (e.LeftEyeMovementType != EyeMovementType.Fixation)
                 {
-                    isGazeDataCollecting = false;
-                    collectGazeDataCount = 0;
-                }
-
-                // For FixationEnded event
-                if (e.LeftEyeMovementType == EyeMovementType.Saccade &&
-                    prevEyeMovementType == EyeMovementType.Fixation &&
-                    !isGazeDataCollecting)
-                {
-                    string payloadText = $"e{(int)WSEventID.FixationEnded},t{prevGazeData.time},x{prevGazeData.x},y{prevGazeData.y}";
-                    Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationEnded)}[{(int)WSEventID.FixationEnded}]: {payloadText}");
-                    if (!IsNotWSStarted)
+                    if (isGazeDataCollecting)
                     {
-                        WSBroadCastString(payloadText);
+                        // Terminate collection if necessary
+                        isGazeDataCollecting = false;
+                        collectGazeDataCount = 0;
+                    }
+                    else if (e.LeftEyeMovementType == EyeMovementType.Saccade && prevEyeMovementType == EyeMovementType.Fixation)
+                    {
+                        // FixationEnded
+                        string payloadText = $"e{(int)WSEventID.FixationEnded},t{prevGazeData.time},x{prevGazeData.x},y{prevGazeData.y}";
+                        Console.WriteLine($"{Enum.GetName(typeof(WSEventID), WSEventID.FixationEnded)}[{(int)WSEventID.FixationEnded}]: {payloadText}");
+                        if (!IsNotWSStarted)
+                        {
+                            WSBroadCastString(payloadText);
+                        }
+                        areEventsFired[(int)WSEventID.FixationEnded] = true;
                     }
                 }
+
                 prevEyeMovementType = e.LeftEyeMovementType;
                 prevGazeData = new SBGazeCollectData(unixTime, xPos, yPos);
 
@@ -864,6 +867,7 @@ namespace TobiiSBETServer
                     {
                         WSBroadCastString(payloadText);
                     }
+                    areEventsFired[(int)WSEventID.LFHFComputed] = true;
                 }
             }
 
@@ -883,7 +887,7 @@ namespace TobiiSBETServer
                 if (!isNotWSStarted)
                 {
                     // And Logging
-                    LogPreviewData(unixTime, newData);
+                    LogPreviewData(unixTime, newData, areEventsFired);
                 }
             }            
         }
@@ -996,7 +1000,7 @@ namespace TobiiSBETServer
             try
             {
                 logWriter = new StreamWriter("log.csv");
-                logWriter.WriteLine("Timestamp,Validity,EyeMovement,X,Y,Velocity,LeftPD,RightPD,LFHF");
+                logWriter.WriteLine("Timestamp,Validity,EyeMovement,X,Y,Velocity,LeftPD,RightPD,LFHF,Events");
             }
             catch
             {
@@ -1077,11 +1081,20 @@ namespace TobiiSBETServer
         /// </summary>
         /// <param name="time">Unix time in ms</param>
         /// <param name="data">Data for logging (same as previewwindow's status)</param>
-        private void LogPreviewData(long time, PreviewData data)
+        /// <param name="eventsFlag">Each WSEventIDs are fired ot not</param>
+        private void LogPreviewData(long time, PreviewData data, bool[] eventsFlag)
         {
-            if (logWriter != null)
+            if (logWriter.BaseStream != null)
             {
-                logWriter.WriteLine($"{time},{(data.isValid ? "ok" : "no")},{Enum.GetName(typeof(EyeTracking.EyeMovementType), data.eyeMovementType)},{(data.isValid ? data.x : 0)},{(data.isValid ? data.y : 0)},{(data.isValid ? data.angularVelocity : 0)},{(data.isValid ? data.leftPD : 0.0f)},{(data.isValid ? data.rightPD : 0.0f)},{(data.latestLFHF)}");
+                string eventsStr = "";
+                for (int i = 0; i < 3; i++)
+                {
+                    if (eventsFlag[i])
+                    {
+                        eventsStr += $"{Enum.GetName(typeof(WSEventID), (WSEventID)i)} ";
+                    }
+                }
+                logWriter.WriteLine($"{time},{(data.isValid ? "ok" : "no")},{Enum.GetName(typeof(EyeTracking.EyeMovementType), data.eyeMovementType)},{(data.isValid ? data.x : 0)},{(data.isValid ? data.y : 0)},{(data.isValid ? data.angularVelocity : 0)},{(data.isValid ? data.leftPD : 0.0f)},{(data.isValid ? data.rightPD : 0.0f)},{(data.latestLFHF)},{eventsStr}");
             }
         }
         #endregion

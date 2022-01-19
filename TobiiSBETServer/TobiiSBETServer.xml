@@ -60,9 +60,9 @@
             Count time for debounce
             </summary>
         </member>
-        <member name="F:TobiiSBETServer.MainWindow.prevUnixTimeInMs">
+        <member name="F:TobiiSBETServer.MainWindow.debounceTempUnixTimeInMs">
             <summary>
-            Previous unix time in ms when received gaze data last time
+            Unix time for calc debounceTemp
             </summary>
         </member>
         <member name="F:TobiiSBETServer.MainWindow.previewWindow">
@@ -525,12 +525,13 @@
             Send collected gaze data over the websocket connection
             </summary>
         </member>
-        <member name="M:TobiiSBETServer.MainWindow.LogPreviewData(System.Int64,TobiiSBETServer.PreviewData)">
+        <member name="M:TobiiSBETServer.MainWindow.LogPreviewData(System.Int64,TobiiSBETServer.PreviewData,System.Boolean[])">
             <summary>
             Log data
             </summary>
             <param name="time">Unix time in ms</param>
             <param name="data">Data for logging (same as previewwindow's status)</param>
+            <param name="eventsFlag">Each WSEventIDs are fired ot not</param>
         </member>
         <member name="M:TobiiSBETServer.MainWindow.GetHostAddress">
             <summary>
